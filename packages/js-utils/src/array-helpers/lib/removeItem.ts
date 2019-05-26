@@ -1,17 +1,10 @@
 
 /**
- * removes specifiv Item from array, if found
- * @param {*} array
- * @param {*} deadItem
- * @returns {Array}
+ * removes specific Item from array and return new array
+ * @param {Array<any>} array
+ * @param {any} itemToRemove
+ * @returns {Array<any>}
  */
-export const removeItem = (array: any[], deadItem: any): any[] => {
-  const index = array.findIndex(item => item === deadItem);
-  if (index === -1) {
-    return array;
-  }
-
-  array.splice(index, 1);
-
-  return array;
+export const removeItem = (array: Array<any>, itemToRemove: any): Array<any> => {
+  return array.filter(item => item !== itemToRemove);
 };
