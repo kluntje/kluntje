@@ -1,0 +1,26 @@
+{
+  "name": "@pv-fe/wc-core",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "friewerts <frederik.riewerts@gmail.com>",
+  "license": "ISC",
+  "main": "lib/wc-core.js",
+  "types": "lib/wc-core.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": "",
+  "scripts": {
+    "build": "rimraf lib && tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "dependencies": {
+    "@pv-fe/js-utils": "^0.1.0"
+  }
+}

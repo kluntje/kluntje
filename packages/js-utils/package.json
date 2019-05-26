@@ -1,0 +1,23 @@
+{
+  "name": "@pv-fe/js-utils",
+  "version": "0.1.0",
+  "description": "> TODO: description",
+  "author": "friewerts <frederik.riewerts@gmail.com>",
+  "license": "ISC",
+  "main": "lib/js-utils.js",
+  "types": "lib/js-utils.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": "",
+  "scripts": {
+    "build": "rimraf lib && tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": ""
+  }
+}
