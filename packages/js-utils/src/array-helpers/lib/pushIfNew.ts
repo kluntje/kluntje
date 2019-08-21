@@ -1,12 +1,13 @@
+import { hasElement } from '..';
 
 /**
  * pushes new Element to given array, if its not already in it
- * @param {*} array
- * @param {*} newElement
- * @returns {Array}
+ * @param {Array<any>} array
+ * @param {any} newElement
+ * @returns {Array<any>}
  */
-export const pushIfNew = (array: any[], newElement: any): any[] => {
-  if (array.findIndex((element: any) => element === newElement) === -1) {
+export const pushIfNew = (array: Array<any>, newElement: any): Array<any> => {
+  if (!hasElement(array, newElement)) {
     array.push(newElement);
   }
   return array;

@@ -1,5 +1,5 @@
 import { naiveClone, isEqual, getValue, toArray } from '@pv-fe/js-utils/lib/object-helpers';
-import { mergeArray } from '@pv-fe/js-utils/lib/array-helpers';
+import { mergeArraysBy } from '@pv-fe/js-utils/lib/array-helpers';
 import { onEvent, removeEvent } from '@pv-fe/js-utils/lib/dom-helpers';
 
 type ComponentUiEl = {
@@ -405,7 +405,7 @@ export class Component extends HTMLElement {
       // for simplicity, convert always to array
       const newCallbacks = toArray(callbacks);
       const oldCallbacks = this.reactions[propName] || [];
-      this.reactions[propName] = mergeArray(oldCallbacks, newCallbacks, this.isNewReaction);
+      this.reactions[propName] = mergeArraysBy(oldCallbacks, newCallbacks, this.isNewReaction);
     }
     return this;
   }
