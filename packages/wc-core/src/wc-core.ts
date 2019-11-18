@@ -1,6 +1,8 @@
-import { naiveClone, isEqual, getValue, toArray } from '@pv-fe/js-utils/lib/object-helpers';
-import { mergeArraysBy } from '@pv-fe/js-utils/lib/array-helpers';
-import { onEvent, removeEvent } from '@pv-fe/js-utils/lib/dom-helpers';
+import { naiveClone, isEqual, getValue, toArray } from 'Helper/objectHelper';
+import { mergeArraysBy, pushIfNew, hasElement } from 'Helper/arrayHelper';
+import { onEvent, removeEvent, getCurrentMQ } from 'Helper/domHelper';
+import { removeAllBS } from 'Helper/stringHelper';
+import { CookieService } from 'Services/CookieService';
 
 type ComponentUiEl = {
   [key: string]: any;
@@ -20,7 +22,7 @@ type ComponentReactions = {
   [key: string]: string[];
 };
 
-type ComponentArgs = {
+export type ComponentArgs = {
   ui?: ComponentUiEl;
   events?: ComponentEvent[];
   initialStates?: ComponentStates;
@@ -88,6 +90,98 @@ export class Component extends HTMLElement {
     this.addReactions(reactions);
 
     this.mergeEvents(events);
+    onEvent(window, 'pv-mq-change', this.handleMqChange, this);
+  }
+
+  /*====================================================
+                  MQ Handling
+    ==================================================*/
+
+  /**
+   * gets active-on-mq attribute and parses MQ
+   * @returns {string[] | false}
+   */
+  get activeOnMQs(): string[] | false {
+    const activeOnMQ = this.getAttribute('active-on-mq') || false;
+
+    if (!activeOnMQ) {
+      return false;
+    }
+
+    let activeMQs: string[] = [];
+
+    removeAllBS(activeOnMQ).split(',').forEach((mqDef: string) => {
+      if (mqDef.length === 1) {
+        activeMQs = pushIfNew(activeMQs, `MQ${mqDef}`);
+      }
+      else if (mqDef.length > 1) {
+        const mqRange = mqDef.split('-');
+        const mqRangeStart = parseInt(mqRange[0], 10);
+        const mqRangeEnd = parseInt(mqRange[1], 10);
+        for (let mq = mqRangeStart; mq <= mqRangeEnd; mq++) {
+          activeMQs = pushIfNew(activeMQs, `MQ${mq.toString()}`);
+        }
+      }
+    });
+
+    return activeMQs;
+  }
+
+  /**
+   * returns currentMQ
+   * @returns {string}
+   */
+  get currentMQ(): string {
+    return getCurrentMQ();
+  }
+
+  /**
+   * tells, whether the Component should be active on the current MQ
+   * @returns {boolean}
+   */
+  get activeOnCurrentMQ(): boolean {
+    return (this.activeOnMQs && hasElement(this.activeOnMQs || [], this.currentMQ))
+        || !this.activeOnMQs;
+  }
+
+  /*====================================================
+                  Services
+    ==================================================*/
+
+  /**
+   * Returns Cookie Service of the App for comfortable use in Components
+   * @returns {CookieService}
+   */
+  get cookieService(): CookieService {
+    // TODO: make configurable
+    return window._pvCookieService;
+  }
+
+  /**
+   * Returns Viewport Observer of the App for comfortable use in Components
+   * @returns {IntersectionObserver}
+   */
+  get viewportObserver(): IntersectionObserver {
+    // TODO: make configurable
+    return window._pvViewportObserver;
+  }
+
+  /**
+   * handle MQ Change Event, by connecting or disconnecting the Componenent if needed
+   * used for active-on-mq rendering
+   * @param {CustomEvent} e
+   */
+  handleMqChange(e: CustomEvent): void {
+    if (!this.activeOnMQs) {
+      return;
+    }
+
+    if (!this.state.initialized && this.activeOnCurrentMQ) {
+      this.connectedCallback();
+    }
+    else if (this.state.initialized && !this.activeOnCurrentMQ) {
+      this.disconnectComponent();
+    }
   }
 
   /*====================================================
@@ -99,6 +193,12 @@ export class Component extends HTMLElement {
    * and generate global properties
    */
   connectedCallback(): void {
+    // if active-on-mq parameter is set,
+    // initialize component just on given MQs
+    if (!this.activeOnCurrentMQ) {
+      return;
+    }
+
     this.setupComponent();
   }
 
@@ -110,7 +210,7 @@ export class Component extends HTMLElement {
   }
 
   /**
-   * Lifecycle-Hook, needed to destroy Component if needed
+   * Lifecycle-Hook, needed to destroy Component on non active MQs
    */
   disconnectComponent(): void {
     this.beforeComponentDisconnects();
