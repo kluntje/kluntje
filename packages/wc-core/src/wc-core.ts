@@ -4,15 +4,25 @@ import { onEvent, removeEvent, getCurrentMQ } from 'Helper/domHelper';
 import { removeAllBS } from 'Helper/stringHelper';
 import { CookieService } from 'Services/CookieService';
 
-type ComponentUiEl = {
-  [key: string]: any;
-};
-
 type ComponentEvent = {
   event: string;
   target: string;
   handler: string;
 };
+
+type ComponentEventTarget<T> = "this" | "window" | keyof ComponentUiDefinitions<T>;
+
+type ComponentUiDefinitions<T> = {
+  [K in keyof T]: string;
+};
+
+type ComponentElements<T> = {
+  [K in keyof T]: HTMLElement | NodeListOf<HTMLElement>;
+};
+
+type ComponentElementsNullable<T> = {
+  [K in keyof T]: HTMLElement | NodeListOf<HTMLElement> | null;
+}
 
 type ComponentStates = {
   [key: string]: any;
@@ -22,8 +32,8 @@ type ComponentReactions = {
   [key: string]: string[];
 };
 
-export type ComponentArgs = {
-  ui?: ComponentUiEl;
+export type ComponentArgs<TUi = ComponentUiDefinitions<any>> = {
+  ui?: ComponentUiDefinitions<TUi>;
   events?: ComponentEvent[];
   initialStates?: ComponentStates;
   reactions?: ComponentReactions;
@@ -32,12 +42,8 @@ export type ComponentArgs = {
   asyncRendering?: Boolean;
 };
 
-export class Component extends HTMLElement {
-  ui: ComponentUiEl;
-
+export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLElement {
   events: ComponentEvent[];
-
-  selectors: ComponentUiEl;
 
   useShadowDOM: Boolean;
 
@@ -53,18 +59,24 @@ export class Component extends HTMLElement {
 
   [key: string]: any;
 
+  private selectors: ComponentUiDefinitions<TUi>;
+
+  private uiDefinitions: ComponentUiDefinitions<TUi>;
+
+  private uiElements = {} as ComponentElementsNullable<TUi>;
+
   constructor({
-    ui = {},
+    ui = {} as ComponentUiDefinitions<TUi>,
     events = [],
     initialStates = {},
     reactions = {},
     useShadowDOM = false,
     preserveChilds = false,
     asyncRendering = false,
-  }: ComponentArgs) {
+  }: ComponentArgs<TUi>) {
     super();
-    this.ui = {};
-    this.selectors = {};
+    this.uiDefinitions = {} as ComponentUiDefinitions<TUi>;
+    this.selectors = {} as ComponentUiDefinitions<TUi>;
     this.events = [];
     this.initialStates = {
       initialized: false,
@@ -81,7 +93,7 @@ export class Component extends HTMLElement {
       this.attachShadow({ mode: 'open' });
     }
 
-    Object.assign(this.ui, ui);
+    Object.assign(this.uiDefinitions, ui);
     Object.assign(this.selectors, ui);
 
     Object.assign(this.initialStates, initialStates);
@@ -281,6 +293,10 @@ export class Component extends HTMLElement {
                     Component Properties
     ==================================================*/
 
+  get ui(): TUi {
+    return this.uiElements as TUi;
+  }
+
   /**
    * Description
    */
@@ -309,7 +325,7 @@ export class Component extends HTMLElement {
    */
   destroyComponentProps(): void {
     this.removeEvents();
-    this.ui = Object.assign({}, this.selectors);
+    this.uiDefinitions = Object.assign({}, this.selectors);
   }
 
   /**
@@ -318,17 +334,14 @@ export class Component extends HTMLElement {
   generateUI(): void {
     const uiRoot = this.getUiRoot();
     // Query DOM Nodes for ui-elements
-    Object.keys(this.ui).forEach(elementKey => {
-      const elementValue = this.ui[elementKey].trim();
-      if (elementValue.endsWith(':-one')) {
-        this.ui[elementKey] = uiRoot.querySelector(
-          elementValue.replace(/:-one/g, '').trim(),
-        );
+    for (let [elementKey, elementValue] of Object.entries(this.uiDefinitions) as [keyof TUi, string][]) {
+      elementValue = elementValue.trim();
+      if (elementValue.endsWith(":-one")) {
+        this.uiElements[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, "").trim()) as HTMLElement | null;
+      } else {
+        this.uiElements[elementKey] = uiRoot.querySelectorAll(elementValue);
       }
-      else {
-        this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
-      }
-    });
+    }
   }
 
   /**
@@ -338,7 +351,7 @@ export class Component extends HTMLElement {
     // Add given Events
     this.events.forEach(event => {
       if (typeof this[event.handler] === 'function') {
-        const targets = this.getEventTargets(event.target);
+        const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
         onEvent(targets, event.event, this[event.handler], this);
       }
     });
@@ -350,7 +363,7 @@ export class Component extends HTMLElement {
   removeEvents(): void {
     this.events.forEach(event => {
       if (typeof this[event.handler] === 'function') {
-        const targets = this.getEventTargets(event.target);
+        const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
         if (NodeList.prototype.isPrototypeOf(targets)) {
           targets.forEach((target: Node) => {
             removeEvent(target, event.event, this[event.handler], this);
@@ -368,16 +381,16 @@ export class Component extends HTMLElement {
    */
   updateUI(): void {
     const uiRoot = this.getUiRoot();
-    this.ui = {};
-    Object.keys(this.selectors).forEach(elementKey => {
+    this.uiElements = {} as ComponentElementsNullable<TUi>;
+    (Object.keys(this.selectors) as Array<keyof ComponentUiDefinitions<TUi>>).forEach(elementKey => {
       const elementValue = this.selectors[elementKey].trim();
       if (elementValue.endsWith(':-one')) {
-        this.ui[elementKey] = uiRoot.querySelector(
-          elementValue.replace(/:-one/g, '').trim(),
+        this.uiElements[elementKey] = uiRoot.querySelector<HTMLElement>(
+            elementValue.replace(/:-one/g, '').trim(),
         );
       }
       else {
-        this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
+        this.uiElements[elementKey] = uiRoot.querySelectorAll(elementValue);
       }
     });
   }
@@ -389,7 +402,7 @@ export class Component extends HTMLElement {
     this.events.forEach(event => {
       if (typeof this[event.handler] === 'function') {
 
-        const targets = this.getEventTargets(event.target);
+        const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
 
         if (NodeList.prototype.isPrototypeOf(targets)) {
           targets.forEach((target: Node) => {
@@ -622,7 +635,7 @@ export class Component extends HTMLElement {
    * @param {string} eventTarget  name of event Target Element
    * @returns DOM-Root of Component
    */
-  getEventTargets(eventTarget: string) {
+  getEventTargets(eventTarget: ComponentEventTarget<TUi>): any {
     let targets = null;
 
     if (eventTarget === 'this') {
@@ -632,7 +645,7 @@ export class Component extends HTMLElement {
       targets = window;
     }
     else {
-      targets = this.ui[eventTarget];
+      targets = this.uiDefinitions[eventTarget];
     }
 
     return targets;
