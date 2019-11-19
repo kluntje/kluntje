@@ -4,10 +4,10 @@ import { onEvent, removeEvent, getCurrentMQ } from 'Helper/domHelper';
 import { removeAllBS } from 'Helper/stringHelper';
 import { CookieService } from 'Services/CookieService';
 
-type ComponentEvent = {
+type ComponentEvent<TComponent, TUi> = {
   event: string;
-  target: string;
-  handler: string;
+  target: ComponentEventTarget<TUi>;
+  handler: keyof TComponent;
 };
 
 type ComponentEventTarget<T> = "this" | "window" | keyof ComponentUiDefinitions<T>;
@@ -32,9 +32,9 @@ type ComponentReactions = {
   [key: string]: string[];
 };
 
-export type ComponentArgs<TUi = ComponentUiDefinitions<any>> = {
+export type ComponentArgs<TComponent = any, TUi = ComponentUiDefinitions<any>> = {
   ui?: ComponentUiDefinitions<TUi>;
-  events?: ComponentEvent[];
+  events?: ComponentEvent<TComponent, TUi>[];
   initialStates?: ComponentStates;
   reactions?: ComponentReactions;
   useShadowDOM?: Boolean;
@@ -42,8 +42,11 @@ export type ComponentArgs<TUi = ComponentUiDefinitions<any>> = {
   asyncRendering?: Boolean;
 };
 
-export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLElement {
-  events: ComponentEvent[];
+export class Component<
+  TComponent extends Component<TComponent, TUi> = any,
+  TUi extends ComponentElements<TUi> = any
+> extends HTMLElement {
+  events: ComponentEvent<TComponent, TUi>[];
 
   useShadowDOM: Boolean;
 
@@ -61,7 +64,7 @@ export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLEle
 
   private selectors: ComponentUiDefinitions<TUi>;
 
-  private uiDefinitions: ComponentUiDefinitions<TUi>;
+  private uiDefinitions = {} as ComponentUiDefinitions<TUi>;
 
   private uiElements = {} as ComponentElementsNullable<TUi>;
 
@@ -73,9 +76,8 @@ export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLEle
     useShadowDOM = false,
     preserveChilds = false,
     asyncRendering = false,
-  }: ComponentArgs<TUi>) {
+  }: ComponentArgs<TComponent, TUi>) {
     super();
-    this.uiDefinitions = {} as ComponentUiDefinitions<TUi>;
     this.selectors = {} as ComponentUiDefinitions<TUi>;
     this.events = [];
     this.initialStates = {
@@ -350,9 +352,10 @@ export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLEle
   generateEvents(): void {
     // Add given Events
     this.events.forEach(event => {
-      if (typeof this[event.handler] === 'function') {
+      const eventHandler = this[event.handler as keyof this];
+      if (typeof eventHandler === 'function') {
         const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
-        onEvent(targets, event.event, this[event.handler], this);
+        onEvent(targets, event.event, eventHandler, this);
       }
     });
   }
@@ -362,15 +365,16 @@ export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLEle
    */
   removeEvents(): void {
     this.events.forEach(event => {
-      if (typeof this[event.handler] === 'function') {
+      const eventHandler = this[event.handler as keyof this];
+      if (typeof eventHandler === 'function') {
         const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
         if (NodeList.prototype.isPrototypeOf(targets)) {
           targets.forEach((target: Node) => {
-            removeEvent(target, event.event, this[event.handler], this);
+            removeEvent(target, event.event, eventHandler, this);
           });
         }
         else {
-          removeEvent(targets, event.event, this[event.handler], this);
+          removeEvent(targets, event.event, eventHandler, this);
         }
       }
     });
@@ -400,19 +404,20 @@ export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLEle
    */
   updateEvents(): void {
     this.events.forEach(event => {
-      if (typeof this[event.handler] === 'function') {
+      const eventHandler = this[event.handler as keyof this];
+      if (typeof eventHandler === 'function') {
 
         const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
 
         if (NodeList.prototype.isPrototypeOf(targets)) {
           targets.forEach((target: Node) => {
-            removeEvent(target, event.event, this[event.handler], this);
-            onEvent(target, event.event, this[event.handler], this);
+            removeEvent(target, event.event, eventHandler, this);
+            onEvent(target, event.event, eventHandler, this);
           });
         }
         else {
-          removeEvent(targets, event.event, this[event.handler], this);
-          onEvent(targets, event.event, this[event.handler], this);
+          removeEvent(targets, event.event, eventHandler, this);
+          onEvent(targets, event.event, eventHandler, this);
         }
       }
     });
@@ -598,7 +603,7 @@ export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLEle
    * Add new Events to Global Events-Array
    * @param newEvents  Event-Object-Array
    */
-  mergeEvents(newEvents: ComponentEvent[]): void {
+  mergeEvents(newEvents: ComponentEvent<TComponent, TUi>[]): void {
     this.events = this.events
       .filter(event => {
         if (this.isNewEvent(event, newEvents)) return event;
@@ -613,7 +618,7 @@ export class Component<TUi extends ComponentElements<TUi> = any> extends HTMLEle
    *
    * @returns         is given Event not in given Event-Array
    */
-  isNewEvent(event: ComponentEvent, eventArr: ComponentEvent[]): Boolean {
+  isNewEvent(event: ComponentEvent<TComponent, TUi>, eventArr: ComponentEvent<TComponent, TUi>[]): Boolean {
     return !eventArr.some(newEvent => {
       return newEvent.event === event.event && newEvent.target === event.target;
     });
