@@ -1,24 +1,18 @@
-function isIterable(elements: Element | Iterable<Element>): elements is Iterable<Element> {
-  return Symbol.iterator in elements;
-}
-
 /**
- * adds given class to element
+ * adds given classes to one or multiple elements
  * @param {Element | Iterable<Element>} elements
  * @param {...string} classNames
  */
 export const addClass = (elements: Element | Iterable<Element>, ...classNames: string[]): void => {
-  if (elements === undefined) {
+  if (elements === undefined || classNames.length === 0) {
     return;
   }
 
-  if (isIterable(elements)) {
-    for (const elem of elements) {
-      addClass(elem, ...classNames);
-    }
-  } else {
-    for (const className of classNames) {
-      elements.classList.add(className);
-    }
+  if (elements instanceof Element) {
+    elements = [elements];
+  }
+
+  for (const elem of elements) {
+    elem.classList.add(...classNames);
   }
 };
