@@ -1,14 +1,14 @@
 import { addClass } from "../index";
 
 let singleElement: HTMLElement;
-let multipleElements: NodeListOf<HTMLElement>;
+let multipleElements: NodeListOf<Element>;
 
 beforeEach(() => {
   singleElement = document.createElement("div");
 
   const container = document.createElement("div");
   [0, 1, 2].forEach(() => container.appendChild(document.createElement("div")));
-  multipleElements = container.childNodes as NodeListOf<HTMLElement>;
+  multipleElements = container.childNodes as NodeListOf<Element>;
 });
 
 test("should add class to a single element", () => {
