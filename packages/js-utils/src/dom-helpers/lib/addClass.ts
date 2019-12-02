@@ -1,20 +1,18 @@
-
 /**
  * adds given class to element
- * @param {HTMLElement | NodeList} elements
- * @param {string} className
+ * @param {Element | NodeListOf<Element>} elements
+ * @param {...string} classNames
  */
-export const addClass = (elements:any, className:string): void => {
+export const addClass = (elements: Element | NodeListOf<Element>, ...classNames: string[]): void => {
   if (elements === undefined) {
     return;
   }
 
-  if (elements.length === undefined) {
-    elements.classList.add(className);
-  }
-  else {
-    elements.forEach((element: HTMLElement) => {
-      addClass(element, className);
-    });
+  if (!(elements instanceof NodeList)) {
+    for (const className of classNames) {
+      elements.classList.add(className);
+    }
+  } else {
+    elements.forEach(element => addClass(element, ...classNames));
   }
 };
