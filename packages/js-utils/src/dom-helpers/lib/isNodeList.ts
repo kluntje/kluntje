@@ -4,8 +4,7 @@
  * @param {*} target
  * @returns {boolean}
  */
-export const isNodeList = (target: any): boolean => {
-  // return NodeList.prototype.isPrototypeOf(target);
-  // return target.length !== 0 && !(target.length === undefined);
-  return !(target instanceof HTMLElement || target instanceof Window) ;
+export const isNodeList = (target: any): target is NodeListOf<Element> => {
+  // TODO: check target instanceof NodeList
+  return !(target instanceof HTMLElement || target instanceof Window);
 };

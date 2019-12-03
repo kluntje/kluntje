@@ -12,7 +12,7 @@ export const addClass = (elements: Element | Iterable<Element>, ...classNames: s
     elements = [elements];
   }
 
-  for (const elem of elements) {
-    elem.classList.add(...classNames);
+  for (const element of elements) {
+    element.classList.add(...classNames);
   }
 };
