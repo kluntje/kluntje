@@ -1,4 +1,4 @@
-import Context from "./Context";
+import { Context } from "./Context";
 
 /**
  * iterates over all nodes in a node list

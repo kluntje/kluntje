@@ -1,5 +1,5 @@
 import { isIterable, hasElements } from './iterable';
-import Context from './Context';
+import { Context } from './Context';
 
 export type EventTarget = HTMLElement | Iterable<HTMLElement>;
 
@@ -34,9 +34,9 @@ export const onEvent = <T extends Event = Event>(
     eventList.forEach(event => {
       const key = getKey(target, event, handler, context);
       if (!context.eventBindingMap[key]) { // can't add two listeners with exact same arguments
-        const newFunc = handler.bind(context);
+        const newFunc = handler.bind(context) as EventListener;
         context.eventBindingMap[key] = newFunc;
-        return target.addEventListener(event.trim(), newFunc as EventListener);
+        return target.addEventListener(event.trim(), newFunc);
       }
     });
   }

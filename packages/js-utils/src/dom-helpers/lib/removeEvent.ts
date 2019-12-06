@@ -1,6 +1,6 @@
 import { EventTarget, EventHandler, getKey } from './onEvent';
 import { isIterable, hasElements } from './iterable';
-import Context from './Context';
+import { Context } from './Context';
 
 /**
  * removes event with given parameters
