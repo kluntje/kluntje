@@ -1,17 +1,19 @@
 import { EventTarget, EventHandler, getKey } from './onEvent';
 import { isIterable, hasElements } from './iterable';
+import Context from './Context';
 
 /**
  * removes event with given parameters
  * @param {HTMLElement|Iterable<HTMLElement>} target
  * @param {string} events
  * @param {Function} handler
+ * @param {Context} context
  */
 export const removeEvent = <T extends Event = Event>(
   target: EventTarget,
   events: string,
   handler: EventHandler<T>,
-  context: any,
+  context: Context,
 ) => {
   if (target === undefined
     || target === null

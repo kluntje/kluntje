@@ -1,4 +1,5 @@
 import { isIterable, hasElements } from './iterable';
+import Context from './Context';
 
 export type EventTarget = HTMLElement | Iterable<HTMLElement>;
 
@@ -9,12 +10,13 @@ export type EventHandler<T> = (e: T) => void;
  * @param {HTMLElement|Iterable<HTMLElement>} target
  * @param {string} events
  * @param {Function} handler
+ * @param {Context} context
  */
 export const onEvent = <T extends Event = Event>(
   target: EventTarget,
   events: string,
   handler: EventHandler<T>,
-  context: any,
+  context: Context,
 ) => {
   if (target === undefined
     || target === null
