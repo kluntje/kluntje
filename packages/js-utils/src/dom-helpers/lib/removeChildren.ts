@@ -9,6 +9,3 @@ export const removeChildren = (parent: Element, selector: string): void => {
   const children = findAll(parent, selector);
   children.forEach(child => parent.removeChild(child));
 };
-
-/* legacy */
-export const removeChilds = removeChildren;
