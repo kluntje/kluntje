@@ -1,28 +1,16 @@
-import { naiveClone, isEqual, getValue, toArray } from 'Helper/objectHelper';
-import { mergeArraysBy, pushIfNew, hasElement } from 'Helper/arrayHelper';
-import { onEvent, removeEvent, getCurrentMQ } from 'Helper/domHelper';
-import { removeAllBS } from 'Helper/stringHelper';
-import { CookieService } from 'Services/CookieService';
+import { naiveClone, isEqual, getValue, toArray } from '@pv-fe/js-utils/lib/object-helpers';
+import { mergeArraysBy } from '@pv-fe/js-utils/lib/array-helpers';
+import { onEvent, removeEvent } from '@pv-fe/js-utils/lib/dom-helpers';
 
-type ComponentEvent<TComponent, TUi> = {
+type ComponentUiEl = {
+  [key: string]: any;
+};
+
+type ComponentEvent = {
   event: string;
-  target: ComponentEventTarget<TUi>;
-  handler: keyof TComponent;
+  target: string;
+  handler: string;
 };
-
-type ComponentEventTarget<T> = "this" | "window" | keyof ComponentUiDefinitions<T>;
-
-type ComponentUiDefinitions<T> = {
-  [K in keyof T]: string;
-};
-
-type ComponentElements<T> = {
-  [K in keyof T]: HTMLElement | NodeListOf<HTMLElement>;
-};
-
-type ComponentElementsNullable<T> = {
-  [K in keyof T]: HTMLElement | NodeListOf<HTMLElement> | null;
-}
 
 type ComponentStates = {
   [key: string]: any;
@@ -32,9 +20,9 @@ type ComponentReactions = {
   [key: string]: string[];
 };
 
-export type ComponentArgs<TComponent = any, TUi = ComponentUiDefinitions<any>> = {
-  ui?: ComponentUiDefinitions<TUi>;
-  events?: ComponentEvent<TComponent, TUi>[];
+type ComponentArgs = {
+  ui?: ComponentUiEl;
+  events?: ComponentEvent[];
   initialStates?: ComponentStates;
   reactions?: ComponentReactions;
   useShadowDOM?: Boolean;
@@ -42,11 +30,12 @@ export type ComponentArgs<TComponent = any, TUi = ComponentUiDefinitions<any>> =
   asyncRendering?: Boolean;
 };
 
-export class Component<
-  TComponent extends Component<TComponent, TUi> = any,
-  TUi extends ComponentElements<TUi> = any
-> extends HTMLElement {
-  events: ComponentEvent<TComponent, TUi>[];
+export class Component extends HTMLElement {
+  ui: ComponentUiEl;
+
+  events: ComponentEvent[];
+
+  selectors: ComponentUiEl;
 
   useShadowDOM: Boolean;
 
@@ -62,23 +51,18 @@ export class Component<
 
   [key: string]: any;
 
-  private selectors: ComponentUiDefinitions<TUi>;
-
-  private uiDefinitions = {} as ComponentUiDefinitions<TUi>;
-
-  private uiElements = {} as ComponentElementsNullable<TUi>;
-
   constructor({
-    ui = {} as ComponentUiDefinitions<TUi>,
+    ui = {},
     events = [],
     initialStates = {},
     reactions = {},
     useShadowDOM = false,
     preserveChilds = false,
     asyncRendering = false,
-  }: ComponentArgs<TComponent, TUi>) {
+  }: ComponentArgs) {
     super();
-    this.selectors = {} as ComponentUiDefinitions<TUi>;
+    this.ui = {};
+    this.selectors = {};
     this.events = [];
     this.initialStates = {
       initialized: false,
@@ -95,7 +79,7 @@ export class Component<
       this.attachShadow({ mode: 'open' });
     }
 
-    Object.assign(this.uiDefinitions, ui);
+    Object.assign(this.ui, ui);
     Object.assign(this.selectors, ui);
 
     Object.assign(this.initialStates, initialStates);
@@ -104,98 +88,6 @@ export class Component<
     this.addReactions(reactions);
 
     this.mergeEvents(events);
-    onEvent(window, 'pv-mq-change', this.handleMqChange, this);
-  }
-
-  /*====================================================
-                  MQ Handling
-    ==================================================*/
-
-  /**
-   * gets active-on-mq attribute and parses MQ
-   * @returns {string[] | false}
-   */
-  get activeOnMQs(): string[] | false {
-    const activeOnMQ = this.getAttribute('active-on-mq') || false;
-
-    if (!activeOnMQ) {
-      return false;
-    }
-
-    let activeMQs: string[] = [];
-
-    removeAllBS(activeOnMQ).split(',').forEach((mqDef: string) => {
-      if (mqDef.length === 1) {
-        activeMQs = pushIfNew(activeMQs, `MQ${mqDef}`);
-      }
-      else if (mqDef.length > 1) {
-        const mqRange = mqDef.split('-');
-        const mqRangeStart = parseInt(mqRange[0], 10);
-        const mqRangeEnd = parseInt(mqRange[1], 10);
-        for (let mq = mqRangeStart; mq <= mqRangeEnd; mq++) {
-          activeMQs = pushIfNew(activeMQs, `MQ${mq.toString()}`);
-        }
-      }
-    });
-
-    return activeMQs;
-  }
-
-  /**
-   * returns currentMQ
-   * @returns {string}
-   */
-  get currentMQ(): string {
-    return getCurrentMQ();
-  }
-
-  /**
-   * tells, whether the Component should be active on the current MQ
-   * @returns {boolean}
-   */
-  get activeOnCurrentMQ(): boolean {
-    return (this.activeOnMQs && hasElement(this.activeOnMQs || [], this.currentMQ))
-        || !this.activeOnMQs;
-  }
-
-  /*====================================================
-                  Services
-    ==================================================*/
-
-  /**
-   * Returns Cookie Service of the App for comfortable use in Components
-   * @returns {CookieService}
-   */
-  get cookieService(): CookieService {
-    // TODO: make configurable
-    return window._pvCookieService;
-  }
-
-  /**
-   * Returns Viewport Observer of the App for comfortable use in Components
-   * @returns {IntersectionObserver}
-   */
-  get viewportObserver(): IntersectionObserver {
-    // TODO: make configurable
-    return window._pvViewportObserver;
-  }
-
-  /**
-   * handle MQ Change Event, by connecting or disconnecting the Componenent if needed
-   * used for active-on-mq rendering
-   * @param {CustomEvent} e
-   */
-  handleMqChange(e: CustomEvent): void {
-    if (!this.activeOnMQs) {
-      return;
-    }
-
-    if (!this.state.initialized && this.activeOnCurrentMQ) {
-      this.connectedCallback();
-    }
-    else if (this.state.initialized && !this.activeOnCurrentMQ) {
-      this.disconnectComponent();
-    }
   }
 
   /*====================================================
@@ -207,12 +99,6 @@ export class Component<
    * and generate global properties
    */
   connectedCallback(): void {
-    // if active-on-mq parameter is set,
-    // initialize component just on given MQs
-    if (!this.activeOnCurrentMQ) {
-      return;
-    }
-
     this.setupComponent();
   }
 
@@ -224,7 +110,7 @@ export class Component<
   }
 
   /**
-   * Lifecycle-Hook, needed to destroy Component on non active MQs
+   * Lifecycle-Hook, needed to destroy Component if needed
    */
   disconnectComponent(): void {
     this.beforeComponentDisconnects();
@@ -295,10 +181,6 @@ export class Component<
                     Component Properties
     ==================================================*/
 
-  get ui(): TUi {
-    return this.uiElements as TUi;
-  }
-
   /**
    * Description
    */
@@ -327,7 +209,7 @@ export class Component<
    */
   destroyComponentProps(): void {
     this.removeEvents();
-    this.uiDefinitions = Object.assign({}, this.selectors);
+    this.ui = Object.assign({}, this.selectors);
   }
 
   /**
@@ -336,14 +218,17 @@ export class Component<
   generateUI(): void {
     const uiRoot = this.getUiRoot();
     // Query DOM Nodes for ui-elements
-    for (let [elementKey, elementValue] of Object.entries(this.uiDefinitions) as [keyof TUi, string][]) {
-      elementValue = elementValue.trim();
-      if (elementValue.endsWith(":-one")) {
-        this.uiElements[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, "").trim()) as HTMLElement | null;
-      } else {
-        this.uiElements[elementKey] = uiRoot.querySelectorAll(elementValue);
+    Object.keys(this.ui).forEach(elementKey => {
+      const elementValue = this.ui[elementKey].trim();
+      if (elementValue.endsWith(':-one')) {
+        this.ui[elementKey] = uiRoot.querySelector(
+          elementValue.replace(/:-one/g, '').trim(),
+        );
       }
-    }
+      else {
+        this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
+      }
+    });
   }
 
   /**
@@ -352,10 +237,9 @@ export class Component<
   generateEvents(): void {
     // Add given Events
     this.events.forEach(event => {
-      const eventHandler = this[event.handler as keyof this];
-      if (typeof eventHandler === 'function') {
-        const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
-        onEvent(targets, event.event, eventHandler, this);
+      if (typeof this[event.handler] === 'function') {
+        const targets = this.getEventTargets(event.target);
+        onEvent(targets, event.event, this[event.handler], this);
       }
     });
   }
@@ -365,16 +249,15 @@ export class Component<
    */
   removeEvents(): void {
     this.events.forEach(event => {
-      const eventHandler = this[event.handler as keyof this];
-      if (typeof eventHandler === 'function') {
-        const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
+      if (typeof this[event.handler] === 'function') {
+        const targets = this.getEventTargets(event.target);
         if (NodeList.prototype.isPrototypeOf(targets)) {
           targets.forEach((target: Node) => {
-            removeEvent(target, event.event, eventHandler, this);
+            removeEvent(target, event.event, this[event.handler], this);
           });
         }
         else {
-          removeEvent(targets, event.event, eventHandler, this);
+          removeEvent(targets, event.event, this[event.handler], this);
         }
       }
     });
@@ -385,16 +268,16 @@ export class Component<
    */
   updateUI(): void {
     const uiRoot = this.getUiRoot();
-    this.uiElements = {} as ComponentElementsNullable<TUi>;
-    (Object.keys(this.selectors) as Array<keyof ComponentUiDefinitions<TUi>>).forEach(elementKey => {
+    this.ui = {};
+    Object.keys(this.selectors).forEach(elementKey => {
       const elementValue = this.selectors[elementKey].trim();
       if (elementValue.endsWith(':-one')) {
-        this.uiElements[elementKey] = uiRoot.querySelector<HTMLElement>(
-            elementValue.replace(/:-one/g, '').trim(),
+        this.ui[elementKey] = uiRoot.querySelector(
+          elementValue.replace(/:-one/g, '').trim(),
         );
       }
       else {
-        this.uiElements[elementKey] = uiRoot.querySelectorAll(elementValue);
+        this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
       }
     });
   }
@@ -404,20 +287,19 @@ export class Component<
    */
   updateEvents(): void {
     this.events.forEach(event => {
-      const eventHandler = this[event.handler as keyof this];
-      if (typeof eventHandler === 'function') {
+      if (typeof this[event.handler] === 'function') {
 
-        const targets = this.getEventTargets(event.target as ComponentEventTarget<TUi>);
+        const targets = this.getEventTargets(event.target);
 
         if (NodeList.prototype.isPrototypeOf(targets)) {
           targets.forEach((target: Node) => {
-            removeEvent(target, event.event, eventHandler, this);
-            onEvent(target, event.event, eventHandler, this);
+            removeEvent(target, event.event, this[event.handler], this);
+            onEvent(target, event.event, this[event.handler], this);
           });
         }
         else {
-          removeEvent(targets, event.event, eventHandler, this);
-          onEvent(targets, event.event, eventHandler, this);
+          removeEvent(targets, event.event, this[event.handler], this);
+          onEvent(targets, event.event, this[event.handler], this);
         }
       }
     });
@@ -603,7 +485,7 @@ export class Component<
    * Add new Events to Global Events-Array
    * @param newEvents  Event-Object-Array
    */
-  mergeEvents(newEvents: ComponentEvent<TComponent, TUi>[]): void {
+  mergeEvents(newEvents: ComponentEvent[]): void {
     this.events = this.events
       .filter(event => {
         if (this.isNewEvent(event, newEvents)) return event;
@@ -618,7 +500,7 @@ export class Component<
    *
    * @returns         is given Event not in given Event-Array
    */
-  isNewEvent(event: ComponentEvent<TComponent, TUi>, eventArr: ComponentEvent<TComponent, TUi>[]): Boolean {
+  isNewEvent(event: ComponentEvent, eventArr: ComponentEvent[]): Boolean {
     return !eventArr.some(newEvent => {
       return newEvent.event === event.event && newEvent.target === event.target;
     });
@@ -640,7 +522,7 @@ export class Component<
    * @param {string} eventTarget  name of event Target Element
    * @returns DOM-Root of Component
    */
-  getEventTargets(eventTarget: ComponentEventTarget<TUi>): any {
+  getEventTargets(eventTarget: string) {
     let targets = null;
 
     if (eventTarget === 'this') {
@@ -650,7 +532,7 @@ export class Component<
       targets = window;
     }
     else {
-      targets = this.uiDefinitions[eventTarget];
+      targets = this.ui[eventTarget];
     }
 
     return targets;
