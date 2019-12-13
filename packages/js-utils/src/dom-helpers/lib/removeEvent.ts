@@ -1,36 +1,32 @@
-import { isNodeList } from './isNodeList';
-import { forEachNode } from './forEachNode';
+import { EventTarget, EventHandler, getKey } from './onEvent';
+import { isIterable, hasElements } from './iterable';
+import { Context } from './Context';
 
 /**
  * removes event with given parameters
- * @param {HTMLElement|Node|NodeList} target
+ * @param {HTMLElement|Iterable<HTMLElement>} target
  * @param {string} events
  * @param {Function} handler
+ * @param {Context} context
  */
-export const removeEvent = (
-  target: any,
+export const removeEvent = <T extends Event = Event>(
+  target: EventTarget,
   events: string,
-  handler: any,
-  context: any,
+  handler: EventHandler<T>,
+  context: Context,
 ) => {
-
   if (target === undefined
     || target === null
-    || (isNodeList(target) && target.length === 0)) {
+    || (isIterable(target) && !hasElements(target))) {
     console.warn('no target found');
     return;
   }
 
-  if (isNodeList(target)) {
-    forEachNode(
-      target,
-      (element: HTMLElement|Node) => {
-        removeEvent(element, events, handler, context);
-      },
-      context,
-    );
-  }
-  else {
+  if (isIterable(target)) {
+    for (const element of target) {
+      removeEvent(element, events, handler, context);
+    }
+  } else {
     const eventList = events.trim().split(' ');
     eventList.forEach(event => {
       const key = getKey(target, event, handler, context);
@@ -42,28 +38,3 @@ export const removeEvent = (
     });
   }
 };
-
-function getKey(target: any, event: string, handler: any, context: any) {
-  return `${getUID(target, context)}#
-          ${event.trim()}#
-          ${getUID(handler, context)}#
-          ${getUID(context, context)}`
-            .replace(/\n/gm, '')
-            .replace(/\s/g, '');
-}
-
-function getUID(obj:any, context:any) {
-  let uid;
-  if (context.eventIdMap.has(obj)) {
-    uid = context.eventIdMap.get(obj);
-  }
-  else {
-    const newUid = 'xxxxxxxx'.replace(/x/g, replacer).toLowerCase();
-    context.eventIdMap.set(obj, newUid);
-    uid = newUid;
-  }
-  return uid;
-}
-function replacer() {
-  return (Math.random() * 100 % 36 | 0).toString(36);
-}
