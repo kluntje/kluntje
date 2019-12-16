@@ -4,7 +4,6 @@
  * @param {Array<any>} array
  * @returns {boolean}
  */
-export const isFilledArray = (array: Array<any>): boolean => {
-  return array !== undefined &&
-         array.length > 0;
+export const isFilledArray = <T>(array: Array<T>): boolean => {
+  return array !== undefined && array.length > 0;
 };
