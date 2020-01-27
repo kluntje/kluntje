@@ -6,7 +6,7 @@ import { hasElement } from '..';
  * @param {any} newElement
  * @returns {Array<any>}
  */
-export const pushIfNew = (array: Array<any>, newElement: any): Array<any> => {
+export const pushIfNew = <T>(array: Array<T>, newElement: T): Array<T> => {
   if (!hasElement(array, newElement)) {
     array.push(newElement);
   }
