@@ -1,33 +1,29 @@
+import { Nullable } from "../../types/Nullable";
+
+export function naiveClone<T>(arg: Array<T>): Array<T>;
+
+export function naiveClone<T>(arg: T): T;
+
 /**
  * returns a deep link of the provided argument
  * @param {any} arg
  * @return {any}
  */
-
-export const naiveClone = (arg: any) :any => {
+export function naiveClone<T>(arg: Nullable<T> | Array<T>): Nullable<T> | Array<T> {
   if (typeof arg !== 'object') {
     return arg;
   }
 
-  let result: any; // could be Object, null or any kind of Array
-
   if (arg === null) {
-    result = null;
-  }
-  else if (Array.isArray(arg)) {
-    result = [];
-    for (let i = 0; i < arg.length; i++) {
-      result.push(naiveClone(arg[i]));
-    }
-  }
-  else {
-    result = {};
-    for (const key in arg) {
-      if (arg.hasOwnProperty(key)) {
-        result[key] = naiveClone(arg[key]);
-      }
-    }
+    return null;
   }
 
-  return result;
+  if (Array.isArray(arg)) {
+    return arg.map(a => naiveClone(a));
+  }
+
+  return Object.entries(arg).reduce((result, [key, value]) => {
+    result[key] = naiveClone(value);
+    return result;
+  }, {} as any);
 };

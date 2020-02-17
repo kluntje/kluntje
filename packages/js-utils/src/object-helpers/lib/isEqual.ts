@@ -6,7 +6,7 @@ import { toString } from './toString';
  * @param {*} arg2
  * @returns {boolean}
  */
-export const isEqual = (arg1: any, arg2: any): boolean => {
+export const isEqual = <T>(arg1: T, arg2: T): boolean => {
   if (typeof arg1 !== typeof arg2) {
     return false;
   }

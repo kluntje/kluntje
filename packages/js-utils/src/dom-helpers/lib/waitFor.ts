@@ -1,15 +1,10 @@
 /**
- * waits for given timout
+ * waits for given timeout
  * @param {number} timeout - timeout in milliseconds
  * @returns {Promise<void>}
  */
 export const waitFor = (timeout: number): Promise<void> => {
   return new Promise(resolve => {
-    setTimeout(
-      () => {
-        resolve();
-      },
-      timeout,
-    );
+    setTimeout(() => resolve(), timeout);
   });
 };

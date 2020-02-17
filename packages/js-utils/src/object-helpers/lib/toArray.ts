@@ -3,6 +3,6 @@
  * @param {*} arg
  * @returns {Array}
  */
-export const toArray = (arg:any): any[] => {
+export const toArray = <T>(arg: T | Array<T>): Array<T> => {
   return Array.isArray(arg) ? arg : [arg];
 };
