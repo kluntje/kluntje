@@ -1,4 +1,4 @@
-import { hasElement } from '..';
+import { hasElement } from '../../array-helpers';
 
 /**
  * pushes new Element to given array, if its not already in it

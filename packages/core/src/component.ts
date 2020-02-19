@@ -1,6 +1,6 @@
-import { naiveClone, isEqual, getValue, toArray } from '@pv-fe/js-utils/lib/object-helpers';
-import { mergeArraysBy } from '@pv-fe/js-utils/lib/array-helpers';
-import { onEvent, removeEvent } from '@pv-fe/js-utils/lib/dom-helpers';
+import { naiveClone, isEqual, getValue, toArray } from '@kluntje/js-utils/lib/object-helpers';
+import { mergeArraysBy } from '@kluntje/js-utils/lib/array-helpers';
+import { onEvent, removeEvent } from '@kluntje/js-utils/lib/dom-helpers';
 
 type ComponentUiEl = {
   [key: string]: any;

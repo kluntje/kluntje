@@ -7,7 +7,7 @@
     "build": "lerna run build",
     "test": "lerna run test",
     "bootstrap": "lerna bootstrap",
-    "add": "lerna add @pv-fe/js-utils --scope=@pv-fe/wc-core"
+    "add": "lerna add @kluntje/js-utils --scope=@kluntje/core"
   },
   "devDependencies": {
     "@types/jest": "25.1.2",

@@ -1,11 +1,11 @@
 {
-  "name": "@pv-fe/js-utils",
+  "name": "@kluntje/js-utils",
   "version": "0.1.0",
   "description": "> TODO: description",
   "author": "friewerts <frederik.riewerts@gmail.com>",
   "license": "ISC",
-  "main": "lib/js-utils.js",
-  "types": "lib/js-utils.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
