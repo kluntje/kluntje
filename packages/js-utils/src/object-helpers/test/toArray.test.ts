@@ -17,6 +17,7 @@ describe("Should handle an array argument correct", () => {
     const result = toArray(arrayArgument);
     result.push(4);
     expect(arrayArgument).toEqual(result);
+    expect(arrayArgument).toStrictEqual(result);
     expect(arrayArgument[3]).toEqual(4);
   });
 });
@@ -25,7 +26,7 @@ describe("Should handle an object argument correct", () => {
   const objectArgument = { hello: "world" };
   test("should wrap the object", () => {
     const result = toArray(objectArgument);
-    expect(result[0]).toEqual(objectArgument);
+    expect(result[0]).toStrictEqual(objectArgument);
     expect(result[0].hello).toBe("world");
   });
 });
