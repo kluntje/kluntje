@@ -1,55 +1,63 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { naiveClone, isEqual, getValue, toArray } from '@kluntje/js-utils/lib/object-helpers';
-import { mergeArraysBy } from '@kluntje/js-utils/lib/array-helpers';
-import { onEvent, removeEvent } from '@kluntje/js-utils/lib/dom-helpers';
+import { mergeArraysBy, pushIfNew, hasElement } from '@kluntje/js-utils/lib/array-helpers';
+import { onEvent, removeEvent, waitForEvent, find, findAll } from '@kluntje/js-utils/lib/dom-helpers';
+import { removeAllBS } from '@kluntje/js-utils/lib/string-helpers';
 
-type ComponentUiEl = {
-  [key: string]: any;
+import { DecoratorUiDefinition } from "@kluntje/decorators";
+
+type ComponentUiEl<T = any> = {
+  [key in keyof T]: any;
 };
 
-type ComponentEvent = {
+type ComponentEvent<T = any> = {
   event: string;
-  target: string;
-  handler: string;
+  target: keyof T;
+  handler: keyof T;
 };
 
 type ComponentStates = {
   [key: string]: any;
 };
 
-type ComponentReactions = {
-  [key: string]: string[];
+type ComponentReactions<T = any> = {
+  [key: string]: Array<Function | keyof T>;
 };
 
-type ComponentArgs = {
+export type ComponentArgs = {
   ui?: ComponentUiEl;
   events?: ComponentEvent[];
   initialStates?: ComponentStates;
   reactions?: ComponentReactions;
-  useShadowDOM?: Boolean;
-  preserveChilds?: Boolean;
-  asyncRendering?: Boolean;
+  useShadowDOM?: boolean;
+  preserveChilds?: boolean;
+  asyncRendering?: boolean;
 };
 
 export class Component extends HTMLElement {
   ui: ComponentUiEl;
 
-  events: ComponentEvent[];
+  events: Array<ComponentEvent<this>>;
 
   selectors: ComponentUiEl;
 
-  useShadowDOM: Boolean;
+  useShadowDOM: boolean;
 
-  preserveChilds: Boolean;
+  preserveChilds: boolean;
 
-  asyncRendering: Boolean;
+  asyncRendering: boolean;
 
-  reactions: ComponentReactions;
+  reactions: ComponentReactions<this>;
 
   eventIdMap: WeakMap<HTMLElement | Function, string>;
 
-  eventBindingMap: object;
+  eventBindingMap: {
+    [index: string]: EventListenerOrEventListenerObject
+  };
 
-  [key: string]: any;
+  _state = {};
+
+  _initialStates = {};
 
   constructor({
     ui = {},
@@ -59,7 +67,7 @@ export class Component extends HTMLElement {
     useShadowDOM = false,
     preserveChilds = false,
     asyncRendering = false,
-  }: ComponentArgs) {
+  }: ComponentArgs = {}) {
     super();
     this.ui = {};
     this.selectors = {};
@@ -67,7 +75,9 @@ export class Component extends HTMLElement {
     this.initialStates = {
       initialized: false,
     };
-    this.reactions = {};
+    this.reactions = {
+      initialized: ["onComponentInitialized"],
+    };
     this.useShadowDOM = useShadowDOM;
     this.preserveChilds = preserveChilds;
     this.asyncRendering = asyncRendering;
@@ -76,7 +86,7 @@ export class Component extends HTMLElement {
 
     // initialize shadowDOM if needed
     if (this.useShadowDOM) {
-      this.attachShadow({ mode: 'open' });
+      this.attachShadow({ mode: "open" });
     }
 
     Object.assign(this.ui, ui);
@@ -90,7 +100,37 @@ export class Component extends HTMLElement {
     this.mergeEvents(events);
   }
 
-  /*====================================================
+  enableDecoratedProperties() {
+    // @ts-ignore
+    if (this.decoratedUiEls === undefined) return;
+
+    // @ts-ignore
+    (this.decoratedUiEls as Map<keyof this, DecoratorUiDefinition<this>>).forEach((decoratorUiDef, property) => {
+      if (decoratorUiDef.selector === "window") {
+        decoratorUiDef.events.forEach(event => {
+          // @ts-ignore
+          onEvent(window, event.eventName, this[event.handler], this);
+        });
+      } else if (decoratorUiDef.selector === "this") {
+        decoratorUiDef.events.forEach(event => {
+          // @ts-ignore
+          onEvent(this, event.eventName, this[event.handler], this);
+        });
+      } else {
+        const curEl = decoratorUiDef.justOne
+          ? find((this as unknown) as HTMLElement, decoratorUiDef.selector)
+          : findAll((this as unknown) as HTMLElement, decoratorUiDef.selector);
+        // @ts-ignore
+        this[property] = curEl;
+        decoratorUiDef.events.forEach(event => {
+          // @ts-ignore
+          onEvent(this[property], event.eventName, this[event.handler], this);
+        });
+      }
+    });
+  }
+
+  /* ====================================================
                     Lifcycle-Hooks
     ==================================================*/
 
@@ -110,7 +150,7 @@ export class Component extends HTMLElement {
   }
 
   /**
-   * Lifecycle-Hook, needed to destroy Component if needed
+   * Lifecycle-Hook, needed to destroy Component on non active MQs
    */
   disconnectComponent(): void {
     this.beforeComponentDisconnects();
@@ -121,7 +161,7 @@ export class Component extends HTMLElement {
 
   /**
    * Overrideable rendering Template getter
-   * @returns rendering template for component
+   * @returns {string | null} rendering template for component
    */
   renderingTemplate(): string | null {
     return null;
@@ -143,8 +183,9 @@ export class Component extends HTMLElement {
    * @async
    * @returns {Promise<void>}
    */
+  // eslint-disable-next-line require-await
   async renderAsync(): Promise<void> {
-    console.warn('please override renderAsync-method');
+    console.warn("please override renderAsync-method");
     return;
   }
 
@@ -155,8 +196,7 @@ export class Component extends HTMLElement {
   render(template: string): void {
     if (this.preserveChilds) {
       this.getUiRoot().innerHTML += template;
-    }
-    else {
+    } else {
       this.getUiRoot().innerHTML = template;
     }
   }
@@ -166,7 +206,7 @@ export class Component extends HTMLElement {
    */
   destroyComponent(): void {
     // has to be overidden by extender
-    console.warn('please override destroyComponent-method');
+    console.warn("please override destroyComponent-method");
   }
 
   /**
@@ -177,7 +217,16 @@ export class Component extends HTMLElement {
     // has to be overidden extender
   }
 
-  /*====================================================
+  onComponentInitialized() {
+    this.dispatchEvent(new CustomEvent("kl-component-initialized"));
+  }
+
+  async waitForInitialization() {
+    if (this.state.initialized) return;
+    return await waitForEvent(this, "kl-component-initialized");
+  }
+
+  /* ====================================================
                     Component Properties
     ==================================================*/
 
@@ -187,8 +236,7 @@ export class Component extends HTMLElement {
   async setupComponent(): Promise<void> {
     if (this.asyncRendering) {
       await this.renderAsync();
-    }
-    else {
+    } else {
       this.renderComponent();
     }
     this.setupComponentProps();
@@ -200,6 +248,7 @@ export class Component extends HTMLElement {
    * Generates global properties
    */
   setupComponentProps(): void {
+    this.enableDecoratedProperties();
     this.generateUI();
     this.generateEvents();
   }
@@ -220,12 +269,9 @@ export class Component extends HTMLElement {
     // Query DOM Nodes for ui-elements
     Object.keys(this.ui).forEach(elementKey => {
       const elementValue = this.ui[elementKey].trim();
-      if (elementValue.endsWith(':-one')) {
-        this.ui[elementKey] = uiRoot.querySelector(
-          elementValue.replace(/:-one/g, '').trim(),
-        );
-      }
-      else {
+      if (elementValue.endsWith(":-one")) {
+        this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, "").trim());
+      } else {
         this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
       }
     });
@@ -237,8 +283,9 @@ export class Component extends HTMLElement {
   generateEvents(): void {
     // Add given Events
     this.events.forEach(event => {
-      if (typeof this[event.handler] === 'function') {
+      if (typeof this[event.handler] === "function") {
         const targets = this.getEventTargets(event.target);
+        // @ts-ignore
         onEvent(targets, event.event, this[event.handler], this);
       }
     });
@@ -249,14 +296,15 @@ export class Component extends HTMLElement {
    */
   removeEvents(): void {
     this.events.forEach(event => {
-      if (typeof this[event.handler] === 'function') {
+      if (typeof this[event.handler] === "function") {
         const targets = this.getEventTargets(event.target);
         if (NodeList.prototype.isPrototypeOf(targets)) {
-          targets.forEach((target: Node) => {
+          targets.forEach((target: HTMLElement) => {
+            // @ts-ignore
             removeEvent(target, event.event, this[event.handler], this);
           });
-        }
-        else {
+        } else {
+          // @ts-ignore
           removeEvent(targets, event.event, this[event.handler], this);
         }
       }
@@ -271,12 +319,9 @@ export class Component extends HTMLElement {
     this.ui = {};
     Object.keys(this.selectors).forEach(elementKey => {
       const elementValue = this.selectors[elementKey].trim();
-      if (elementValue.endsWith(':-one')) {
-        this.ui[elementKey] = uiRoot.querySelector(
-          elementValue.replace(/:-one/g, '').trim(),
-        );
-      }
-      else {
+      if (elementValue.endsWith(":-one")) {
+        this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, "").trim());
+      } else {
         this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
       }
     });
@@ -287,25 +332,27 @@ export class Component extends HTMLElement {
    */
   updateEvents(): void {
     this.events.forEach(event => {
-      if (typeof this[event.handler] === 'function') {
-
+      if (typeof this[event.handler] === "function") {
         const targets = this.getEventTargets(event.target);
 
         if (NodeList.prototype.isPrototypeOf(targets)) {
           targets.forEach((target: Node) => {
+            // @ts-ignore
             removeEvent(target, event.event, this[event.handler], this);
+            // @ts-ignore
             onEvent(target, event.event, this[event.handler], this);
           });
-        }
-        else {
+        } else {
+          // @ts-ignore
           removeEvent(targets, event.event, this[event.handler], this);
+          // @ts-ignore
           onEvent(targets, event.event, this[event.handler], this);
         }
       }
     });
   }
 
-  /*====================================================
+  /* ====================================================
                     State Handling
     ==================================================*/
 
@@ -324,9 +371,7 @@ export class Component extends HTMLElement {
    * @throw error always
    */
   set state(arg: any) {
-    throw new Error(
-      'The state should only be modified via the "setState" method.',
-    );
+    throw new Error('The state should only be modified via the "setState" method.');
   }
 
   /**
@@ -373,8 +418,8 @@ export class Component extends HTMLElement {
     // invoke necessary reactions
     Object.keys(reactions).forEach(prop => {
       // always invoke the wildcard reaction
-      if (prop === '*') {
-        this.invokeReaction('*');
+      if (prop === "*") {
+        this.invokeReaction("*");
       }
       // for not wildcard, and in change object mentioned, test if it was modified
       else if (prop in change) {
@@ -396,22 +441,22 @@ export class Component extends HTMLElement {
    * @return {Object} this
    * @alias Component.addReactions
    */
-  addReactions (propName: string|object, callbacks?: string[]): object {
-    if (typeof propName === 'object') {
+  addReactions(propName: string | object, callbacks?: string[]): object {
+    if (typeof propName === "object") {
       Object.entries(propName).forEach(([key, val]) => this.addReactions(key, val));
-    }
-    else {
+    } else {
       this.reactions = this.reactions || {};
       // for simplicity, convert always to array
       const newCallbacks = toArray(callbacks);
       const oldCallbacks = this.reactions[propName] || [];
+      // @ts-ignore
       this.reactions[propName] = mergeArraysBy(oldCallbacks, newCallbacks, this.isNewReaction);
     }
     return this;
   }
 
-  isNewReaction(reaction:string, newReactions:string[]) {
-    return !newReactions.some((newReaction:string) => {
+  isNewReaction(reaction: string, newReactions: string[]) {
+    return !newReactions.some((newReaction: string) => {
       return reaction === newReaction;
     });
   }
@@ -424,21 +469,18 @@ export class Component extends HTMLElement {
    * @alias Component.removeReactions
    */
   removeReactions(propName: string | object, callbacks: string[]): object {
-    if (typeof propName === 'object') {
-      Object.entries(propName).forEach(([key, val]) =>
-        this.removeReactions(key, val),
-      );
+    if (typeof propName === "object") {
+      Object.entries(propName).forEach(([key, val]) => this.removeReactions(key, val));
       return this;
     }
     // if ! propName in reactions return false / warn
     if (!this.reactions.hasOwnProperty(propName)) {
-      console.warn('no such prop found ');
+      console.warn("no such prop found ");
     }
     // callBack == undefined
     else if (!callbacks) {
       delete this.reactions[propName];
-    }
-    else {
+    } else {
       // remove callback from values,
       callbacks.forEach(cb => {
         this.reactions[propName] = this.reactions[propName].filter(e => e !== cb);
@@ -460,47 +502,38 @@ export class Component extends HTMLElement {
   invokeReaction(propName: string): void {
     const reactions = this.reactions || {};
     const callbacks = reactions[propName] || new Set();
-    callbacks.forEach((cb: string | Function) => {
-      if (typeof cb === 'function') {
-        cb(this.state, this.props);
-      }
-      else if (
-        typeof cb === 'string' &&
-        cb in this &&
-        typeof this[cb] === 'function'
-      ) {
-        this[cb](this.state, this.props);
-      }
-      else {
+    callbacks.forEach((cb: keyof this | Function) => {
+      if (typeof cb === "function") {
+        cb(this.state);
+      } else if (typeof cb === "string" && cb in this && typeof this[cb] === "function") {
+        // @ts-ignore
+        this[cb](this.state);
+      } else {
         console.error("given reaction callback can't be found: ", cb);
       }
     });
   }
 
-  /*====================================================
+  /* ====================================================
                         Helper
     ==================================================*/
 
   /**
    * Add new Events to Global Events-Array
-   * @param newEvents  Event-Object-Array
+   * @param  {Array<ComponentEvent>} newEvents  Event-Object-Array
    */
   mergeEvents(newEvents: ComponentEvent[]): void {
-    this.events = this.events
-      .filter(event => {
-        if (this.isNewEvent(event, newEvents)) return event;
-      })
-      .concat(newEvents);
+    this.events = this.events.filter(event => this.isNewEvent(event, newEvents)).concat(newEvents);
   }
 
   /**
    * Checks if specific Event is already in specific Event-Array
-   * @param event     Event-Object to be checked
-   * @param eventArr  Event-Object-Array to be checked
+   * @param {ComponentEvent} event    Event-Object to be checked
+   * @param {Array<ComponentEvent>} eventArr  Event-Object-Array to be checked
    *
-   * @returns         is given Event not in given Event-Array
+   * @returns {boolean}        is given Event not in given Event-Array
    */
-  isNewEvent(event: ComponentEvent, eventArr: ComponentEvent[]): Boolean {
+  isNewEvent(event: ComponentEvent, eventArr: ComponentEvent[]): boolean {
     return !eventArr.some(newEvent => {
       return newEvent.event === event.event && newEvent.target === event.target;
     });
@@ -509,7 +542,7 @@ export class Component extends HTMLElement {
   /**
    * Get DOM-Root of Component (shadowDOM or documentDOM)
    *
-   * @returns DOM-Root of Component
+   * @returns { ShadowRoot | Component} - DOM-Root of Component
    */
   getUiRoot(): ShadowRoot | Component {
     if (this.shadowRoot) return this.shadowRoot;
@@ -520,18 +553,17 @@ export class Component extends HTMLElement {
    * Filter Keyname Elements (like this or window) from ui-elements
    *
    * @param {string} eventTarget  name of event Target Element
-   * @returns DOM-Root of Component
+   * @returns {Array} DOM-Root of Component
    */
-  getEventTargets(eventTarget: string) {
+  getEventTargets(eventTarget: keyof this | "this" | "window") {
     let targets = null;
 
-    if (eventTarget === 'this') {
+    if (eventTarget === "this") {
+      // eslint-disable-next-line consistent-this
       targets = this;
-    }
-    else if (eventTarget === 'window') {
+    } else if (eventTarget === "window") {
       targets = window;
-    }
-    else {
+    } else {
       targets = this.ui[eventTarget];
     }
 

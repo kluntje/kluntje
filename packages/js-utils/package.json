@@ -2,7 +2,7 @@
   "name": "@kluntje/js-utils",
   "version": "0.1.0",
   "description": "> TODO: description",
-  "author": "friewerts <frederik.riewerts@gmail.com>",
+  "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "license": "ISC",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -16,8 +16,5 @@
   "scripts": {
     "build": "rimraf lib && tsc",
     "test": "jest"
-  },
-  "bugs": {
-    "url": ""
   }
 }

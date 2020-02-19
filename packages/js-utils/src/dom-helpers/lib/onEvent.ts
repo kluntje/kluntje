@@ -1,7 +1,7 @@
 import { isIterable, hasElements } from './iterable';
 import { Context } from './Context';
 
-export type EventTarget = HTMLElement | Iterable<HTMLElement>;
+export type EventTarget = HTMLElement | Iterable<HTMLElement> | Window;
 
 export type EventHandler<T> = (e: T) => void;
 
