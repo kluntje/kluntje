@@ -3,9 +3,9 @@ import { naiveClone, isEqual, getValue, toArray } from '@kluntje/js-utils/lib/ob
 import { mergeArraysBy } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, removeEvent, waitForEvent, find, findAll } from '@kluntje/js-utils/lib/dom-helpers';
 
-import { DecoratorUiDefinition } from "./decorators";
+import { DecoratorUiDefinition } from './decorators';
 
-export { uiElement, uiElements, uiEvent, MQBasedRendered  } from "./decorators";
+export { uiElement, uiElements, uiEvent, MQBasedRendered } from './decorators';
 
 type ComponentUiEl<T = any> = {
   [key in keyof T]: any;
@@ -53,7 +53,7 @@ export class Component extends HTMLElement {
   eventIdMap: WeakMap<HTMLElement | Function, string>;
 
   eventBindingMap: {
-    [index: string]: EventListenerOrEventListenerObject
+    [index: string]: EventListenerOrEventListenerObject;
   };
 
   _state = {};
@@ -77,7 +77,7 @@ export class Component extends HTMLElement {
       initialized: false,
     };
     this.reactions = {
-      initialized: ["onComponentInitialized"],
+      initialized: ['onComponentInitialized'],
     };
     this.useShadowDOM = useShadowDOM;
     this.preserveChilds = preserveChilds;
@@ -87,7 +87,7 @@ export class Component extends HTMLElement {
 
     // initialize shadowDOM if needed
     if (this.useShadowDOM) {
-      this.attachShadow({ mode: "open" });
+      this.attachShadow({ mode: 'open' });
     }
 
     Object.assign(this.ui, ui);
@@ -107,12 +107,12 @@ export class Component extends HTMLElement {
 
     // @ts-ignore
     (this.decoratedUiEls as Map<keyof this, DecoratorUiDefinition<this>>).forEach((decoratorUiDef, property) => {
-      if (decoratorUiDef.selector === "window") {
+      if (decoratorUiDef.selector === 'window') {
         decoratorUiDef.events.forEach(event => {
           // @ts-ignore
           onEvent(window, event.eventName, this[event.handler], this);
         });
-      } else if (decoratorUiDef.selector === "this") {
+      } else if (decoratorUiDef.selector === 'this') {
         decoratorUiDef.events.forEach(event => {
           // @ts-ignore
           onEvent(this, event.eventName, this[event.handler], this);
@@ -186,7 +186,7 @@ export class Component extends HTMLElement {
    */
   // eslint-disable-next-line require-await
   async renderAsync(): Promise<void> {
-    console.warn("please override renderAsync-method");
+    console.warn('please override renderAsync-method');
     return;
   }
 
@@ -207,7 +207,7 @@ export class Component extends HTMLElement {
    */
   destroyComponent(): void {
     // has to be overidden by extender
-    console.warn("please override destroyComponent-method");
+    console.warn('please override destroyComponent-method');
   }
 
   /**
@@ -219,12 +219,12 @@ export class Component extends HTMLElement {
   }
 
   onComponentInitialized() {
-    this.dispatchEvent(new CustomEvent("kl-component-initialized"));
+    this.dispatchEvent(new CustomEvent('kl-component-initialized'));
   }
 
   async waitForInitialization() {
     if (this.state.initialized) return;
-    return await waitForEvent(this, "kl-component-initialized");
+    return await waitForEvent(this, 'kl-component-initialized');
   }
 
   /* ====================================================
@@ -270,8 +270,8 @@ export class Component extends HTMLElement {
     // Query DOM Nodes for ui-elements
     Object.keys(this.ui).forEach(elementKey => {
       const elementValue = this.ui[elementKey].trim();
-      if (elementValue.endsWith(":-one")) {
-        this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, "").trim());
+      if (elementValue.endsWith(':-one')) {
+        this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, '').trim());
       } else {
         this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
       }
@@ -284,7 +284,7 @@ export class Component extends HTMLElement {
   generateEvents(): void {
     // Add given Events
     this.events.forEach(event => {
-      if (typeof this[event.handler] === "function") {
+      if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
         // @ts-ignore
         onEvent(targets, event.event, this[event.handler], this);
@@ -297,7 +297,7 @@ export class Component extends HTMLElement {
    */
   removeEvents(): void {
     this.events.forEach(event => {
-      if (typeof this[event.handler] === "function") {
+      if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
         if (NodeList.prototype.isPrototypeOf(targets)) {
           targets.forEach((target: HTMLElement) => {
@@ -320,8 +320,8 @@ export class Component extends HTMLElement {
     this.ui = {};
     Object.keys(this.selectors).forEach(elementKey => {
       const elementValue = this.selectors[elementKey].trim();
-      if (elementValue.endsWith(":-one")) {
-        this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, "").trim());
+      if (elementValue.endsWith(':-one')) {
+        this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, '').trim());
       } else {
         this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
       }
@@ -333,7 +333,7 @@ export class Component extends HTMLElement {
    */
   updateEvents(): void {
     this.events.forEach(event => {
-      if (typeof this[event.handler] === "function") {
+      if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
 
         if (NodeList.prototype.isPrototypeOf(targets)) {
@@ -419,8 +419,8 @@ export class Component extends HTMLElement {
     // invoke necessary reactions
     Object.keys(reactions).forEach(prop => {
       // always invoke the wildcard reaction
-      if (prop === "*") {
-        this.invokeReaction("*");
+      if (prop === '*') {
+        this.invokeReaction('*');
       }
       // for not wildcard, and in change object mentioned, test if it was modified
       else if (prop in change) {
@@ -443,7 +443,7 @@ export class Component extends HTMLElement {
    * @alias Component.addReactions
    */
   addReactions(propName: string | object, callbacks?: string[]): object {
-    if (typeof propName === "object") {
+    if (typeof propName === 'object') {
       Object.entries(propName).forEach(([key, val]) => this.addReactions(key, val));
     } else {
       this.reactions = this.reactions || {};
@@ -470,13 +470,13 @@ export class Component extends HTMLElement {
    * @alias Component.removeReactions
    */
   removeReactions(propName: string | object, callbacks: string[]): object {
-    if (typeof propName === "object") {
+    if (typeof propName === 'object') {
       Object.entries(propName).forEach(([key, val]) => this.removeReactions(key, val));
       return this;
     }
     // if ! propName in reactions return false / warn
     if (!this.reactions.hasOwnProperty(propName)) {
-      console.warn("no such prop found ");
+      console.warn('no such prop found ');
     }
     // callBack == undefined
     else if (!callbacks) {
@@ -504,9 +504,9 @@ export class Component extends HTMLElement {
     const reactions = this.reactions || {};
     const callbacks = reactions[propName] || new Set();
     callbacks.forEach((cb: keyof this | Function) => {
-      if (typeof cb === "function") {
+      if (typeof cb === 'function') {
         cb(this.state);
-      } else if (typeof cb === "string" && cb in this && typeof this[cb] === "function") {
+      } else if (typeof cb === 'string' && cb in this && typeof this[cb] === 'function') {
         // @ts-ignore
         this[cb](this.state);
       } else {
@@ -556,13 +556,13 @@ export class Component extends HTMLElement {
    * @param {string} eventTarget  name of event Target Element
    * @returns {Array} DOM-Root of Component
    */
-  getEventTargets(eventTarget: keyof this | "this" | "window") {
+  getEventTargets(eventTarget: keyof this | 'this' | 'window') {
     let targets = null;
 
-    if (eventTarget === "this") {
+    if (eventTarget === 'this') {
       // eslint-disable-next-line consistent-this
       targets = this;
-    } else if (eventTarget === "window") {
+    } else if (eventTarget === 'window') {
       targets = window;
     } else {
       targets = this.ui[eventTarget];

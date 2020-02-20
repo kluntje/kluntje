@@ -1,6 +1,6 @@
-import { getUniqueID } from "..";
+import { getUniqueID } from '..';
 
-test("should return an unique id", () => {
+test('should return an unique id', () => {
   const id1 = getUniqueID();
   const id2 = getUniqueID();
 

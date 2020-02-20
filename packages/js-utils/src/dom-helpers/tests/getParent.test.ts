@@ -1,4 +1,4 @@
-import { getParent } from "..";
+import { getParent } from '..';
 
 let div: HTMLElement;
 
@@ -27,16 +27,16 @@ const markup = `
 `;
 
 beforeAll(() => {
-  div = document.createElement("div");
+  div = document.createElement('div');
   div.innerHTML = markup;
 });
 
-test("should find the correct parent node", () => {
-  const startAt = div.querySelector(".blog-post-icon") as HTMLElement;
-  const blogPostParagraph = getParent(startAt, ".blog-post-paragraph");
+test('should find the correct parent node', () => {
+  const startAt = div.querySelector('.blog-post-icon') as HTMLElement;
+  const blogPostParagraph = getParent(startAt, '.blog-post-paragraph');
   const textContent = blogPostParagraph?.textContent;
 
   expect(blogPostParagraph).toBeTruthy();
-  expect(textContent).toContain("Blog Post Paragraph");
-  expect(textContent).not.toContain("Blog Post Paragraph 2");
+  expect(textContent).toContain('Blog Post Paragraph');
+  expect(textContent).not.toContain('Blog Post Paragraph 2');
 });

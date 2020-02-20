@@ -7,13 +7,23 @@
     "build": "lerna run build",
     "test": "lerna run test",
     "bootstrap": "lerna bootstrap",
-    "add": "lerna add @kluntje/services --scope=@kluntje/core"
+    "add": "lerna add @kluntje/services --scope=@kluntje/core",
+    "eslint": "eslint \"**/*.ts\"",
+    "eslint:fix": "eslint \"**/*.ts\" --fix"
   },
   "devDependencies": {
     "@types/jest": "25.1.2",
     "@types/node": "13.7.1",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^7.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "jest": "25.1.0",
     "lerna": "3.20.2",
+    "prettier": "^1.19.1",
     "rimraf": "3.0.2",
     "ts-jest": "25.2.0",
     "typescript": "^3.7.5"

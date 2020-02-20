@@ -1,4 +1,4 @@
-import { hasChild } from "..";
+import { hasChild } from '..';
 
 let div: HTMLElement;
 
@@ -27,11 +27,11 @@ const markup = `
 `;
 
 beforeAll(() => {
-  div = document.createElement("div");
+  div = document.createElement('div');
   div.innerHTML = markup;
 });
 
-test("should return whether the parent has a child matching the given selector", () => {
-  expect(hasChild(div, ".blog-post-paragraph")).toBeTruthy();
-  expect(hasChild(div, ".not-existent")).toBeFalsy();
+test('should return whether the parent has a child matching the given selector', () => {
+  expect(hasChild(div, '.blog-post-paragraph')).toBeTruthy();
+  expect(hasChild(div, '.not-existent')).toBeFalsy();
 });

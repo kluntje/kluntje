@@ -1,20 +1,20 @@
-import { isEqual } from "../lib/isEqual";
+import { isEqual } from '../lib/isEqual';
 
 const obj1 = {
-  isEqual: true
+  isEqual: true,
 };
 const obj2 = {
-  isEqual: true
+  isEqual: true,
 };
 const obj3 = {
-  isEqual: false
+  isEqual: false,
 };
-const mystring = "yolo";
-const mystring2 = "yolo";
-const mystring3 = "yohlo";
-const mystring4 = "Yolo";
+const mystring = 'yolo';
+const mystring2 = 'yolo';
+const mystring3 = 'yohlo';
+const mystring4 = 'Yolo';
 
-test("should compare object arguments", () => {
+test('should compare object arguments', () => {
   expect(isEqual(obj1, obj2)).toBe(true);
   expect(isEqual(obj1, obj3)).toBe(false);
   expect(isEqual(mystring, mystring2)).toBe(true);

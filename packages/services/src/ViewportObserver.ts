@@ -1,12 +1,12 @@
 type IntersectionEvent = {
-  [key :string]: any;
+  [key: string]: any;
 };
 
 export class ViewportObserver {
   private static instance: IntersectionObserver;
 
-  private constructor() {
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
 
   static getInstance() {
     if (ViewportObserver.instance === undefined) {
@@ -22,8 +22,7 @@ export class ViewportObserver {
 
       if (observedEl.isIntersecting) {
         target.dispatchEvent(new CustomEvent('kl-in-vp'));
-      }
-      else {
+      } else {
         target.dispatchEvent(new CustomEvent('kl-out-vp'));
       }
     });

@@ -1,7 +1,8 @@
-import { removeAllBS } from "@kluntje/js-utils/lib/string-helpers";
-import { pushIfNew, hasElement } from "@kluntje/js-utils/lib/array-helpers";
-import { onEvent, MQDefinition, getCurrentMQ } from "@kluntje/js-utils/lib/dom-helpers";
-import { MediaQueryService } from "@kluntje/services";
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import { removeAllBS } from '@kluntje/js-utils/lib/string-helpers';
+import { pushIfNew, hasElement } from '@kluntje/js-utils/lib/array-helpers';
+import { onEvent, MQDefinition, getCurrentMQ } from '@kluntje/js-utils/lib/dom-helpers';
+import { MediaQueryService } from '@kluntje/services';
 
 type DecoratorEventDefinition<T> = {
   handler: keyof T;
@@ -42,13 +43,13 @@ export function uiElements(selector: string) {
   };
 }
 
-export function uiEvent<T>(elementName: keyof T | "window" | "this", eventName: string) {
+export function uiEvent<T>(elementName: keyof T | 'window' | 'this', eventName: string) {
   return function decorator(component: any, handlerName: string) {
     if (component.decoratedUiEls === undefined) component.decoratedUiEls = new Map();
 
     const curUiElement = component.decoratedUiEls.get(elementName);
 
-    if (curUiElement === undefined && (elementName === "window" || elementName === "this")) {
+    if (curUiElement === undefined && (elementName === 'window' || elementName === 'this')) {
       component.decoratedUiEls.set(elementName.toString(), {
         selector: elementName,
         justOne: true,
@@ -64,16 +65,15 @@ export function uiEvent<T>(elementName: keyof T | "window" | "this", eventName: 
   };
 }
 
-export function MQBasedRendered<T extends { new(...args: any[]): any }>(mediaQueries: Array<MQDefinition>) {
+export function MQBasedRendered<T extends { new (...args: any[]): any }>(mediaQueries: Array<MQDefinition>) {
   return function decorator(target: T): T {
     return class extends target {
-
       /**
        * gets active-on-mq attribute and parses MQ
        * @returns {string[] | false}
        */
       get activeOnMQs(): string[] | false {
-        const activeOnMQ = this.getAttribute("active-on-mq") || false;
+        const activeOnMQ = this.getAttribute('active-on-mq') || false;
 
         if (!activeOnMQ) {
           return false;
@@ -82,12 +82,12 @@ export function MQBasedRendered<T extends { new(...args: any[]): any }>(mediaQue
         let activeMQs: string[] = [];
 
         removeAllBS(activeOnMQ)
-          .split(",")
+          .split(',')
           .forEach((mqDef: string) => {
             if (mqDef.length === 1) {
               activeMQs = pushIfNew(activeMQs, `MQ${mqDef}`);
             } else if (mqDef.length > 1) {
-              const mqRange = mqDef.split("-");
+              const mqRange = mqDef.split('-');
               const mqRangeStart = parseInt(mqRange[0], 10);
               const mqRangeEnd = parseInt(mqRange[1], 10);
               for (let mq = mqRangeStart; mq <= mqRangeEnd; mq++) {
@@ -120,7 +120,7 @@ export function MQBasedRendered<T extends { new(...args: any[]): any }>(mediaQue
        * used for active-on-mq rendering
        * @param {CustomEvent} e
        */
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       handleMqChange(e: CustomEvent): void {
         if (!this.activeOnMQs) {
           return;
@@ -150,9 +150,9 @@ export function MQBasedRendered<T extends { new(...args: any[]): any }>(mediaQue
       connectedCallback(): void {
         MediaQueryService.getInstance(mediaQueries);
         // @ts-ignore
-        onEvent(window, "kl-mq-change", this.handleMqChange, this);
+        onEvent(window, 'kl-mq-change', this.handleMqChange, this);
         this.mqBasedConnect();
       }
-    }
-  }
+    };
+  };
 }

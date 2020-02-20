@@ -27,18 +27,20 @@ export class MediaQueryService {
   }
 
   @Throttle(100)
-  handleMQChange(e: any) {
+  handleMQChange() {
     const newMQ = getCurrentMQ(MediaQueryService.mediaQuerys);
     if (newMQ === this.lastMQ) {
       return;
     }
 
-    window.dispatchEvent(new CustomEvent('kl-mq-change', {
-      detail: {
-        newMQ,
-        oldMQ: this.lastMQ,
-      },
-    }));
+    window.dispatchEvent(
+      new CustomEvent('kl-mq-change', {
+        detail: {
+          newMQ,
+          oldMQ: this.lastMQ,
+        },
+      }),
+    );
 
     this.lastMQ = newMQ;
   }
