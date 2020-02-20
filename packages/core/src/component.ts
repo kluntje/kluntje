@@ -119,8 +119,8 @@ export class Component extends HTMLElement {
         });
       } else {
         const curEl = decoratorUiDef.justOne
-          ? find((this as unknown) as HTMLElement, decoratorUiDef.selector)
-          : findAll((this as unknown) as HTMLElement, decoratorUiDef.selector);
+          ? find((this.getUiRoot() as unknown) as HTMLElement, decoratorUiDef.selector)
+          : findAll((this.getUiRoot() as unknown) as HTMLElement, decoratorUiDef.selector);
         // @ts-ignore
         this[property] = curEl;
         decoratorUiDef.events.forEach(event => {
