@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { naiveClone, isEqual, getValue, toArray } from '@kluntje/js-utils/lib/object-helpers';
-import { mergeArraysBy, pushIfNew, hasElement } from '@kluntje/js-utils/lib/array-helpers';
+import { mergeArraysBy } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, removeEvent, waitForEvent, find, findAll } from '@kluntje/js-utils/lib/dom-helpers';
-import { removeAllBS } from '@kluntje/js-utils/lib/string-helpers';
 
-import { DecoratorUiDefinition } from "@kluntje/decorators";
+import { DecoratorUiDefinition } from "./decorators";
+
+export { uiElement, uiElements, uiEvent  } from "./decorators";
 
 type ComponentUiEl<T = any> = {
   [key in keyof T]: any;
@@ -118,8 +119,8 @@ export class Component extends HTMLElement {
         });
       } else {
         const curEl = decoratorUiDef.justOne
-          ? find((this as unknown) as HTMLElement, decoratorUiDef.selector)
-          : findAll((this as unknown) as HTMLElement, decoratorUiDef.selector);
+          ? find((this.getUiRoot() as unknown) as HTMLElement, decoratorUiDef.selector)
+          : findAll((this.getUiRoot() as unknown) as HTMLElement, decoratorUiDef.selector);
         // @ts-ignore
         this[property] = curEl;
         decoratorUiDef.events.forEach(event => {

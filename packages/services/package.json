@@ -1,21 +1,20 @@
 {
-  "name": "@kluntje/decorators",
+  "name": "@kluntje/services",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "license": "ISC",
-  "main": "decorators.js",
-  "module": "decorators.module.js",
-  "types": "decorators.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.module.js",
+  "types": "lib/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "decorators.js",
-    "decorators.d.ts"
+    "lib"
   ],
   "repository": "",
   "scripts": {
-    "build": "rimraf decorators*.js decorators.d.ts && rollup -c"
+    "build": "rimraf lib && rollup -c"
   }
 }
