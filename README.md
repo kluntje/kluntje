@@ -30,7 +30,7 @@ npm v *.*.*
 Get the project up and running is pretty straight forward:
 
 ```
-npm install kluntje
+npm install @kluntje/core
 ```
 
 And you are done.
