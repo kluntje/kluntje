@@ -67,7 +67,7 @@ In the constructor there is an object where you can define:
 #### Example
 
 ```
-import { Component } from "@kluntje/Core";
+import { Component } from "@kluntje/core";
 
 class IncrementInput extends Component {
     constructor() {
@@ -93,15 +93,15 @@ class IncrementInput extends Component {
   }
 
   afterComponentRender() {
-    this.ui.input.value = this.initialStates.value;
+    this.ui.input.value = this.state.value;
   }
   
   handleClick() {
-    this.setState({ value: this.ui.input.value++}); 
+    this.setState({ value: this.state.value + 1}); 
   }
   
-  handleIncrement() {
-    this.ui.input.value = this.state.value;
+  handleIncrement({value}) {
+    this.ui.input.value = value;
   }
 }
 
@@ -122,11 +122,6 @@ And our HTML will looks like:
 
 Please read [CONTRIBUTING.md](https://) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
