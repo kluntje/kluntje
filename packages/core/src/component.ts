@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { naiveClone, isEqual, getValue, toArray } from '@kluntje/js-utils/lib/object-helpers';
-import { mergeArraysBy, pushIfNew, hasElement } from '@kluntje/js-utils/lib/array-helpers';
+import { mergeArraysBy } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, removeEvent, waitForEvent, find, findAll } from '@kluntje/js-utils/lib/dom-helpers';
-import { removeAllBS } from '@kluntje/js-utils/lib/string-helpers';
 
-import { DecoratorUiDefinition } from "@kluntje/decorators";
+import { DecoratorUiDefinition } from "./decorators";
+
+export { uiElement, uiElements, uiEvent  } from "./decorators";
 
 type ComponentUiEl<T = any> = {
   [key in keyof T]: any;
