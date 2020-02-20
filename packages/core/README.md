@@ -40,7 +40,7 @@ And you are done.
 Import the Kluntje core component in your js file and you can start using it:
 
 ```
-import { Component } from "Core/Component";
+import { Component } from "@kluntje/Core";
 
 class MyAmazingComponent extends Component {
     
@@ -67,7 +67,7 @@ In the constructor there is an object where you can define:
 #### Example
 
 ```
-import { Component } from "Core/Component";
+import { Component } from "@kluntje/Core";
 
 class IncrementInput extends Component {
     constructor() {
