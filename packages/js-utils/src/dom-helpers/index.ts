@@ -16,3 +16,4 @@ export { getInnerText } from './lib/getInnerText';
 export { getParent } from './lib/getParent';
 export { waitFor } from './lib/waitFor';
 export { Context } from './lib/Context';
+export { waitForEvent } from './lib/waitForEvent';
