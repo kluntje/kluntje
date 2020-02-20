@@ -1,12 +1,11 @@
-
 /**
  * returns all children of a specific parent matching the given selector
- * @param {HTMLElement} parent
+ * @param {Element|Document} parent
  * @param {string} selector
- * @returns {NodeList}
+ * @returns {NodeListOf<Element>}
  */
-export const findAll = (parent: HTMLElement, selector: string): NodeList => {
-  if (parent.shadowRoot !== null && parent.shadowRoot !== undefined) {
+export const findAll = (parent: Element | Document, selector: string): NodeListOf<Element> => {
+  if (!(parent instanceof Document) && parent.shadowRoot !== null && parent.shadowRoot !== undefined) {
     return parent.shadowRoot.querySelectorAll(selector);
   }
   return parent.querySelectorAll(selector);

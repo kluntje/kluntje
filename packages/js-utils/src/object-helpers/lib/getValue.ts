@@ -1,22 +1,23 @@
 /**
- * returns nested value without throwning an error if the parent doesn't exist
- * @param {object} obj - object to be looked for value
- * @param {string} path - a string with dot separed levels: e.g "a.b"
+ * returns nested value without throwing an error if the parent doesn't exist
+ * @param {Object} obj - object to be looked for value
+ * @param {string} path - a string with dot separated levels: e.g "a.b"
  * @returns {*} - returned the found value or undefined
+ * @deprecated - use typescript's optional chaining feature instead
  *
  * @example
  *     const obj = {
  *       a: {
  *         b: {
  *           c: 1
-*          },
-*          d: true
-*        }
-*      };
+ *         },
+ *         d: true
+ *       }
+ *     };
  *     getValue(obj, "a.b") === {c: 1};
  *     getValue(obj, "a.f") === undefined;
  */
-export const getValue = (obj: object = {}, path: string = '') => {
+export const getValue = <T = any>(obj: Object = {}, path = ''): T | undefined => {
   const objPath = path.split('.');
   let level = 0;
   let resultObj: any = obj;

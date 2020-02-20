@@ -1,0 +1,24 @@
+{
+  "name": "@kluntje/services",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "lib/index.module.js",
+  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": "",
+  "scripts": {
+    "build": "rimraf lib && rollup -c"
+  },
+  "dependencies": {
+    "@kluntje/js-utils": "^0.1.0",
+    "lodash-decorators": "^6.0.1"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@kluntje/core",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
+  "license": "ISC",
+  "main": "lib/component.js",
+  "module": "lib/component.module.js",
+  "types": "lib/component.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": "",
+  "scripts": {
+    "build": "rimraf lib && rollup -c"
+  },
+  "dependencies": {
+    "@kluntje/js-utils": "^0.1.0",
+    "@kluntje/services": "^0.0.0"
+  }
+}

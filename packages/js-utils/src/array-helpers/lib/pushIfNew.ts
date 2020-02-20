@@ -1,4 +1,4 @@
-import { hasElement } from '..';
+import { hasElement } from '../../array-helpers';
 
 /**
  * pushes new Element to given array, if its not already in it
@@ -6,7 +6,7 @@ import { hasElement } from '..';
  * @param {any} newElement
  * @returns {Array<any>}
  */
-export const pushIfNew = (array: Array<any>, newElement: any): Array<any> => {
+export const pushIfNew = <T>(array: Array<T>, newElement: T): Array<T> => {
   if (!hasElement(array, newElement)) {
     array.push(newElement);
   }

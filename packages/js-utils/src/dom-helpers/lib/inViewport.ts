@@ -1,11 +1,11 @@
 
 /**
- * checks, whether a element is in the Viewport
- * @param {HTMLElement} element
- * @param {HTMLElement} parent
+ * checks, whether an element is in the viewport
+ * @param {Element} element
+ * @param {Element} parent
  * @returns {boolean}
  */
-export const inViewport = (element:HTMLElement, parent?: HTMLElement): boolean => {
+export const inViewport = (element: Element, parent?: Element): boolean => {
   const elPosition = element.getBoundingClientRect();
   let parentPosition = {
     top: 0,

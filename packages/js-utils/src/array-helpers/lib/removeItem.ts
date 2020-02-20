@@ -5,6 +5,6 @@
  * @param {any} itemToRemove
  * @returns {Array<any>}
  */
-export const removeItem = (array: Array<any>, itemToRemove: any): Array<any> => {
+export const removeItem = <T>(array: Array<T>, itemToRemove: T): Array<T> => {
   return array.filter(item => item !== itemToRemove);
 };

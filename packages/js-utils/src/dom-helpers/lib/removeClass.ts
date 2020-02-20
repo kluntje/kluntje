@@ -1,20 +1,23 @@
 
 /**
  * removes given class from element
- * @param {HTMLElement|NodeList} element
- * @param {string} className
+ * @param {Element|Iterable<Element>} elements
+ * @param {...string} classNames
  */
-export const removeClass = (elements:any, className:string): void => {
-  if (elements === undefined) {
+export const removeClass = (elements: Element | Iterable<Element> | NodeListOf<Element>, ...classNames: string[]): void => {
+  if (elements === undefined || classNames.length === 0) {
     return;
   }
 
-  if (elements.length === undefined) {
-    elements.classList.remove(className);
+  if (elements instanceof Element) {
+    elements = [elements];
   }
-  else {
-    elements.forEach((element: HTMLElement) => {
-      removeClass(element, className);
-    });
+
+  if (elements instanceof NodeList) {
+    elements = Array.from(elements);
+  }
+
+  for (const element of elements) {
+    element.classList.remove(...classNames);
   }
 };
