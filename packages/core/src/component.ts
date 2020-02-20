@@ -5,7 +5,7 @@ import { onEvent, removeEvent, waitForEvent, find, findAll } from '@kluntje/js-u
 
 import { DecoratorUiDefinition } from "./decorators";
 
-export { uiElement, uiElements, uiEvent  } from "./decorators";
+export { uiElement, uiElements, uiEvent, MQBasedRendered  } from "./decorators";
 
 type ComponentUiEl<T = any> = {
   [key in keyof T]: any;

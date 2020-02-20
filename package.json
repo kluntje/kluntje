@@ -7,7 +7,7 @@
     "build": "lerna run build",
     "test": "lerna run test",
     "bootstrap": "lerna bootstrap",
-    "add": "lerna add @kluntje/decorators --scope=test-pack"
+    "add": "lerna add @kluntje/services --scope=@kluntje/core"
   },
   "devDependencies": {
     "@types/jest": "25.1.2",
