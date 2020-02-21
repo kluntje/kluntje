@@ -1,7 +1,6 @@
-import {inViewport} from "..";
+import { inViewport } from '..';
 
-
-describe("Test inViewport helper:", () => {
+describe('Test inViewport helper:', () => {
   let parent: HTMLElement;
   let elementInsideViewport: HTMLElement;
   let elementOutsideViewport: HTMLElement;
@@ -11,30 +10,30 @@ describe("Test inViewport helper:", () => {
       top: 100,
       right: 0,
       bottom: 0,
-      left: 0
+      left: 0,
     },
     elementInside: {
       top: 200,
       right: 0,
       bottom: 0,
-      left: 100
+      left: 100,
     },
     elementOutside: {
       top: 0,
       right: 0,
       bottom: 0,
-      left: 100
-    }
-  }
+      left: 100,
+    },
+  };
 
   beforeEach(() => {
-    parent = document.createElement("div");
-    elementInsideViewport = document.createElement("div");
-    elementOutsideViewport = document.createElement("div");
+    parent = document.createElement('div');
+    elementInsideViewport = document.createElement('div');
+    elementOutsideViewport = document.createElement('div');
 
-    spyOn(parent, "getBoundingClientRect").and.returnValue(viewportValues.parent);
-    spyOn(elementInsideViewport, "getBoundingClientRect").and.returnValue(viewportValues.elementInside);
-    spyOn(elementOutsideViewport, "getBoundingClientRect").and.returnValue(viewportValues.elementOutside);
+    spyOn(parent, 'getBoundingClientRect').and.returnValue(viewportValues.parent);
+    spyOn(elementInsideViewport, 'getBoundingClientRect').and.returnValue(viewportValues.elementInside);
+    spyOn(elementOutsideViewport, 'getBoundingClientRect').and.returnValue(viewportValues.elementOutside);
   });
 
   afterEach(() => {
