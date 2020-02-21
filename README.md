@@ -9,7 +9,7 @@ Kluntje is the right tool if you want to use webcompoent with the feeling of a m
 *  It has states
 *  It has lifecycle hooks
 *  It has state reactions
-*  It is just XX.XX Kb
+*  It is < 3Kb
 
 ## Getting Started
 
