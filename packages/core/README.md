@@ -1,15 +1,20 @@
-# `Kluntje`
+<h1 align="center">Welcome to @kluntje/core 👋</h1>
+<p>
+  <a href="LICENSE.md" target="_blank">
+    <img alt="License: (Apache)" src="https://img.shields.io/badge/License-(Apache)-yellow.svg" />
+  </a>
+</p>
 
 Kluntje is a javascript object that brings webcomponents to the next level. Take a look and make webcomponents development a breeze.
 
-## Why Kluntje?
+## 🚀 Why Kluntje?
 
 Kluntje is the right tool if you want to use webcompoent with the feeling of a modern javascript framework. It suits good to CMS project and works with every JS framework.
 
 *  It has states
 *  It has lifecycle hooks
 *  It has state reactions
-*  It is just XX.XX Kb
+*  It is < 3Kb
 
 ## Getting Started
 
@@ -25,12 +30,12 @@ node v *.*.*
 npm v *.*.*
 ```
 
-### Installing
+## Install
 
 Get the project up and running is pretty straight forward:
 
-```
-npm install kluntje
+```sh
+npm install @kluntje/core
 ```
 
 And you are done.
@@ -39,7 +44,7 @@ And you are done.
 
 Import the Kluntje core component in your js file and you can start using it:
 
-```
+```javascript
 import { Component } from "@kluntje/Core";
 
 class MyAmazingComponent extends Component {
@@ -51,7 +56,7 @@ customElements.define("my-amazing-component", MyAmazingComponent);
 
 And use it in your HTML file:
 
-```
+```html
 <my-amazing-component></my-amazing-component>
 ```
 
@@ -66,8 +71,8 @@ In the constructor there is an object where you can define:
 
 #### Example
 
-```
-import { Component } from "@kluntje/Core";
+```javascript
+import { Component } from "@kluntje/core";
 
 class IncrementInput extends Component {
     constructor() {
@@ -93,15 +98,15 @@ class IncrementInput extends Component {
   }
 
   afterComponentRender() {
-    this.ui.input.value = this.initialStates.value;
+    this.ui.input.value = this.state.value;
   }
   
   handleClick() {
-    this.setState({ value: this.ui.input.value++}); 
+    this.setState({ value: this.state.value + 1}); 
   }
   
-  handleIncrement() {
-    this.ui.input.value = this.state.value;
+  handleIncrement({value}) {
+    this.ui.input.value = value;
   }
 }
 
@@ -110,7 +115,7 @@ customElements.define("increment-input", IncrementInput);
 
 And our HTML will looks like:
 
-```
+```html
 <increment-input>
     <input type="number" class="input"/>
     <button class="handle-increment">Increment</button>
@@ -122,12 +127,12 @@ And our HTML will looks like:
 
 Please read [CONTRIBUTING.md](https://) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Authors
+👤 **Frederik Riewerts <frederik.riewerts@gmail.com>**
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+## Show your support
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+Give a ⭐️ if this project helped you!
 
-## License
+## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details
