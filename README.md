@@ -75,7 +75,7 @@ In the constructor there is an object where you can define:
 import { Component } from "@kluntje/core";
 
 class IncrementInput extends Component {
-    constructor() {
+  constructor() {
     super({
       ui: {
         input: ".input"
