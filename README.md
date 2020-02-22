@@ -78,7 +78,7 @@ class IncrementInput extends Component {
   constructor() {
     super({
       ui: {
-        input: ".input"
+        input: "input",
         button: ".handle-increment",
       },
       events: [
@@ -117,7 +117,7 @@ And our HTML will looks like:
 
 ```html
 <increment-input>
-    <input type="number" class="input"/>
+    <input type="number" />
     <button class="handle-increment">Increment</button>
 </increment-input>
 
