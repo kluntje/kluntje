@@ -1,8 +1,9 @@
+const base = require('./jest.config.base.js');
+
 module.exports = {
-  "roots": [
-    "<rootDir>/src"
-  ],
-  "transform": {
-    "^.+\\.ts?$": "ts-jest"
+  ...base,
+  projects: ['<rootDir>/packages/*/jest.config.js'],
+  transform: {
+    '^.+\\test.ts?$': 'ts-jest',
   },
-}
+};
