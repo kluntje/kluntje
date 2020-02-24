@@ -10,7 +10,7 @@ import { Context } from './Context';
  * @param {Context} context
  */
 export const removeEvent = <T extends Event = Event>(
-  target: EventTarget,
+  target: EventTarget | null,
   events: string,
   handler: EventHandler<T>,
   context: Context,

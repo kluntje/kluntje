@@ -1,11 +1,11 @@
 
 /**
  * removes given class from element
- * @param {Element|Iterable<Element>} elements
+ * @param {Element | Iterable<Element> | NodeListOf<Element> | null} elements
  * @param {...string} classNames
  */
-export const removeClass = (elements: Element | Iterable<Element> | NodeListOf<Element>, ...classNames: string[]): void => {
-  if (elements === undefined || classNames.length === 0) {
+export const removeClass = (elements: Element | Iterable<Element> | NodeListOf<Element> | null, ...classNames: string[]): void => {
+  if (elements === undefined || classNames.length === 0 || elements === null) {
     return;
   }
 

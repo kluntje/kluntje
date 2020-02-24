@@ -13,7 +13,7 @@ export type EventHandler<T> = (e: T) => void;
  * @param {Context} context
  */
 export const onEvent = <T extends Event = Event>(
-  target: EventTarget,
+  target: EventTarget | null,
   events: string,
   handler: EventHandler<T>,
   context: Context,

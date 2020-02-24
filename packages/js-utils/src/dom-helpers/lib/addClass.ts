@@ -1,10 +1,10 @@
 /**
  * adds given classes to one or multiple elements
- * @param {Element | Iterable<Element>} elements
+ * @param {Element | Iterable<Element> | NodeListOf<Element> | null} elements
  * @param {...string} classNames
  */
-export const addClass = (elements: Element | Iterable<Element> | NodeListOf<Element>, ...classNames: string[]): void => {
-  if (elements === undefined || classNames.length === 0) {
+export const addClass = (elements: Element | Iterable<Element> | NodeListOf<Element> | null, ...classNames: string[]): void => {
+  if (elements === undefined || classNames.length === 0 || elements === null) {
     return;
   }
 
