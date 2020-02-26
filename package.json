@@ -10,17 +10,27 @@
     "bootstrap": "lerna bootstrap",
     "add": "lerna add @kluntje/services --scope=@kluntje/core",
     "eslint": "eslint \"**/*.ts\"",
-    "eslint:fix": "eslint \"**/*.ts\" --fix"
+    "eslint:fix": "eslint \"**/*.ts\" --fix",
+    "commit": "git-cz"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "node scripts/verify-commit-msg.js"
+    }
   },
   "devDependencies": {
     "@types/jest": "25.1.3",
     "@types/node": "13.7.6",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
+    "chalk": "^3.0.0",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
     "jest": "25.1.0",
     "lerna": "3.20.2",
     "prettier": "^1.19.1",
@@ -32,5 +42,10 @@
     "rollup": "^1.31.1",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
