@@ -15,8 +15,15 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "node scripts/verify-commit-msg.js"
+      "commit-msg": "node scripts/verify-commit-msg.js",
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "config": {
     "commitizen": {
