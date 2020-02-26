@@ -1,5 +1,4 @@
 import { toggleClass } from '../index';
-import * as domHelper from '..';
 
 describe('toggleClass tests:', () => {
   const textClassname = 'test-class';
