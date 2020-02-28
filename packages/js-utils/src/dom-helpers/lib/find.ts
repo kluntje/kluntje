@@ -1,11 +1,12 @@
 
 /**
  * returns the first child of a specific parent matching the given selector
- * @param {Element|Document} parent
+ * @param {Element | Document | null} parent
  * @param {string} selector
  * @returns {Element | null}
  */
-export const find = <T extends Element = Element>(parent: Element | Document, selector: string): T | null => {
+export const find = <T extends Element = HTMLElement>(parent: Element | Document | null, selector: string): T | null => {
+  if (parent === null) return null;
   if (!(parent instanceof Document) && parent.shadowRoot !== null && parent.shadowRoot !== undefined) {
     return parent.shadowRoot.querySelector<T>(selector);
   }

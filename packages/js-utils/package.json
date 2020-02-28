@@ -1,8 +1,13 @@
 {
   "name": "@kluntje/js-utils",
   "version": "0.1.0",
-  "description": "> TODO: description",
+  "description": "Collection of js helper functions",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
+  "contributors": [
+    "Alexander Häusler",
+    "Ingo Fahrentholz",
+    "Frederik Riewerts"
+  ],
   "license": "ISC",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

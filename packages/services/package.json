@@ -15,7 +15,8 @@
   ],
   "repository": "",
   "scripts": {
-    "build": "rimraf lib && rollup -c"
+    "build": "rimraf lib && rollup -c",
+    "test": "jest"
   },
   "dependencies": {
     "@kluntje/js-utils": "^0.1.0",
