@@ -6,8 +6,7 @@
   </a>
 </p>
 
-
-> > TODO: description 
+>> Kluntje/js-utils is a collection of really usefull js functions that can be imported in any project and speed up your daily javascript tasks.
 
 ## Install
 
