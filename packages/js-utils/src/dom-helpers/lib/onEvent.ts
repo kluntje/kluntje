@@ -7,14 +7,17 @@ export type EventHandler<T> = (e: T) => void;
 
 /**
  * adds event with given parameters
- * @param {HTMLElement|Iterable<HTMLElement>} target
- * @param {string} events
+ * @param {EventTarget | null} target
+ * @param {string | Array<string>} events
  * @param {Function} handler
  * @param {Context} context
+ * @example
+ * const buttons = findAll(document, 'button);
+ * onEvent(buttons, 'click', () => console.log('button clicked'), this);
  */
 export const onEvent = <T extends Event = Event>(
   target: EventTarget | null,
-  events: string,
+  events: string | Array<string>,
   handler: EventHandler<T>,
   context: Context,
 ) => {
@@ -29,17 +32,25 @@ export const onEvent = <T extends Event = Event>(
     for (const element of target) {
       onEvent(element, events, handler, context);
     }
-  } else {
-    const eventList = events.trim().split(' ');
-    eventList.forEach(event => {
-      const key = getKey(target, event, handler, context);
-      if (!context.eventBindingMap[key]) { // can't add two listeners with exact same arguments
-        const newFunc = handler.bind(context) as EventListener;
-        context.eventBindingMap[key] = newFunc;
-        return target.addEventListener(event.trim(), newFunc);
-      }
-    });
+    return;
   }
+
+  let eventList: Array<string>;
+
+  if (typeof events === 'string') {
+    eventList = events.trim().split(' ');
+  } else {
+    eventList = events;
+  }
+
+  eventList.forEach(event => {
+    const key = getKey(target, event, handler, context);
+    if (!context.eventBindingMap[key]) { // can't add two listeners with exact same arguments
+      const newFunc = handler.bind(context) as EventListener;
+      context.eventBindingMap[key] = newFunc;
+      return target.addEventListener(event.trim(), newFunc);
+    }
+  });
 };
 
 export function getKey<T extends Event = Event>(

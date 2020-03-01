@@ -6,16 +6,16 @@
  * @deprecated - use typescript's optional chaining feature instead
  *
  * @example
- *     const obj = {
- *       a: {
- *         b: {
- *           c: 1
- *         },
- *         d: true
- *       }
- *     };
- *     getValue(obj, "a.b") === {c: 1};
- *     getValue(obj, "a.f") === undefined;
+ * const obj = {
+ *   a: {
+ *     b: {
+ *       c: 1
+ *     },
+ *     d: true
+ *   }
+ * };
+ * getValue(obj, "a.b") === {c: 1};
+ * getValue(obj, "a.f") === undefined;
  */
 export const getValue = <T = any>(obj: Object = {}, path = ''): T | undefined => {
   const objPath = path.split('.');

@@ -2,9 +2,11 @@ import { toString } from './toString';
 
 /**
  * compare two arguments, for object their toString values are compared
- * @param {*} arg1
- * @param {*} arg2
+ * @param {T} arg1
+ * @param {T} arg2
  * @returns {boolean}
+ * @example
+ * if (!isEqual(oldState, newState)) console.log('state changed');
  */
 export const isEqual = <T>(arg1: T, arg2: T): boolean => {
   if (typeof arg1 !== typeof arg2) {

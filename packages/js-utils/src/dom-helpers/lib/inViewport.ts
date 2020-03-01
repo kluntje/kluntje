@@ -2,8 +2,11 @@
 /**
  * checks, whether an element is in the viewport
  * @param {Element} element
- * @param {Element} parent
+ * @param {Element} [parent]
  * @returns {boolean}
+ * @example
+ * const image = document.querySelector('image');
+ * if (inViewport(image)) image.setAttribute('src', image.dataset('src'));
  */
 export const inViewport = (element: Element, parent?: Element): boolean => {
   const elPosition = element.getBoundingClientRect();
