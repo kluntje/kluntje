@@ -15,8 +15,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && node scripts/jsdoc2md.js",
-      "commit-msg": "node scripts/verify-commit-msg.js && node scripts/jsdoc2md.js"
+      "pre-commit": "lint-staged",
+      "commit-msg": "node scripts/verify-commit-msg.js"
     }
   },
   "lint-staged": {
