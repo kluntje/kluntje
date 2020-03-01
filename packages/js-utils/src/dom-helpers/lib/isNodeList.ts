@@ -1,7 +1,7 @@
 
 /**
  * checks, if target is NodeList
- * @param {*} target
+ * @param {any} target
  * @returns {boolean}
  */
 export const isNodeList = (target: any): target is NodeListOf<Element> => {

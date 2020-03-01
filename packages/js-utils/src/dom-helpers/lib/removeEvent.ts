@@ -5,13 +5,16 @@ import { Context } from './Context';
 /**
  * removes event with given parameters
  * @param {HTMLElement|Iterable<HTMLElement>} target
- * @param {string} events
+ * @param {string | Array<string>} events
  * @param {Function} handler
  * @param {Context} context
+ * @example
+ * const buttons = findAll(document, 'button);
+ * removeEvent(buttons, 'click', () => console.log('button clicked'), this);
  */
 export const removeEvent = <T extends Event = Event>(
   target: EventTarget | null,
-  events: string,
+  events: string | Array<string>,
   handler: EventHandler<T>,
   context: Context,
 ) => {
@@ -26,15 +29,23 @@ export const removeEvent = <T extends Event = Event>(
     for (const element of target) {
       removeEvent(element, events, handler, context);
     }
-  } else {
-    const eventList = events.trim().split(' ');
-    eventList.forEach(event => {
-      const key = getKey(target, event, handler, context);
-      const newFunc = context.eventBindingMap[key];
-      if (newFunc) { // can't add two listeners with exact same arguments
-        delete context.eventBindingMap[key];
-        target.removeEventListener(event, newFunc);
-      }
-    });
+    return;
   }
+
+  let eventList: Array<string>;
+
+  if (typeof events === 'string') {
+    eventList = events.trim().split(' ');
+  } else {
+    eventList = events;
+  }
+
+  eventList.forEach(event => {
+    const key = getKey(target, event, handler, context);
+    const newFunc = context.eventBindingMap[key];
+    if (newFunc) { // can't add two listeners with exact same arguments
+      delete context.eventBindingMap[key];
+      target.removeEventListener(event, newFunc);
+    }
+  });
 };

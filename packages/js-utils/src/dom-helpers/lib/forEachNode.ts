@@ -3,12 +3,16 @@ import { Context } from "./Context";
 /**
  * iterates over all nodes in a node list
  * (necessary because IE11 doesn't support .forEach  * for NodeLists)
- * @param {*} target
- * @returns {boolean}
+ * @param {NodeListOf<T>} nodeList
+ * @param {(node: Node, index: number) => any} callback
+ * @param {Context} [context]
+ * @example
+ * const buttons = document.querySelectorAll('button');
+ * forEachNode(buttons, (button, idx) => addClass(button, `my-button--${idx}`))
  */
 export const forEachNode = <T extends Element = Element>(
   nodeList: NodeListOf<T>,
-  callback: (node: Node, index: number) => any,
+  callback: (node: T, index: number) => any,
   context?: Context
 ): void => {
   for (let i = 0; i < nodeList.length; i++) {

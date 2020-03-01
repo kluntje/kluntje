@@ -4,9 +4,12 @@ import { removeClass } from "./removeClass";
 
 /**
  * toggles given class on given element
- * @param {Element | Iterable<Element> | NodeListOf<Element>} elements
+ * @param {Element | Iterable<Element> | NodeListOf<Element> | null} elements
  * @param {string} className
  * @param {boolean} add
+ * @example
+ * const button = find(document, 'button');
+ * onEvent(button, 'click', () => toggleClass(button, 'active'), this);
  */
 export const toggleClass = (elements: Element | Iterable<Element> | NodeListOf<Element> | null, className: string, add?: boolean): void => {
   if (elements === undefined || elements === null) {

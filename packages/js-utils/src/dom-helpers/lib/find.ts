@@ -4,6 +4,8 @@
  * @param {Element | Document | null} parent
  * @param {string} selector
  * @returns {Element | null}
+ * @example
+ * const input = find(document, 'input');
  */
 export const find = <T extends Element = HTMLElement>(parent: Element | Document | null, selector: string): T | null => {
   if (parent === null) return null;

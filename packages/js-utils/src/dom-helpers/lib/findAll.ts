@@ -2,7 +2,9 @@
  * returns all children of a specific parent matching the given selector
  * @param {Element | Document | null} parent
  * @param {string} selector
- * @returns {NodeListOf<Element>}
+ * @returns {Array<Element>}
+ * @example
+ * const inputs = findAll(document, 'input');
  */
 export const findAll = <T extends Element = HTMLElement>(parent: Element | Document | null, selector: string): Array<T> => {
   if (parent === null) return [];
