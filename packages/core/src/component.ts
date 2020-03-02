@@ -8,7 +8,7 @@ import { decoratedProps, DEFAULT_PROP_DECORATOR_OPTIONS, propDefinitionKeys } fr
 import type { PropDefinition, PropCastTypes } from './decorators/prop';
 import { toKebabCase } from '@kluntje/js-utils/lib/string-helpers';
 
-export { uiElement, uiElements, uiEvent, MQBasedRendered, prop } from './decorators';
+export { uiElement, uiElements, uiEvent, MQBasedRendered, prop, tag } from './decorators';
 
 type ComponentUiEl<T = any> = {
   [key in keyof T]: any;
