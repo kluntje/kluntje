@@ -16,6 +16,7 @@ module.exports = {
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/ban-ts-ignore': 'off',
+    "@typescript-eslint/no-non-null-assertion": "off",
     'valid-jsdoc': 'off',
   },
   overrides: [
