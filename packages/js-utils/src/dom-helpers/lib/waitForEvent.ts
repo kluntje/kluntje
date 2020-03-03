@@ -12,7 +12,7 @@
  * await waitForEvent(button, 'transitionend', 500);
  * removeClass(button, 'animate');
  */
-export const waitForEvent = async (target: HTMLElement, eventName: string, timeout?: number): Promise<void> => {
+export const waitForEvent = (target: HTMLElement, eventName: string, timeout?: number): Promise<void> => {
   return new Promise(resolve => {
     if (timeout !== undefined) {
       setTimeout(() => resolve(), timeout);
