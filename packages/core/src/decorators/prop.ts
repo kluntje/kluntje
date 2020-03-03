@@ -12,7 +12,7 @@ export type PropCastTypes = 'string' | 'boolean' | 'number' | 'object';
 /**
  * options that can be passed to the `@prop()` decorator
  */
-export type PropDefinition = {
+export type PropDefinition<T = any> = {
   /**
    * when reading from attribute, the value should be casted to this type before storing as property.
    * Default behavior is string
@@ -29,7 +29,7 @@ export type PropDefinition = {
   /**
    * list of components methods, method name which should be called when the attribute/property is changed
    */
-  reactions?: Array<string | Function> | null;
+  reactions?: Array<keyof T | Function> | null;
   /**
    * call the reactions when during initialization of the component the attribute is present in the markup
    */

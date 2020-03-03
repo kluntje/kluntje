@@ -28,6 +28,10 @@ type ComponentReactions<T = any> = {
   [key: string]: Array<Function | keyof T>;
 };
 
+type ComponentProps<T> = {
+  [key: string]: PropDefinition<T>;
+};
+
 export type ComponentArgs = {
   ui?: ComponentUiEl;
   events?: ComponentEvent[];
@@ -59,9 +63,7 @@ export class Component extends HTMLElement {
   [decoratedProps]?: Record<string, PropDefinition>;
 
   // stores prop definition passed in the constructor options or as decorators
-  props: {
-    [key: string]: PropDefinition;
-  };
+  props: ComponentProps<this>;
 
   eventBindingMap: {
     [index: string]: EventListenerOrEventListenerObject;
@@ -111,7 +113,7 @@ export class Component extends HTMLElement {
     this.addReactions(reactions);
 
     this.mergeEvents(events);
-    this.props = this.normalizeProps({ ...props, ...(this[decoratedProps] || null) });
+    this.props = this.normalizeProps({ ...(this[decoratedProps] || null), ...props });
   }
 
   enableDecoratedProperties() {
@@ -499,17 +501,17 @@ export class Component extends HTMLElement {
     const invokePropReactions = (attributeName: string) => {
       const [propName, prop] = propsWithReactions.find(([, prop]) => prop.attributeName === attributeName)!;
 
-      prop.reactions!.forEach((cb: string | Function) => {
-        if (typeof cb === 'function') {
+      prop.reactions!.forEach((reaction) => {
+        if (typeof reaction === 'function') {
           // bind context to the component instance
           // @ts-ignore - accessor for the property have been added
-          cb.call(this, this[propName]);
+          reaction.call(this, this[propName]);
           // @ts-ignore -
-        } else if (typeof cb === 'string' && cb in this && typeof this[cb] === 'function') {
+        } else if (typeof reaction === 'string' && reaction in this && typeof this[reaction] === 'function') {
           // @ts-ignore -
-          this[cb](this[propName]);
+          this[reaction](this[propName]);
         } else {
-          console.error('unknown given reaction callback: ', cb);
+          console.error('unknown given reaction callback: ', reaction);
         }
       });
     };
