@@ -2,11 +2,12 @@
 import { naiveClone, isEqual, getValue, toArray } from '@kluntje/js-utils/lib/object-helpers';
 import { mergeArraysBy } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, removeEvent, waitForEvent, find, findAll } from '@kluntje/js-utils/lib/dom-helpers';
+import { toKebabCase } from '@kluntje/js-utils/lib/string-helpers';
 
 import { DecoratorUiDefinition } from './decorators';
 import { decoratedProps, DEFAULT_PROP_DECORATOR_OPTIONS, propDefinitionKeys } from './decorators/prop';
+// eslint-disable-next-line prettier/prettier
 import type { PropDefinition, PropCastTypes } from './decorators/prop';
-import { toKebabCase } from '@kluntje/js-utils/lib/string-helpers';
 
 export { uiElement, uiElements, uiEvent, MQBasedRendered, prop, tag } from './decorators';
 
