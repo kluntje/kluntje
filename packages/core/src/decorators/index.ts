@@ -4,6 +4,10 @@ import { pushIfNew, hasElement } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, MQDefinition, getCurrentMQ } from '@kluntje/js-utils/lib/dom-helpers';
 import { MediaQueryService } from '@kluntje/services';
 
+export { default as prop } from './prop';
+export { default as tag } from './tag';
+export type { PropDefinition, PropCastTypes } from './prop';
+
 type DecoratorEventDefinition<T> = {
   handler: keyof T;
   eventName: string;

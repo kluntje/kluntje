@@ -4,8 +4,11 @@ import { mergeArraysBy } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, removeEvent, waitForEvent, find, findAll } from '@kluntje/js-utils/lib/dom-helpers';
 
 import { DecoratorUiDefinition } from './decorators';
+import { decoratedProps, DEFAULT_PROP_DECORATOR_OPTIONS, propDefinitionKeys } from './decorators/prop';
+import type { PropDefinition, PropCastTypes } from './decorators/prop';
+import { toKebabCase } from '@kluntje/js-utils/lib/string-helpers';
 
-export { uiElement, uiElements, uiEvent, MQBasedRendered } from './decorators';
+export { uiElement, uiElements, uiEvent, MQBasedRendered, prop, tag } from './decorators';
 
 type ComponentUiEl<T = any> = {
   [key in keyof T]: any;
@@ -25,11 +28,16 @@ type ComponentReactions<T = any> = {
   [key: string]: Array<Function | keyof T>;
 };
 
+type ComponentProps<T> = {
+  [key: string]: PropDefinition<T>;
+};
+
 export type ComponentArgs = {
   ui?: ComponentUiEl;
   events?: ComponentEvent[];
   initialStates?: ComponentStates;
   reactions?: ComponentReactions;
+  props?: Record<string, undefined | null | string | boolean | number | object | PropDefinition>;
   useShadowDOM?: boolean;
   preserveChilds?: boolean;
   asyncRendering?: boolean;
@@ -52,6 +60,11 @@ export class Component extends HTMLElement {
 
   eventIdMap: WeakMap<HTMLElement | Function, string>;
 
+  [decoratedProps]?: Record<string, PropDefinition>;
+
+  // stores prop definition passed in the constructor options or as decorators
+  props: ComponentProps<this>;
+
   eventBindingMap: {
     [index: string]: EventListenerOrEventListenerObject;
   };
@@ -65,6 +78,7 @@ export class Component extends HTMLElement {
     events = [],
     initialStates = {},
     reactions = {},
+    props = {},
     useShadowDOM = false,
     preserveChilds = false,
     asyncRendering = false,
@@ -99,6 +113,7 @@ export class Component extends HTMLElement {
     this.addReactions(reactions);
 
     this.mergeEvents(events);
+    this.props = this.normalizeProps({ ...(this[decoratedProps] || null), ...props });
   }
 
   enableDecoratedProperties() {
@@ -242,6 +257,7 @@ export class Component extends HTMLElement {
     }
     this.setupComponentProps();
     this.afterComponentRender();
+    this.checkForMissingAttributes();
     this.setState({ initialized: true });
   }
 
@@ -252,6 +268,7 @@ export class Component extends HTMLElement {
     this.enableDecoratedProperties();
     this.generateUI();
     this.generateEvents();
+    this.initializeProps();
   }
 
   /**
@@ -351,6 +368,231 @@ export class Component extends HTMLElement {
         }
       }
     });
+  }
+
+  /**
+   * add property accessor and attribute change reactions
+   *
+   * @param {Record<string, any>} initializationProps
+   * @returns {{
+   *     [key: string]: PropDefinition;
+   *   }}
+   * @memberof Component
+   */
+  protected initializeProps(): void {
+    // should be called after the constructor when props are defined in subclass as class properties
+    this.addDefaultValueAndType(this.props);
+    this.addPropAccessors(this.props);
+    this.addPropsReactions(this.props);
+  }
+
+  /**
+   * normalize props having prop definition or default values,
+   *
+   * @protected
+   * @param {Record<string, any>} initializationProps
+   * @returns {{ [key: string]: PropDefinition }}
+   * @memberof Component
+   */
+  protected normalizeProps(initializationProps: Record<string, any>): { [key: string]: PropDefinition } {
+    const props: {
+      [key: string]: PropDefinition;
+    } = {};
+
+    // convert different types of props (propDef objects, or only the default value) to type `PropDefinition`
+    Object.entries(initializationProps).forEach(([propName, value]: [string, any]) => {
+      // if prop value is an object which has only the typeDefinition keys, assume it is meant as typeDef
+      const isDefProp =
+        typeof value === 'object' &&
+        value !== null &&
+        Object.keys(value).length &&
+        Object.keys(value).every(key => propDefinitionKeys.includes(key));
+
+      const prop: PropDefinition = isDefProp ? value : { defaultValue: value };
+
+      prop.attributeName = prop.attributeName || toKebabCase(propName);
+
+      props[propName] = {
+        ...DEFAULT_PROP_DECORATOR_OPTIONS,
+        ...prop,
+      };
+    });
+
+    return props;
+  }
+
+  /**
+   * fallback to the class properties value and types if props does not have a default value or type
+   *
+   * @protected
+   * @param {{ [key: string]: PropDefinition }} props
+   * @memberof Component
+   */
+  protected addDefaultValueAndType(props: { [key: string]: PropDefinition }): void {
+    Object.entries(props).forEach(([propName, prop]: [string, any]) => {
+      //@ts-ignore - prop is part of the class or will be set after the props initialization
+      prop.defaultValue = prop.hasOwnProperty('defaultValue') ? prop.defaultValue : this[propName];
+      //@ts-ignore - assuming user won't use any non supported type, in any case switch statement has a default type in the casting for that
+      prop.type =
+        prop.type ||
+        (prop.defaultValue !== null && prop.defaultValue !== undefined ? typeof prop.defaultValue : 'string');
+    });
+  }
+
+  /**
+   * provide setter and getter for the given properties
+   * to read and write value from the associated attribute
+   *
+   * @protected
+   * @param {{ [key: string]: PropDefinition }} props
+   * @returns {void}
+   * @memberof Component
+   */
+  protected addPropAccessors(props: { [key: string]: PropDefinition }): void {
+    for (const [propName, prop] of Object.entries(props)) {
+      Object.defineProperty(this, propName, {
+        enumerable: false,
+        configurable: true,
+
+        // add property accessors
+        set(value: any) {
+          if (typeof value === 'undefined' || value === null) {
+            this.removeAttribute(prop.attributeName);
+          } else if (prop.type === 'boolean') {
+            // boolean attributes have no value. they only exist on the element: `<comp class="..."  attr />`
+            if (value) this.setAttribute(prop.attributeName, '');
+            else this.removeAttribute(prop.attributeName);
+          } else if (prop.type === 'object') {
+            this.setAttribute(prop.attributeName, JSON.stringify(value));
+          }
+          // string | number
+          else {
+            this.setAttribute(prop.attributeName, String(value));
+          }
+        },
+
+        get() {
+          const attributeValue = this.getAttribute(prop.attributeName);
+
+          return attributeValue === null && prop.defaultValue !== undefined
+            ? prop.defaultValue
+            : this.castFromAttribute(attributeValue, prop.type);
+        },
+      });
+    }
+  }
+
+  /**
+   * for props having reactions, add observer to call these reactions when the attribute is modified.
+   *
+   * @protected
+   * @param {{ [key: string]: PropDefinition }} props
+   * @returns {void}
+   * @memberof Component
+   */
+  protected addPropsReactions(props: { [key: string]: PropDefinition }): void {
+    const propsWithReactions = Object.entries(props).filter(
+      ([, prop]) => Array.isArray(prop.reactions) && prop.reactions.length,
+    );
+
+    // no reactions
+    if (propsWithReactions.length === 0) return;
+
+    const invokePropReactions = (attributeName: string) => {
+      const [propName, prop] = propsWithReactions.find(([, prop]) => prop.attributeName === attributeName)!;
+
+      prop.reactions!.forEach((reaction) => {
+        if (typeof reaction === 'function') {
+          // bind context to the component instance
+          // @ts-ignore - accessor for the property have been added
+          reaction.call(this, this[propName]);
+          // @ts-ignore -
+        } else if (typeof reaction === 'string' && reaction in this && typeof this[reaction] === 'function') {
+          // @ts-ignore -
+          this[reaction](this[propName]);
+        } else {
+          console.error('unknown given reaction callback: ', reaction);
+        }
+      });
+    };
+
+    // Options for attributes mutation observer
+    const config: MutationObserverInit = {
+      attributes: true,
+      attributeFilter: propsWithReactions.map(([, prop]) => prop.attributeName!),
+      attributeOldValue: true,
+    };
+    // Create an observer instance and call the attributeChangedCallback on mutation
+    const observer = new MutationObserver((mutationsList: MutationRecord[]) => {
+      for (const mutation of mutationsList) {
+        const oldValue = mutation.oldValue;
+        const newValue = this.getAttribute(mutation.attributeName!);
+        // attribute was re-set with the same value. No reaction needed
+        if (newValue === oldValue) return;
+
+        invokePropReactions(mutation.attributeName!);
+      }
+    });
+    observer.observe(this, config);
+
+    // call onInit reactions
+    propsWithReactions
+      .filter(([, prop]) => prop.reactOnInit)
+      .forEach(([, prop]) => invokePropReactions(prop.attributeName!));
+  }
+
+  /**
+   * warn if the component is missing some necessary attributes
+   *
+   * @protected
+   * @memberof Component
+   */
+  protected checkForMissingAttributes(): void {
+    const missingAttrs = [];
+
+    for (const prop of Object.values(this.props)) {
+      if (prop.required && !this.hasAttribute(prop.attributeName!)) {
+        missingAttrs.push(prop.attributeName);
+      }
+    }
+
+    if (missingAttrs.length)
+      console.log(`${this.tagName.toLowerCase()} is missing required attribute(s): ${missingAttrs.join(', ')}`);
+  }
+
+  /**
+   * converts the value read from attribute to the given type.
+   *
+   * @example
+   *  castFromAttribute("12", "number") === 12;
+   * @protected
+   * @param {(string | null)} attributeValue
+   * @param {PropCastTypes} [type='string']
+   * @returns {(boolean | number | Record<string, unknown> | null | string)}
+   * @throws {TypeError} - when type is object and the value can't be JSON parsed.
+   * @memberof Component
+   */
+  protected castFromAttribute(
+    attributeValue: string | null,
+    type: PropCastTypes = 'string',
+  ): boolean | number | Record<string, unknown> | null | string {
+    switch (type) {
+      case 'boolean':
+        // "" (empty string), "false" as the attribute value are all accepted as true
+        return attributeValue !== null;
+
+      case 'number':
+        // undefined, null will be interpreted as `NaN` and not `0`.
+        return parseFloat(String(attributeValue));
+
+      case 'object':
+        return JSON.parse(String(attributeValue));
+
+      // string
+      default:
+        // will return `null` when attributeValue is null and not an empty string (`""`)
+        return attributeValue;
+    }
   }
 
   /* ====================================================
