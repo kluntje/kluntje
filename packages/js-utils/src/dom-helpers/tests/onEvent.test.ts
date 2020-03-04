@@ -7,7 +7,8 @@ describe('onEvent tests:', () => {
     eventBindingMap: {
       [index: string]: EventListenerOrEventListenerObject;
     } = {};
-    eventIdMap = new Map();
+    eventIdMap: WeakMap<HTMLElement | Function, string> = new WeakMap();
+
     mockHandler() {
       jest.fn();
     }
@@ -119,11 +120,10 @@ describe('onEvent tests:', () => {
   describe('event administration tests:', () => {
     describe('no target element', () => {
       test('should not add new objects for target, handler and context to eventIdMap', () => {
-        expect(mockContext.eventIdMap.size).toBe(0);
         onEvent(null, 'click', mockContext.mockHandler, mockContext);
         expect(mockContext.eventIdMap.has(mockContext.mockHandler)).toBe(false);
+        // @ts-ignore
         expect(mockContext.eventIdMap.has(mockContext)).toBe(false);
-        expect(mockContext.eventIdMap.size).toBe(0);
       });
 
       test('should not add new event-binding to eventBindingMap in Context', () => {
@@ -135,21 +135,19 @@ describe('onEvent tests:', () => {
 
     describe('single target element', () => {
       test('should add new objects for target, handler and context to eventIdMap', () => {
-        expect(mockContext.eventIdMap.size).toBe(0);
         onEvent(mockTarget, 'click', mockContext.mockHandler, mockContext);
         expect(mockContext.eventIdMap.has(mockTarget)).toBe(true);
         expect(mockContext.eventIdMap.has(mockContext.mockHandler)).toBe(true);
+        // @ts-ignore
         expect(mockContext.eventIdMap.has(mockContext)).toBe(true);
-        expect(mockContext.eventIdMap.size).toBe(3);
       });
 
       test('should not add multiple new objects for the same target, handler and context to eventIdMap, if multiple events are provided', () => {
-        expect(mockContext.eventIdMap.size).toBe(0);
         onEvent(mockTarget, 'click touchstart touchend', mockContext.mockHandler, mockContext);
         expect(mockContext.eventIdMap.has(mockTarget)).toBe(true);
         expect(mockContext.eventIdMap.has(mockContext.mockHandler)).toBe(true);
+        // @ts-ignore
         expect(mockContext.eventIdMap.has(mockContext)).toBe(true);
-        expect(mockContext.eventIdMap.size).toBe(3);
       });
 
       test('should add new event-binding to eventBindingMap in Context', () => {
@@ -174,21 +172,19 @@ describe('onEvent tests:', () => {
 
     describe('multiple target elements', () => {
       test('should add new objects for all targets, handler and context to eventIdMap', () => {
-        expect(mockContext.eventIdMap.size).toBe(0);
         onEvent(mockTargets, 'click', mockContext.mockHandler, mockContext);
         mockTargets.forEach(curTarget => expect(mockContext.eventIdMap.has(curTarget)).toBe(true));
         expect(mockContext.eventIdMap.has(mockContext.mockHandler)).toBe(true);
+        // @ts-ignore
         expect(mockContext.eventIdMap.has(mockContext)).toBe(true);
-        expect(mockContext.eventIdMap.size).toBe(2 + 5);
       });
 
       test('should not add multiple new objects for the same target, handler and context to eventIdMap, if multiple events are provided', () => {
-        expect(mockContext.eventIdMap.size).toBe(0);
         onEvent(mockTargets, 'click touchstart touchend', mockContext.mockHandler, mockContext);
         mockTargets.forEach(curTarget => expect(mockContext.eventIdMap.has(curTarget)).toBe(true));
         expect(mockContext.eventIdMap.has(mockContext.mockHandler)).toBe(true);
+        // @ts-ignore
         expect(mockContext.eventIdMap.has(mockContext)).toBe(true);
-        expect(mockContext.eventIdMap.size).toBe(2 + 5);
       });
 
       test('should add new event-binding for each target to eventBindingMap in Context', () => {
