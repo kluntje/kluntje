@@ -9,5 +9,8 @@
  * toCamelCase("some other text") === "someOtherText";
  */
 export function toCamelCase(str: string) {
-  return str.toLowerCase().replace(/(-+|\s+)[a-z]/g, txt => txt.toUpperCase()).replace(/(-|\s)+/g, "")
+  return str
+    .toLowerCase()
+    .replace(/(-+|\s+)[a-z]/g, txt => txt.toUpperCase())
+    .replace(/(-|\s)+/g, '');
 }
