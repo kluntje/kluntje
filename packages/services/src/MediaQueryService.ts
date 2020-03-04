@@ -1,5 +1,4 @@
-import { Throttle } from 'lodash-decorators';
-
+import { throttle } from '@kluntje/js-utils/lib/function-helpers';
 import { onEvent, getCurrentMQ, MQDefinition } from '@kluntje/js-utils/lib/dom-helpers';
 
 export class MediaQueryService {
@@ -26,8 +25,7 @@ export class MediaQueryService {
     return MediaQueryService.instance;
   }
 
-  @Throttle(100)
-  handleMQChange() {
+  handleMQChange = throttle(() => {
     const newMQ = getCurrentMQ(MediaQueryService.mediaQuerys);
     if (newMQ === this.lastMQ) {
       return;
@@ -43,5 +41,5 @@ export class MediaQueryService {
     );
 
     this.lastMQ = newMQ;
-  }
+  }, 100);
 }
