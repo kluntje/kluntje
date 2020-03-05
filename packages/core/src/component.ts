@@ -215,8 +215,8 @@ export class Component extends HTMLElement {
 
     if (template instanceof HTMLTemplateElement) {
       this.getUiRoot().appendChild(template.content.cloneNode(true));
-    } else if (this.shadowRoot) {
-      this.shadowRoot.innerHTML = template;
+    } else if (this.useShadowDOM) {
+      this.shadowRoot!.innerHTML = template;
     }
     else {
       this.insertAdjacentHTML('beforeend', template);
