@@ -40,7 +40,7 @@ export type ComponentArgs = {
   reactions?: ComponentReactions;
   props?: Record<string, undefined | null | string | boolean | number | object | PropDefinition>;
   useShadowDOM?: boolean;
-  preserveChilds?: boolean;
+  preserveChildren?: boolean;
   asyncRendering?: boolean;
 };
 
@@ -53,7 +53,7 @@ export class Component extends HTMLElement {
 
   useShadowDOM: boolean;
 
-  preserveChilds: boolean;
+  preserveChildren: boolean;
 
   asyncRendering: boolean;
 
@@ -81,7 +81,7 @@ export class Component extends HTMLElement {
     reactions = {},
     props = {},
     useShadowDOM = false,
-    preserveChilds = false,
+    preserveChildren = false,
     asyncRendering = false,
   }: ComponentArgs = {}) {
     super();
@@ -95,7 +95,7 @@ export class Component extends HTMLElement {
       initialized: ['onComponentInitialized'],
     };
     this.useShadowDOM = useShadowDOM;
-    this.preserveChilds = preserveChilds;
+    this.preserveChildren = preserveChildren;
     this.asyncRendering = asyncRendering;
     this.eventIdMap = new WeakMap();
     this.eventBindingMap = {};
@@ -178,9 +178,9 @@ export class Component extends HTMLElement {
 
   /**
    * Overrideable rendering Template getter
-   * @returns {string | null} rendering template for component
+   * @returns {string | null | HTMLTemplateElement} rendering template for component
    */
-  renderingTemplate(): string | null {
+  renderingTemplate(): string | null | HTMLTemplateElement {
     return null;
   }
 
@@ -208,13 +208,15 @@ export class Component extends HTMLElement {
 
   /**
    * renders Component inner Markup
-   * @param {string} template
+   * @param {string | HTMLTemplateElement} template
    */
-  render(template: string): void {
-    if (this.preserveChilds) {
-      this.getUiRoot().innerHTML += template;
+  render(template: string | HTMLTemplateElement): void {
+    if (!this.preserveChildren) this.getUiRoot().innerHTML = '';
+
+    if (template instanceof HTMLTemplateElement) {
+      this.getUiRoot().appendChild(template.content.cloneNode(true));
     } else {
-      this.getUiRoot().innerHTML = template;
+      this.insertAdjacentHTML('beforeend', template);
     }
   }
 
