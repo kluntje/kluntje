@@ -146,7 +146,7 @@ And our HTML will looks like:
 
 # API
 
-Since kluntje is based on the (Custom Elements)[https://developers.google.com/web/fundamentals/web-components/customelements] standard, our API extends the Custom Elements API.
+Since kluntje is based on the [Custom Elements](https://developers.google.com/web/fundamentals/web-components/customelements) standard, our API extends the Custom Elements API.
 
 
 ## Contructor Object
