@@ -16,6 +16,33 @@ Kluntje is the right tool if you want to use webcompoent with the feeling of a m
 - It has state reactions
 - It is < 3Kb
 
+## Table of Contents
+
+  - [Getting Started](#getting-started)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [How our component looks like](#how-our-component-looks-like)
+    - [Example](#example)
+- [API](#api)
+  - [Contructor Object](#contructor-object)
+    - [ui](#ui)
+    - [events](#events)
+    - [initialStates](#initialstates)
+    - [reactions](#reactions)
+    - [props](#props)
+    - [useShadowDOM](#useshadowdom)
+    - [asyncRendering](#asyncrendering)
+  - [Decorators](#decorators)
+    - [@uiElement](#uielement)
+    - [@uiElements](#uielements)
+    - [@uiEvents](#uievents)
+    - [@prop](#prop)
+    - [@tag](#tag)
+  - [Contributing](#contributing)
+  - [Show your support](#show-your-support)
+  - [📝 License](#📝-license)
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development purposes.
@@ -275,7 +302,7 @@ customElements.define('fancy-dropdown', FancyDorpdown);
 <fancy-dropdown requird select-options="[0.33, 0.5]"></fancy-dropdown>
 ```
 
-#### Custom types
+#### custom types
 
 Currently there is only build-in casting for these types: `string | boolean | number | object`. But you can simply extend with your own types. e.g.:
 
