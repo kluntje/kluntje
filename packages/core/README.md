@@ -103,6 +103,12 @@ class IncrementInput extends Component {
           handler: "handleClick",
         },
       ],
+      props: {
+        steps: {
+          type: "number",
+          defaultValue: 1,
+        }
+      }
       initialStates: {
         value: 0,
       },
@@ -117,7 +123,7 @@ class IncrementInput extends Component {
   }
 
   handleClick() {
-    this.setState({ value: this.state.value + 1});
+    this.setState({ value: this.state.value + this.props.steps});
   }
 
   handleIncrement({value}) {
@@ -159,7 +165,7 @@ customElements.define('increment-input', IncrementInput);
 And our HTML will looks like:
 
 ```html
-<increment-input>
+<increment-input steps="5">
   <input type="number" class="input" />
   <button class="handle-increment">Increment</button>
 </increment-input>
