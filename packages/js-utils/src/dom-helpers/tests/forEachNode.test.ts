@@ -8,6 +8,7 @@ const mockCallback = jest.fn((item, index) => {
 
 const mockClass = {
   eventBindingMap: {},
+  eventIdMap: new WeakMap(),
   mockCallback,
 };
 
