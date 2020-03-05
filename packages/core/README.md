@@ -5,17 +5,6 @@
   </a>
 </p>
 
-Kluntje is a javascript object that brings webcomponents to the next level. Take a look and make webcomponents development a breeze.
-
-## 🚀 Why Kluntje?
-
-Kluntje is the right tool if you want to use webcompoent with the feeling of a modern javascript framework. It suits good to CMS project and works with every JS framework.
-
-- It has states
-- It has lifecycle hooks
-- It has state reactions
-- It is < 3Kb
-
 ## Table of Contents
 
   - [Getting Started](#getting-started)

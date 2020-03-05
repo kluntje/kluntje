@@ -1,16 +1,17 @@
-<h1 align="center">Welcome to @kluntje/core 👋</h1>
+<h1 align="center">Welcome to kluntje👋</h1>
 <p>
   <a href="LICENSE.md" target="_blank">
     <img alt="License: (Apache)" src="https://img.shields.io/badge/License-(Apache)-yellow.svg" />
   </a>
 </p>
 
-Kluntje is a javascript object that brings webcomponents to the next level. Take a look and make webcomponents development a breeze.
+Kluntje is a javascript library that brings webcomponents to the next level. Take a look and make webcomponents development a breeze.
 
 ## 🚀 Why Kluntje?
 
 Kluntje is the right tool if you want to use webcompoent with the feeling of a modern javascript framework. It suits good to CMS project and works with every JS framework.
 
+*  It can hydrate existing (server-side rendered) markup and does not require to render client-side (although it can)
 *  It has states
 *  It has lifecycle hooks
 *  It has state reactions
