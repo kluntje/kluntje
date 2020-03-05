@@ -20,15 +20,6 @@ Kluntje is the right tool if you want to use webcompoent with the feeling of a m
 
 These instructions will get you a copy of the project up and running on your local machine for development purposes. 
 
-### Prerequisites
-
-```
-node v *.*.*
-```
-
-```
-npm v *.*.*
-```
 
 ## Install
 
