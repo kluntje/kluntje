@@ -1,7 +1,7 @@
 <h1 align="center">Welcome to @kluntje/core 👋</h1>
 <p>
   <a href="LICENSE.md" target="_blank">
-    <img alt="License: (Apache)" src="https://img.shields.io/badge/License-(Apache)-yellow.svg" />
+    <img alt="License: (Apache)" src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" />
   </a>
 </p>
 
