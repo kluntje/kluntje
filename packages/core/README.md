@@ -144,6 +144,118 @@ And our HTML will looks like:
 
 ```
 
+# API
+
+Since kluntje is based on the (Custom Elements)[https://developers.google.com/web/fundamentals/web-components/customelements] standard, our API extends the Custom Elements API.
+
+
+## Contructor Object
+
+One way to add functionality to your component is to add a configuration-object to the Component-constructor (see first example). It is possible to add the following keys:
+
+### ui
+Object containing key-value-string-pairs, mapping ui-elements from the component-dom to a key of the class property ui (e.g. this.ui.input)
+
+```javascript
+constructor() {
+  super({
+    ui: {
+      inputs: "input", // all elements matching given selector
+      button: ".submit-btn :-one", // first element matching given selector (.submit-btn)
+    },
+    // ...
+  })
+}
+```
+
+### events
+Array of event-definition-objects, mapping events to class-methods  
+
+```javascript
+constructor() {
+  super({
+    events: [
+      {
+        event: "click",
+        target: "button",
+        handler: "onFormSubmit",
+      },
+      {
+        event: "focusin",
+        target: "inputs",
+        handler: "handleFocusChange",
+      },
+    ],
+    // ...
+  })
+}
+```
+
+### initialStates
+Object to set initial values of states. States can later be changed via setState-method (e.g. this.setState({ value: 2 })). The current state can always be retrieved via this.state
+
+```javascript
+constructor() {
+  super({
+    initialStates: {
+      isValid: false,
+    },
+    // ...
+  })
+}
+```
+
+### reactions
+Object to define how to react to a state-change. The key defines the state to subscribe to, the value should be a string-array of class-methods to call on state-change  
+
+```javascript
+constructor() {
+  super({
+    reactions: {
+      isValid: ["onValidChange"],
+    },
+    // ...
+  })
+}
+```
+
+### useShadowDOM
+Boolean flag indicating, whether to use Shadow-DOM (defaults to false)
+
+### asyncRendering
+Boolean flag indicating, whether to use asyncRender method. Important for async ui-initialization
+
+
+## Decorators
+Another way to add functionality to your component is to use decorators (see second example).
+
+
+### @uiElement
+Binds first ui-element matching the given selector to the decorated property
+
+```javascript
+@uiElement(".handle-increment")
+button: HTMLButtonElement;
+```
+
+### @uiElements
+Binds all ui-elements matching the given selector to the decorated property
+
+```javascript
+@uiElements("input")
+inputs: Array<HTMLInputElement>;
+```
+
+### @uiEvents
+Binds given event of given uiElement(s) to the decorated method
+
+```javascript
+@uiEvent("button", "click")
+handleClick() {
+  console.log("button clicked!")
+}
+```
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://) for details on our code of conduct, and the process for submitting pull requests to us.
