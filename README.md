@@ -60,7 +60,7 @@ In the constructor there is an object where you can define:
 *  initialStates: an object where we can define the states of out component
 *  reactions: an array of callbacks that we can call when a state updates.
 
-For further documentatation see (here)[https://github.com/kluntje/kluntje/tree/master/packages/core]
+For further documentatation see [here](https://github.com/kluntje/kluntje/tree/master/packages/core).
 
 #### Example
 
