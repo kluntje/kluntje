@@ -35,7 +35,7 @@ Kluntje is the right tool if you want to use webcompoent with the feeling of a m
   - [Decorators](#decorators)
     - [@uiElement](#uielement)
     - [@uiElements](#uielements)
-    - [@uiEvents](#uievents)
+    - [@uiEvent](#uievent)
     - [@prop](#prop)
     - [@tag](#tag)
   - [Contributing](#contributing)
@@ -368,7 +368,7 @@ Binds all ui-elements matching the given selector to the decorated property
 inputs: Array<HTMLInputElement>;
 ```
 
-### @uiEvents
+### @uiEvent
 
 Binds given event of given uiElement(s) to the decorated method
 
