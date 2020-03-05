@@ -104,6 +104,37 @@ class IncrementInput extends Component {
 customElements.define("increment-input", IncrementInput);
 ```
 
+You can also use decorators to query elements, define props and bind events. Using decorators, our increment-input component could look like this:
+
+```javascript
+import { Component, uiElement, uiEvent, prop } from "@kluntje/core";
+
+class IncrementInput extends Component {
+
+  @uiElement("input")
+  input: HTMLInputElement;
+
+  @uiElement(".handle-increment")
+  button: HTMLButtonElement;
+
+  @prop({ defaultValue: 0, reactions: ["handleIncrement"], reactOnInit: true })
+  incrementValue: number;
+
+
+  @uiEvent("button", "click")
+  handleClick() {
+    this.incrementValue += 1;
+  }
+
+  handleIncrement() {
+    this.input.value = this.incrementValue.toString();
+  }
+}
+
+customElements.define("increment-input", IncrementInput);
+```
+
+
 And our HTML will looks like:
 
 ```html
