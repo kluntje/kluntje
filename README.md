@@ -1,9 +1,13 @@
 <h1 align="center">Welcome to kluntje👋</h1>
 <p>
-  <a href="LICENSE.md" target="_blank">
-    <img alt="License: (Apache)" src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" />
+  <a href="LICENSE.md" target="_blank" style="margin: 0 5px">
+    <img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" />
+  </a>
+  <a href="http://commitizen.github.io/cz-cli/" target="_blank" style="margin: 0 5px">
+    <img alt="Commitizen friendly" src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" />
   </a>
 </p>
+
 
 Kluntje is a javascript library that brings webcomponents to the next level. Take a look and make webcomponents development a breeze.
 
