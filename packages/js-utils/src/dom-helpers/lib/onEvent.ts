@@ -28,7 +28,7 @@ export const onEvent = <T extends Event = Event>(
     return;
   }
 
-  if (isIterable<HTMLElement>(target)) {
+  if (isIterable<HTMLElement>(target) && !(target instanceof HTMLElement)) {
     for (const element of target) {
       onEvent(element, events, handler, context);
     }

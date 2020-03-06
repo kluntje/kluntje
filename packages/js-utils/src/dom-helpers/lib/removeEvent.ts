@@ -25,7 +25,7 @@ export const removeEvent = <T extends Event = Event>(
     return;
   }
 
-  if (isIterable(target)) {
+  if (isIterable<HTMLElement>(target) && !(target instanceof HTMLElement)) {
     for (const element of target) {
       removeEvent(element, events, handler, context);
     }
