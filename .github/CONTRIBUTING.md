@@ -6,6 +6,70 @@ Hey! First of all, We would like to thank you for contributing to kluntje. Befor
 - [Pull Request Guidelines](#pull-request-guidelines)
 - [Commit Messages](#commit-messages)
 
+## Setup your local develop environment
+
+### Correct Node/npm version
+
+Check that you have the correct node version installed. You can either use [nvm](https://github.com/nvm-sh/nvm) to switch to/ install the version specified to in `.nvmrc` or manually install the correct version.
+
+### Project bootstrapping
+
+Install all required dependencies in project root
+
+```bash
+$ npm install
+```
+
+Bootstrap the project and setup
+
+```bash
+$ npm run bootstrap
+```
+
+Finally run your first build
+
+```bash
+$ npm run build
+```
+
+### Develop
+
+You can than go ahead and apply your changes. Please follow the advice give in our [Pull Request Guidelines](#pull-request-guidelines).
+
+### Commiting
+
+When you are done build the project once
+
+```bash
+$ npm run build
+```
+
+And run all tests
+
+```bash
+$ npm run test
+```
+
+#### Documentation
+
+We strongly suggest to document your code at least with proper [JSDoc](https://github.com/jsdoc/jsdoc) annotations.
+The following script will parse your source for `JSDoc` annotations and automatically add your changes to the documentation.
+
+```bash
+$ node ./scripts/jsdoc2md.js
+```
+
+Once everything is done conclude your development task with a commit
+
+```bash
+$ npm run commit
+```
+
+This will take you through a step by step guide and you will be required to fill out all questions (see [Commit Messages](#commit-messages)).
+
+Next steps would be to push to origin and create a pull request.
+
+
 ## Pull Request Guidelines
 
 - The `master` branch is just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
