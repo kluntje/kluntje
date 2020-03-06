@@ -20,7 +20,7 @@ Install all required dependencies in project root
 $ npm install
 ```
 
-Bootstrap the project and setup
+Bootstrap the project
 
 ```bash
 $ npm run bootstrap
@@ -34,7 +34,7 @@ $ npm run build
 
 ### Develop
 
-You can than go ahead and apply your changes. Please follow the advice give in our [Pull Request Guidelines](#pull-request-guidelines).
+You can than go ahead and apply your changes. Please follow the advice given in our [Pull Request Guidelines](#pull-request-guidelines).
 
 ### Commiting
 
