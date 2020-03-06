@@ -44,6 +44,13 @@ npm install @kuntje/js-utils
 <dt><a href="#isEqualDate">isEqualDate</a> ⇒ <code>boolean</code></dt>
 <dd><p>Checks whether given dates are equal</p>
 </dd>
+<dt><a href="#sanitizeDateGMTOffset">sanitizeDateGMTOffset</a> ⇒ <code>string</code></dt>
+<dd><p>Helper to make date parsing cross browser compatible
+Some browsers (e.g. Safari) need the GMT offset part to be in format &quot;+00:00&quot;
+This helper makes sure that any present GMT offset follows that format and can safely be parsed:
+Date.parse(&quot;2020-01-01T12:13:14.000+0200&quot;) // throws error in Safari
+Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p>
+</dd>
 <dt><a href="#addClass">addClass</a></dt>
 <dd><p>adds given classes to one or multiple elements</p>
 </dd>
@@ -132,8 +139,22 @@ npm install @kuntje/js-utils
 <dl>
 <dt><a href="#callback">callback(node, index)</a> ⇒</dt>
 <dd></dd>
+<dt><a href="#debounce">debounce(callback, [wait])</a> ⇒ <code>function</code></dt>
+<dd><p>returns a debounced function which when called multiple of times each time it waits the waiting duration
+and if the method was not called during this time, the last call will be passed to the callback.</p>
+</dd>
+<dt><a href="#throttle">throttle(callback, [wait])</a> ⇒ <code>function</code></dt>
+<dd><p>returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
+call <code>.cancel()</code> on the returned function, to cancel the callback invokation.</p>
+</dd>
 <dt><a href="#naiveClone">naiveClone(arg)</a> ⇒ <code>Nullable.&lt;T&gt;</code> | <code>Array.&lt;T&gt;</code></dt>
 <dd><p>returns a deep link of the provided argument</p>
+</dd>
+<dt><a href="#toCamelCase">toCamelCase(str)</a> ⇒ <code>string</code></dt>
+<dd><p>function to convert texts to camelCase for example ti generate attribute names</p>
+</dd>
+<dt><a href="#toKebabCase">toKebabCase(str)</a> ⇒ <code>string</code></dt>
+<dd><p>converts the provided string to a kebab case (kebab-case)</p>
 </dd>
 </dl>
 
@@ -359,6 +380,26 @@ Checks whether given dates are equal
 const dateA = new Date(2020, 1, 29, 22, 30);
 const dateB = new Date(2020, 1, 29, 18, 20);
 isEqualDate(dateA. dateB); // true
+```
+<a name="sanitizeDateGMTOffset"></a>
+
+## sanitizeDateGMTOffset ⇒ <code>string</code>
+Helper to make date parsing cross browser compatible
+Some browsers (e.g. Safari) need the GMT offset part to be in format "+00:00"
+This helper makes sure that any present GMT offset follows that format and can safely be parsed:
+Date.parse("2020-01-01T12:13:14.000+0200") // throws error in Safari
+Date.parse("2020-01-01T12:13:14.000+02:00") // succes
+
+**Kind**: global constant  
+**Returns**: <code>string</code> - correctly formatted date  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>string</code> | date string to be sanitized for parsing |
+
+**Example**  
+```js
+sanitizeDateGMTOffset("2020-01-01T12:13:14.000+0200") // "2020-01-01T12:13:14.000+02:00"
 ```
 <a name="addClass"></a>
 
@@ -847,6 +888,57 @@ removeMultiBS('Hello My      World'); // Hello My World
 | node | <code>Node</code> | 
 | index | <code>Number</code> | 
 
+<a name="debounce"></a>
+
+## debounce(callback, [wait]) ⇒ <code>function</code>
+returns a debounced function which when called multiple of times each time it waits the waiting duration
+and if the method was not called during this time, the last call will be passed to the callback.
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| callback | <code>function</code> |  | function to be caled after the last wait period |
+| [wait] | <code>number</code> | <code>0</code> | waiting period in ms before the callback is invoked if during this time the debounced method was not called |
+
+**Example**  
+```js
+const debounced = debounce(console.log, 500);
+  debonced("Hi");
+  debonced("Hello");
+  debonced("Hey");
+  if (neverMind) debonced.cancel;
+  // logs only "Hey"
+
+
+  // or instead of decorator on class methods
+  Class Component {
+    constructor() {
+         window.addEventListener("resize", this.resizeHandler);
+    }
+
+    resizeHandler = throttle(event => {
+      // event handlers logic
+    }, 100);
+  }
+```
+<a name="throttle"></a>
+
+## throttle(callback, [wait]) ⇒ <code>function</code>
+returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
+call `.cancel()` on the returned function, to cancel the callback invokation.
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| callback | <code>function</code> |  | function to be caled after the last wait period |
+| [wait] | <code>number</code> | <code>0</code> | waiting period in ms before the callback is invoked if during this time the debounced method was not called |
+
+**Example**  
+```js
+window.addEventListener("resize", throttle(updateSlider, 100));
+```
 <a name="naiveClone"></a>
 
 ## naiveClone(arg) ⇒ <code>Nullable.&lt;T&gt;</code> \| <code>Array.&lt;T&gt;</code>
@@ -861,6 +953,37 @@ returns a deep link of the provided argument
 **Example**  
 ```js
 const state = naiveClone(initialState);
+```
+<a name="toCamelCase"></a>
+
+## toCamelCase(str) ⇒ <code>string</code>
+function to convert texts to camelCase for example ti generate attribute names
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>string</code> | sequence of letters, dashes and spaces to be converted to camelCase |
+
+**Example**  
+```js
+toCamelCase("some-text") === "someText";
+toCamelCase("some other text") === "someOtherText";
+```
+<a name="toKebabCase"></a>
+
+## toKebabCase(str) ⇒ <code>string</code>
+converts the provided string to a kebab case (kebab-case)
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
+
+**Example**  
+```js
+toKebabCase("keyValuePair") === "key-value-pair"
 ```
 <a name="callback"></a>
 
