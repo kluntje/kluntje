@@ -49,7 +49,7 @@ Appears under "Features" header, `core` subheader:
 feat(core): add 'props' option to constructor args
 ```
 
-Appears under "Bug Fixes" header, `v-model` subheader, with a link to issue #28:
+Appears under "Bug Fixes" header, `js-utils` subheader, with a link to issue #28:
 
 ```
 fix(js-utils): fix ie11 issue with addClass
