@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "Collection of useful services, when creating kluntje-components",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
-  "license": "ISC",
+  "contributors": [
+    "Frederik Riewerts",
+    "Bert-Ulrich Baumann"
+  ],
+  "license": "Apache-2.0",
   "main": "lib/index.js",
   "module": "lib/index.module.js",
   "types": "lib/index.d.ts",
@@ -13,7 +17,7 @@
   "files": [
     "lib"
   ],
-  "repository": "",
+  "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/services",
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "test": "jest"
