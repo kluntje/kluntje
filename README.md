@@ -149,7 +149,7 @@ And our HTML will looks like:
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/kluntje/kluntje/blob/master/.github/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 👤 **Frederik Riewerts <frederik.riewerts@gmail.com>**
 
