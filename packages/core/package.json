@@ -23,7 +23,7 @@
     "build": "rimraf lib && rollup -c"
   },
   "dependencies": {
-    "@kluntje/js-utils": "^0.1.0",
-    "@kluntje/services": "^0.0.0"
+    "@kluntje/js-utils": "^0.0.1",
+    "@kluntje/services": "^0.0.1"
   }
 }
