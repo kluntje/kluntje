@@ -9,11 +9,11 @@
 </p>
 
 
-Kluntje is a javascript library that brings webcomponents to the next level. Take a look and make webcomponents development a breeze.
+Kluntje is a javascript library that brings web components to the next level. Take a look and make web components development a breeze.
 
 ## 🚀 Why Kluntje?
 
-Kluntje is the right tool if you want to use webcomponents with the feeling of a modern javascript framework. It fits well to CMS projects and works with every JS framework.
+Kluntje is the right tool if you want to use web components with the feeling of a modern javascript framework. It fits well to CMS projects and works with every JS framework.
 
 *  It can hydrate existing (ie. server-side rendered) markup and does not require to render client-side (although it can)
 *  It does not force you to use shadow-dom (but you can)
