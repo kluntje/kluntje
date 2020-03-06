@@ -2,7 +2,7 @@
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
-    <img alt="License: ISC" src="https://img.shields.io/badge/License-ISC-yellow.svg" />
+    <img alt="License: (Apache)" src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" />
   </a>
 </p>
 
