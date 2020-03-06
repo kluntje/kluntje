@@ -1,7 +1,7 @@
 {
   "name": "@kluntje/services",
-  "version": "0.0.0",
-  "description": "> TODO: description",
+  "version": "0.0.1",
+  "description": "Collection of useful services, when creating kluntje-components",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "license": "ISC",
   "main": "lib/index.js",
