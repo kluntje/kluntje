@@ -6,9 +6,10 @@
   "contributors": [
     "Alexander Häusler",
     "Ingo Fahrentholz",
-    "Frederik Riewerts"
+    "Frederik Riewerts",
+    "Bert-Ulrich Baumann"
   ],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "publishConfig": {
@@ -17,7 +18,7 @@
   "files": [
     "lib"
   ],
-  "repository": "",
+  "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/js-utils",
   "scripts": {
     "build": "rimraf lib && tsc",
     "test": "jest"

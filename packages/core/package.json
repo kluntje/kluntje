@@ -6,9 +6,10 @@
   "contributors": [
     "Alexander Häusler",
     "Samuele Calamita",
-    "Frederik Riewerts"
+    "Frederik Riewerts",
+    "Bert-Ulrich Baumann"
   ],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "main": "lib/component.js",
   "module": "lib/component.module.js",
   "types": "lib/component.d.ts",
@@ -18,7 +19,7 @@
   "files": [
     "lib"
   ],
-  "repository": "",
+  "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/core",
   "scripts": {
     "build": "rimraf lib && rollup -c"
   },
