@@ -10,8 +10,9 @@
   - [Getting Started](#getting-started)
   - [Install](#install)
   - [Usage](#usage)
-    - [How our component looks like](#how-our-component-looks-like)
-    - [Example](#example)
+    - [Examples](#examples)
+      - [Constructor Object Example](#constructor-object-example)
+      - [Decorator Example](#decorator-example)
 - [API](#api)
   - [Contructor Object](#contructor-object)
     - [ui](#ui)
@@ -64,16 +65,10 @@ And use it in your HTML file:
 <my-amazing-component></my-amazing-component>
 ```
 
-### How our component looks like
+### Examples
 
-In the constructor there is an object where you can define:
-
-- ui: selector for dom elements with every CSS selector
-- events: an array of objects where you can define the event, the target and the handler function.
-- initialStates: an object where we can define the states of out component
-- reactions: an array of callbacks that we can call when a state updates.
-
-#### Example
+#### Constructor Object Example
+To add all kinds kluntje-features, you can also provide a constructor object.
 
 ```javascript
 import { Component } from "@kluntje/core";
@@ -122,6 +117,8 @@ class IncrementInput extends Component {
 
 customElements.define("increment-input", IncrementInput);
 ```
+
+#### Decorator Example
 
 You can also use decorators to query elements, define props and bind events. Using decorators, our increment-input component could look like this:
 

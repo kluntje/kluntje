@@ -12,9 +12,9 @@ Kluntje is a javascript library that brings webcomponents to the next level. Tak
 Kluntje is the right tool if you want to use webcompoent with the feeling of a modern javascript framework. It suits good to CMS project and works with every JS framework.
 
 *  It can hydrate existing (server-side rendered) markup and does not require to render client-side (although it can)
-*  It has states
-*  It has lifecycle hooks
-*  It has state reactions
+*  It does not force you to use shadow-dom (but you can)
+*  It has states and customizable state-reactions
+*  It adds helpful lifecycle hooks
 *  It is < 3Kb
 
 ## Getting Started
@@ -52,16 +52,15 @@ And use it in your HTML file:
 <my-amazing-component></my-amazing-component>
 ```
 
-### How our component looks like
+### How our components looks like
 
-In the constructor there is an object where you can define:
+Klutje-Components are defined as classes which extend from our core-component. Functionality can be in multiple ways:
 
-*  ui: selector for dom elements with every CSS selector
-*  events: an array of objects where you can define the event, the target and the handler function.
-*  initialStates: an object where we can define the states of out component
-*  reactions: an array of callbacks that we can call when a state updates.
+*  of course you can always add properties and methods to your class 
+*  you can also provide a constructor object to add all kinds features
+*  additionally you can use a set of decorators to easily connect to DOM-Elements, attributes etc.
 
-For further documentatation see [here](https://github.com/kluntje/kluntje/tree/master/packages/core).
+For further documentatation see [core](https://github.com/kluntje/kluntje/tree/master/packages/core), [services](https://github.com/kluntje/kluntje/tree/master/packages/services) and [js-utils](https://github.com/kluntje/kluntje/tree/master/packages/js-utils).
 
 #### Example
 
