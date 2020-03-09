@@ -1,4 +1,4 @@
-import { throttle } from '@kluntje/js-utils/lib/function-helpers';
+import { throttle } from '@kluntje/js-utils/lib/function-helpers/lib/decorators';
 import { onEvent, getCurrentMQ, MQDefinition } from '@kluntje/js-utils/lib/dom-helpers';
 
 export class MediaQueryService {
@@ -25,7 +25,8 @@ export class MediaQueryService {
     return MediaQueryService.instance;
   }
 
-  handleMQChange = throttle(() => {
+  @throttle(100)
+  handleMQChange() {
     const newMQ = getCurrentMQ(MediaQueryService.mediaQuerys);
     if (newMQ === this.lastMQ) {
       return;
@@ -41,5 +42,5 @@ export class MediaQueryService {
     );
 
     this.lastMQ = newMQ;
-  }, 100);
+  }
 }

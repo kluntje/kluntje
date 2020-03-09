@@ -2,7 +2,7 @@
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
-    <img alt="License: (Apache)" src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" />
+    <img alt="License: ISC" src="https://img.shields.io/badge/License-ISC-yellow.svg" />
   </a>
 </p>
 
@@ -143,9 +143,13 @@ Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p>
 <dd><p>returns a debounced function which when called multiple of times each time it waits the waiting duration
 and if the method was not called during this time, the last call will be passed to the callback.</p>
 </dd>
+<dt><a href="#decoratorGenerator">decoratorGenerator(func)</a> ⇒ <code>function</code></dt>
+<dd><p>generates a decorator factory for the provided helper function.
+helper function should have this signature: <code>(Function, ...args: any[]) =&gt; Function</code></p>
+</dd>
 <dt><a href="#throttle">throttle(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
-call <code>.cancel()</code> on the returned function, to cancel the callback invokation.</p>
+call <code>.cancel()</code> on the returned function, to cancel the callback invocation.</p>
 </dd>
 <dt><a href="#naiveClone">naiveClone(arg)</a> ⇒ <code>Nullable.&lt;T&gt;</code> | <code>Array.&lt;T&gt;</code></dt>
 <dd><p>returns a deep link of the provided argument</p>
@@ -181,13 +185,11 @@ Calls API and returns JSON as Promise
 
 **Example**  
 ```js
-// use with async/await
-const myApiResponse = await fetchJSON("https://some.api/path")
+// use with async/awaitconst myApiResponse = await fetchJSON("https://some.api/path")
 ```
 **Example**  
 ```js
-// use as normal promise
-fetchJSON("https://some.api/path").then((data) => console.log("myData:", data));
+// use as normal promisefetchJSON("https://some.api/path").then((data) => console.log("myData:", data));
 ```
 <a name="hasElement"></a>
 
@@ -203,11 +205,7 @@ checks, if element is in given array
 
 **Example**  
 ```js
-const fruits = ["Banana", "Orange", "Apple", "Mango"];
-
-if (hasElement(fruits, "Apple")) {
-  console.log("You got an Apple");
-}
+const fruits = ["Banana", "Orange", "Apple", "Mango"];if (hasElement(fruits, "Apple")) {  console.log("You got an Apple");}
 ```
 <a name="isFilledArray"></a>
 
@@ -222,12 +220,7 @@ checks, whether given Array exists and has at least one element
 
 **Example**  
 ```js
-const myBooks = await fetchJSON("https://my-book-store.api/books");
-if (isFilledArray(myBooks)) {
-  console.log(`${myBooks.length} Books found!`)
-} else {
-  console.log("Sorry, no Books found");
-}
+const myBooks = await fetchJSON("https://my-book-store.api/books");if (isFilledArray(myBooks)) {  console.log(`${myBooks.length} Books found!`)} else {  console.log("Sorry, no Books found");}
 ```
 <a name="mergeArraysBy"></a>
 
@@ -244,55 +237,7 @@ merge two given arrays by the given checker function
 
 **Example**  
 ```js
-const defaultUsers = [
-  {
-    name: "Admin",
-    mail: "admin@company.com"
-  },
-  {
-    name: "CI",
-    mail: "ci@company.com"
-  }
-];
-
-const projectUsers = [
-  {
-    name: "Admin",
-    mail: "admin@company.com"
-  },
-  {
-    name: "User1",
-    mail: "user-one@company.com"
-  },
-  {
-    name: "User2",
-    mail: "user-two@company.com"
-  }
-];
-
-const userList = mergeArraysBy(defaultUsers, projectUsers, (defaultUser, array) => {
-  return !array.some((projectUser) => projectUser.mail === defaultUser.mail)
-})
-
-// userList
-// [
-//   {
-//     "name": "CI",
-//     "mail": "ci@company.com"
-//   },
-//   {
-//     "name": "Admin",
-//     "mail": "admin@company.com"
-//   },
-//   {
-//     "name": "User1",
-//     "mail": "user-one@company.com"
-//   },
-//   {
-//     "name": "User2",
-//     "mail": "user-two@company.com"
-//   }
-// ]
+const defaultUsers = [  {    name: "Admin",    mail: "admin@company.com"  },  {    name: "CI",    mail: "ci@company.com"  }];const projectUsers = [  {    name: "Admin",    mail: "admin@company.com"  },  {    name: "User1",    mail: "user-one@company.com"  },  {    name: "User2",    mail: "user-two@company.com"  }];const userList = mergeArraysBy(defaultUsers, projectUsers, (defaultUser, array) => {  return !array.some((projectUser) => projectUser.mail === defaultUser.mail)})// userList// [//   {//     "name": "CI",//     "mail": "ci@company.com"//   },//   {//     "name": "Admin",//     "mail": "admin@company.com"//   },//   {//     "name": "User1",//     "mail": "user-one@company.com"//   },//   {//     "name": "User2",//     "mail": "user-two@company.com"//   }// ]
 ```
 <a name="pushIfNew"></a>
 
@@ -308,9 +253,7 @@ pushes new Element to given array, if its not already in it
 
 **Example**  
 ```js
-const fruitStore = ["Banana", "Orange", "Apple", "Mango"];
-const newFruit = getInputValue(...)
-const newFruitStore = pushIfNew(fruitStore, newFruit);
+const fruitStore = ["Banana", "Orange", "Apple", "Mango"];const newFruit = getInputValue(...)const newFruitStore = pushIfNew(fruitStore, newFruit);
 ```
 <a name="removeItem"></a>
 
@@ -326,8 +269,7 @@ removes specific Item from array and return new array
 
 **Example**  
 ```js
-const fruitStore = ["Banana", "Orange", "Apple", "Mango"];
-const newFruitStore = removeItem(fruitStore, "Apple"); // ["Banana", "Orange", "Mango"]
+const fruitStore = ["Banana", "Orange", "Apple", "Mango"];const newFruitStore = removeItem(fruitStore, "Apple"); // ["Banana", "Orange", "Mango"]
 ```
 <a name="addDays"></a>
 
@@ -344,8 +286,7 @@ Adds given amount of days to given date
 
 **Example**  
 ```js
-const today = new Date();
-const tomorrow = addDays(today, 2);
+const today = new Date();const tomorrow = addDays(today, 2);
 ```
 <a name="addLeadingZero"></a>
 
@@ -360,8 +301,7 @@ Optionally Adds leading Zero to Numbers < 10
 
 **Example**  
 ```js
-const today = new Date();
-const formattedDateSting = `${addLeadingZero(today.getDate())}.${addLeadingZero(today.getMonth() + 1)}.${today.getFullYear()}`;
+const today = new Date();const formattedDateSting = `${addLeadingZero(today.getDate())}.${addLeadingZero(today.getMonth() + 1)}.${today.getFullYear()}`;
 ```
 <a name="isEqualDate"></a>
 
@@ -377,18 +317,12 @@ Checks whether given dates are equal
 
 **Example**  
 ```js
-const dateA = new Date(2020, 1, 29, 22, 30);
-const dateB = new Date(2020, 1, 29, 18, 20);
-isEqualDate(dateA. dateB); // true
+const dateA = new Date(2020, 1, 29, 22, 30);const dateB = new Date(2020, 1, 29, 18, 20);isEqualDate(dateA. dateB); // true
 ```
 <a name="sanitizeDateGMTOffset"></a>
 
 ## sanitizeDateGMTOffset ⇒ <code>string</code>
-Helper to make date parsing cross browser compatible
-Some browsers (e.g. Safari) need the GMT offset part to be in format "+00:00"
-This helper makes sure that any present GMT offset follows that format and can safely be parsed:
-Date.parse("2020-01-01T12:13:14.000+0200") // throws error in Safari
-Date.parse("2020-01-01T12:13:14.000+02:00") // succes
+Helper to make date parsing cross browser compatibleSome browsers (e.g. Safari) need the GMT offset part to be in format "+00:00"This helper makes sure that any present GMT offset follows that format and can safely be parsed:Date.parse("2020-01-01T12:13:14.000+0200") // throws error in SafariDate.parse("2020-01-01T12:13:14.000+02:00") // succes
 
 **Kind**: global constant  
 **Returns**: <code>string</code> - correctly formatted date  
@@ -415,13 +349,11 @@ adds given classes to one or multiple elements
 
 **Example**  
 ```js
-const button = document.querySelector('.button');
-addClass(button, 'my-button');
+const button = document.querySelector('.button');addClass(button, 'my-button');
 ```
 **Example**  
 ```js
-const inputs = document.querySelectorAll('input');
-addClass(inputs, 'my-button');
+const inputs = document.querySelectorAll('input');addClass(inputs, 'my-button');
 ```
 <a name="find"></a>
 
@@ -469,18 +401,7 @@ returns current mediaQuery-name. e.g. "MQ2"
 
 **Example**  
 ```js
-const myMqs = [
-  {
-    name: 'MQ2',
-    query: '(min-width: 769px)'
-  },
-  {
-    name: 'MQ1',
-    query: '(min-width: 0px)'
-  }
-];
-
-const curMQ = getCurrentMQ(myMqs);
+const myMqs = [  {    name: 'MQ2',    query: '(min-width: 769px)'  },  {    name: 'MQ1',    query: '(min-width: 0px)'  }];const curMQ = getCurrentMQ(myMqs);
 ```
 <a name="getInnerText"></a>
 
@@ -495,8 +416,7 @@ returns innerText of given Element
 
 **Example**  
 ```js
-const myArticle = document.querySelector('article');
-const articleText = getInnerText(myArticle);
+const myArticle = document.querySelector('article');const articleText = getInnerText(myArticle);
 ```
 <a name="getParent"></a>
 
@@ -512,8 +432,7 @@ returns parent of specific class, if found
 
 **Example**  
 ```js
-const myText = document.querySelector('p');
-const myArticle = getParent(myText, 'article');
+const myText = document.querySelector('p');const myArticle = getParent(myText, 'article');
 ```
 <a name="getUniqueID"></a>
 
@@ -535,8 +454,7 @@ returns if a specific parent has a child matching the given selector
 
 **Example**  
 ```js
-const article = document.querySelector('article');
-if (hasChild(article, '.cta')) console.log('please click');
+const article = document.querySelector('article');if (hasChild(article, '.cta')) console.log('please click');
 ```
 <a name="hasClass"></a>
 
@@ -552,8 +470,7 @@ returns if a specific element has given class
 
 **Example**  
 ```js
-const cta = document.querySelector('button');
-if (hasClass(cta, 'primary')) console.log("primary")
+const cta = document.querySelector('button');if (hasClass(cta, 'primary')) console.log("primary")
 ```
 <a name="inViewport"></a>
 
@@ -569,8 +486,7 @@ checks, whether an element is in the viewport
 
 **Example**  
 ```js
-const image = document.querySelector('image');
-if (inViewport(image)) image.setAttribute('src', image.dataset('src'));
+const image = document.querySelector('image');if (inViewport(image)) image.setAttribute('src', image.dataset('src'));
 ```
 <a name="isNodeList"></a>
 
@@ -599,8 +515,7 @@ adds event with given parameters
 
 **Example**  
 ```js
-const buttons = findAll(document, 'button);
-onEvent(buttons, 'click', () => console.log('button clicked'), this);
+const buttons = findAll(document, 'button);onEvent(buttons, 'click', () => console.log('button clicked'), this);
 ```
 <a name="removeChildren"></a>
 
@@ -616,8 +531,7 @@ removes all children of a specific parent matching the given selector
 
 **Example**  
 ```js
-const article = find('article);
-removeChildren(article, '.ad');
+const article = find('article);removeChildren(article, '.ad');
 ```
 <a name="removeClass"></a>
 
@@ -633,13 +547,11 @@ removes given class from element
 
 **Example**  
 ```js
-const button = document.querySelector('.button');
-removeClass(button, 'active');
+const button = document.querySelector('.button');removeClass(button, 'active');
 ```
 **Example**  
 ```js
-const inputs = document.querySelectorAll('input');
-removeClass(inputs, 'active');
+const inputs = document.querySelectorAll('input');removeClass(inputs, 'active');
 ```
 <a name="removeEvent"></a>
 
@@ -657,8 +569,7 @@ removes event with given parameters
 
 **Example**  
 ```js
-const buttons = findAll(document, 'button);
-removeEvent(buttons, 'click', () => console.log('button clicked'), this);
+const buttons = findAll(document, 'button);removeEvent(buttons, 'click', () => console.log('button clicked'), this);
 ```
 <a name="toggleClass"></a>
 
@@ -675,8 +586,7 @@ toggles given class on given element
 
 **Example**  
 ```js
-const button = find(document, 'button');
-onEvent(button, 'click', () => toggleClass(button, 'active'), this);
+const button = find(document, 'button');onEvent(button, 'click', () => toggleClass(button, 'active'), this);
 ```
 <a name="waitFor"></a>
 
@@ -691,14 +601,11 @@ resolves Promise after given timeout
 
 **Example**  
 ```js
-addClass(button, 'animate');
-waitFor(300).then(() => removeClass(button, 'animate'));
+addClass(button, 'animate');waitFor(300).then(() => removeClass(button, 'animate'));
 ```
 **Example**  
 ```js
-addClass(button, 'animate');
-await waitFor(300);
-removeClass(button, 'animate');
+addClass(button, 'animate');await waitFor(300);removeClass(button, 'animate');
 ```
 <a name="waitForEvent"></a>
 
@@ -715,14 +622,11 @@ waits for given event for a (optional) max-timeout
 
 **Example**  
 ```js
-addClass(button, 'animate');
-waitForEvent(button, 'transitionend', 500).then(() => removeClass(button, 'animate'));
+addClass(button, 'animate');waitForEvent(button, 'transitionend', 500).then(() => removeClass(button, 'animate'));
 ```
 **Example**  
 ```js
-addClass(button, 'animate');
-await waitForEvent(button, 'transitionend', 500);
-removeClass(button, 'animate');
+addClass(button, 'animate');await waitForEvent(button, 'transitionend', 500);removeClass(button, 'animate');
 ```
 <a name="getValue"></a>
 
@@ -741,16 +645,7 @@ returns nested value without throwing an error if the parent doesn't exist
 
 **Example**  
 ```js
-const obj = {
-  a: {
-    b: {
-      c: 1
-    },
-    d: true
-  }
-};
-getValue(obj, "a.b") === {c: 1};
-getValue(obj, "a.f") === undefined;
+const obj = {  a: {    b: {      c: 1    },    d: true  }};getValue(obj, "a.b") === {c: 1};getValue(obj, "a.f") === undefined;
 ```
 <a name="isEqual"></a>
 
@@ -781,8 +676,7 @@ returns the argument wrapped in an array if it isn't array itself
 
 **Example**  
 ```js
-const apple = "Apple";
-const fruits = toArray(apple); // ["Apple"]
+const apple = "Apple";const fruits = toArray(apple); // ["Apple"]
 ```
 <a name="toString"></a>
 
@@ -812,8 +706,7 @@ removes all multi Whitespaces and Newlines in given string
 
 **Example**  
 ```js
-const article = find(document, 'aricle');
-const text = getCleanString(article.innerText);
+const article = find(document, 'aricle');const text = getCleanString(article.innerText);
 ```
 <a name="getWordCount"></a>
 
@@ -828,8 +721,7 @@ returns number of words in a given text
 
 **Example**  
 ```js
-const article = find(document, 'aricle');
-const articleWords = getWordCount(article.innerText);
+const article = find(document, 'aricle');const articleWords = getWordCount(article.innerText);
 ```
 <a name="removeAllBS"></a>
 
@@ -859,8 +751,7 @@ removes all Newlines in given string
 
 **Example**  
 ```js
-const article = find(document, 'aricle');
-const textString = removeAllNL(article.innerText);
+const article = find(document, 'aricle');const textString = removeAllNL(article.innerText);
 ```
 <a name="removeMultiBS"></a>
 
@@ -891,42 +782,35 @@ removeMultiBS('Hello My      World'); // Hello My World
 <a name="debounce"></a>
 
 ## debounce(callback, [wait]) ⇒ <code>function</code>
-returns a debounced function which when called multiple of times each time it waits the waiting duration
-and if the method was not called during this time, the last call will be passed to the callback.
+returns a debounced function which when called multiple of times each time it waits the waiting durationand if the method was not called during this time, the last call will be passed to the callback.
 
 **Kind**: global function  
+**Debounce(100)**: scrollHandler(event) {      // ...     }  }  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| callback | <code>function</code> |  | function to be caled after the last wait period |
+| callback | <code>function</code> |  | function to be called after the last wait period |
 | [wait] | <code>number</code> | <code>0</code> | waiting period in ms before the callback is invoked if during this time the debounced method was not called |
 
 **Example**  
 ```js
-const debounced = debounce(console.log, 500);
-  debonced("Hi");
-  debonced("Hello");
-  debonced("Hey");
-  if (neverMind) debonced.cancel;
-  // logs only "Hey"
-
-
-  // or instead of decorator on class methods
-  Class Component {
-    constructor() {
-         window.addEventListener("resize", this.resizeHandler);
-    }
-
-    resizeHandler = throttle(event => {
-      // event handlers logic
-    }, 100);
-  }
+const debounced = debounce(console.log, 500);  debonced("Hi");  debonced("Hello");  debonced("Hey");  if (neverMind) debonced.cancel();  // logs only "Hey", and when `neverMind === false`, doesn't log anything.  // or instead of decorator on class methods  Class Component {    constructor() {      window.addEventListener("resize", this.resizeHandler);      window.addEventListener("scroll", this.scrollHandler);    }    resizeHandler = debounce(event => {      // event handlers logic    }, 100);    // or when the decorator is imported:    
 ```
+<a name="decoratorGenerator"></a>
+
+## decoratorGenerator(func) ⇒ <code>function</code>
+generates a decorator factory for the provided helper function.helper function should have this signature: `(Function, ...args: any[]) => Function`
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>function</code> | function to be wrapped with a decorator factory |
+
 <a name="throttle"></a>
 
 ## throttle(callback, [wait]) ⇒ <code>function</code>
-returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
-call `.cancel()` on the returned function, to cancel the callback invokation.
+returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.call `.cancel()` on the returned function, to cancel the callback invocation.
 
 **Kind**: global function  
 
@@ -967,8 +851,7 @@ function to convert texts to camelCase for example ti generate attribute names
 
 **Example**  
 ```js
-toCamelCase("some-text") === "someText";
-toCamelCase("some other text") === "someOtherText";
+toCamelCase("some-text") === "someText";toCamelCase("some other text") === "someOtherText";
 ```
 <a name="toKebabCase"></a>
 
@@ -988,8 +871,7 @@ toKebabCase("keyValuePair") === "key-value-pair"
 <a name="callback"></a>
 
 ## callback : <code>function</code>
-iterates over all nodes in a node list
-(necessary because IE11 doesn't support .forEach  * for NodeLists)
+iterates over all nodes in a node list(necessary because IE11 doesn't support .forEach  * for NodeLists)
 
 **Kind**: global typedef  
 
@@ -1000,8 +882,7 @@ iterates over all nodes in a node list
 
 **Example**  
 ```js
-const buttons = document.querySelectorAll('button');
-forEachNode(buttons, (button, idx) => addClass(button, `my-button--${idx}`))
+const buttons = document.querySelectorAll('button');forEachNode(buttons, (button, idx) => addClass(button, `my-button--${idx}`))
 ```
 
 
