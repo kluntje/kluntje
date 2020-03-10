@@ -23,7 +23,7 @@
   "scripts": {
     "build": "npm-run-all clean-dist generate-declarations build:*",
     "clean-dist": "rimraf lib",
-    "generate-declarations": "tsc -d --outDir 'lib' --emitDeclarationOnly",
+    "generate-declarations": "tsc -d --outDir lib --emitDeclarationOnly",
     "build:index": "rollup -c build.js --environment TARGET:index",
     "build:apiHelpers": "rollup -c build.js --environment TARGET:apiHelpers",
     "build:arrayHelpers": "rollup -c build.js --environment TARGET:arrayHelpers",
