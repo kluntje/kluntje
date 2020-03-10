@@ -44,6 +44,13 @@ const bundles = {
       module: 'lib/function-helpers/index.module.js',
     },
   },
+  "functionHelpers/decorators": {
+    inputPath: './src/function-helpers/decorators.ts',
+    outFiles: {
+      main: 'lib/function-helpers/decorators/index.js',
+      module: 'lib/function-helpers/decorators/index.module.js',
+    },
+  },
   objectHelpers: {
     inputPath: './src/object-helpers/index.ts',
     outFiles: {
