@@ -1,4 +1,4 @@
-import { throttle } from '@kluntje/js-utils/lib/function-helpers/lib/decorators';
+import { throttle } from '@kluntje/js-utils/lib/function-helpers/decorators';
 import { onEvent, getCurrentMQ, MQDefinition } from '@kluntje/js-utils/lib/dom-helpers';
 
 export class MediaQueryService {
