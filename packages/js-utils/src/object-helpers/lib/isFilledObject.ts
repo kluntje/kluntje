@@ -8,8 +8,8 @@
  *
  * @export
  * @param {any} obj
- * @returns
+ * @returns {boolean}
  */
-export function isFilledObject(obj: any) {
+export function isFilledObject(obj: any): boolean {
   return typeof obj === 'object' && obj !== null && Object.keys(obj).length > 0;
 }
