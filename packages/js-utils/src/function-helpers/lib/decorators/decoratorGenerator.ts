@@ -8,8 +8,8 @@
  */
 export function decoratorGenerator(func: Function): Function {
   // arguments passed to the decorator
-  return function (...args: any[]) {
-    return function decorator(_proto: any, _methodName: string, descriptor: PropertyDescriptor) {
+  return function (...args: any[]): MethodDecorator {
+    return function decorator(_proto: any, _methodName: string | symbol, descriptor: PropertyDescriptor) {
       return {
         ...descriptor,
         value: func(descriptor.value, ...args),
