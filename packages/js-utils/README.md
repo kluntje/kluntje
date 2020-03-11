@@ -2,7 +2,7 @@
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
-    <img alt="License: (Apache)" src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" />
+    <img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" />
   </a>
 </p>
 
@@ -14,148 +14,104 @@
 npm install @kuntje/js-utils
 ```
 
-## Constants
+## Functions
 
 <dl>
-<dt><a href="#fetchJSON">fetchJSON</a> ⇒ <code>Promise.&lt;T&gt;</code></dt>
-<dd><p>Calls API and returns JSON as Promise</p>
-</dd>
-<dt><a href="#hasElement">hasElement</a> ⇒ <code>boolean</code></dt>
-<dd><p>checks, if element is in given array</p>
-</dd>
-<dt><a href="#isFilledArray">isFilledArray</a> ⇒ <code>boolean</code></dt>
-<dd><p>checks, whether given Array exists and has at least one element</p>
-</dd>
-<dt><a href="#mergeArraysBy">mergeArraysBy</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
-<dd><p>merge two given arrays by the given checker function</p>
-</dd>
-<dt><a href="#pushIfNew">pushIfNew</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
-<dd><p>pushes new Element to given array, if its not already in it</p>
-</dd>
-<dt><a href="#removeItem">removeItem</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
-<dd><p>removes specific Item from array and return new array</p>
-</dd>
-<dt><a href="#addDays">addDays</a> ⇒ <code>Date</code></dt>
-<dd><p>Adds given amount of days to given date</p>
-</dd>
-<dt><a href="#addLeadingZero">addLeadingZero</a> ⇒ <code>string</code></dt>
-<dd><p>Optionally Adds leading Zero to Numbers &lt; 10</p>
-</dd>
-<dt><a href="#isEqualDate">isEqualDate</a> ⇒ <code>boolean</code></dt>
-<dd><p>Checks whether given dates are equal</p>
-</dd>
-<dt><a href="#sanitizeDateGMTOffset">sanitizeDateGMTOffset</a> ⇒ <code>string</code></dt>
+<dt><a href="#fetchJSON">fetchJSON(url, [options])</a> ⇒ <code>Promise.&lt;T&gt;</code></dt>
+<dd><p>Calls API and returns JSON as Promise</p></dd>
+<dt><a href="#hasElement">hasElement(array, element)</a> ⇒ <code>boolean</code></dt>
+<dd><p>checks, if element is in given array</p></dd>
+<dt><a href="#isFilledArray">isFilledArray(array)</a> ⇒ <code>boolean</code></dt>
+<dd><p>checks, whether given Array exists and has at least one element</p></dd>
+<dt><a href="#mergeArraysBy">mergeArraysBy(array1, array2, checker)</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
+<dd><p>merge two given arrays by the given checker function</p></dd>
+<dt><a href="#pushIfNew">pushIfNew(array, newElement)</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
+<dd><p>pushes new Element to given array, if its not already in it</p></dd>
+<dt><a href="#removeItem">removeItem(array, itemToRemove)</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
+<dd><p>removes specific Item from array and return new array</p></dd>
+<dt><a href="#addDays">addDays(date, daysToAdd, [zeroHours])</a> ⇒ <code>Date</code></dt>
+<dd><p>Adds given amount of days to given date</p></dd>
+<dt><a href="#addLeadingZero">addLeadingZero(inNumber)</a> ⇒ <code>string</code></dt>
+<dd><p>Optionally Adds leading Zero to Numbers &lt; 10</p></dd>
+<dt><a href="#isEqualDate">isEqualDate(dateA, dateB)</a> ⇒ <code>boolean</code></dt>
+<dd><p>Checks whether given dates are equal</p></dd>
+<dt><a href="#sanitizeDateGMTOffset">sanitizeDateGMTOffset(date)</a> ⇒ <code>string</code></dt>
 <dd><p>Helper to make date parsing cross browser compatible
 Some browsers (e.g. Safari) need the GMT offset part to be in format &quot;+00:00&quot;
 This helper makes sure that any present GMT offset follows that format and can safely be parsed:
 Date.parse(&quot;2020-01-01T12:13:14.000+0200&quot;) // throws error in Safari
-Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p>
-</dd>
-<dt><a href="#addClass">addClass</a></dt>
-<dd><p>adds given classes to one or multiple elements</p>
-</dd>
-<dt><a href="#find">find</a> ⇒ <code>Element</code> | <code>null</code></dt>
-<dd><p>returns the first child of a specific parent matching the given selector</p>
-</dd>
-<dt><a href="#findAll">findAll</a> ⇒ <code>Array.&lt;Element&gt;</code></dt>
-<dd><p>returns all children of a specific parent matching the given selector</p>
-</dd>
-<dt><a href="#getCurrentMQ">getCurrentMQ</a> ⇒ <code>string</code></dt>
-<dd><p>returns current mediaQuery-name. e.g. &quot;MQ2&quot;</p>
-</dd>
-<dt><a href="#getInnerText">getInnerText</a> ⇒ <code>string</code></dt>
-<dd><p>returns innerText of given Element</p>
-</dd>
-<dt><a href="#getParent">getParent</a> ⇒ <code>Element</code> | <code>null</code></dt>
-<dd><p>returns parent of specific class, if found</p>
-</dd>
-<dt><a href="#getUniqueID">getUniqueID</a> ⇒ <code>string</code></dt>
-<dd><p>returns a random String to be used as ID</p>
-</dd>
-<dt><a href="#hasChild">hasChild</a> ⇒ <code>boolean</code></dt>
-<dd><p>returns if a specific parent has a child matching the given selector</p>
-</dd>
-<dt><a href="#hasClass">hasClass</a> ⇒ <code>boolean</code></dt>
-<dd><p>returns if a specific element has given class</p>
-</dd>
-<dt><a href="#inViewport">inViewport</a> ⇒ <code>boolean</code></dt>
-<dd><p>checks, whether an element is in the viewport</p>
-</dd>
-<dt><a href="#isNodeList">isNodeList</a> ⇒ <code>boolean</code></dt>
-<dd><p>checks, if target is NodeList</p>
-</dd>
-<dt><a href="#onEvent">onEvent</a></dt>
-<dd><p>adds event with given parameters</p>
-</dd>
-<dt><a href="#removeChildren">removeChildren</a></dt>
-<dd><p>removes all children of a specific parent matching the given selector</p>
-</dd>
-<dt><a href="#removeClass">removeClass</a></dt>
-<dd><p>removes given class from element</p>
-</dd>
-<dt><a href="#removeEvent">removeEvent</a></dt>
-<dd><p>removes event with given parameters</p>
-</dd>
-<dt><a href="#toggleClass">toggleClass</a></dt>
-<dd><p>toggles given class on given element</p>
-</dd>
-<dt><a href="#waitFor">waitFor</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
-<dd><p>resolves Promise after given timeout</p>
-</dd>
-<dt><a href="#waitForEvent">waitForEvent</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
-<dd><p>waits for given event for a (optional) max-timeout</p>
-</dd>
-<dt><del><a href="#getValue">getValue</a> ⇒ <code>*</code></del></dt>
-<dd><p>returns nested value without throwing an error if the parent doesn&#39;t exist</p>
-</dd>
-<dt><a href="#isEqual">isEqual</a> ⇒ <code>boolean</code></dt>
-<dd><p>compare two arguments, for object their toString values are compared</p>
-</dd>
-<dt><a href="#toArray">toArray</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
-<dd><p>returns the argument wrapped in an array if it isn&#39;t array itself</p>
-</dd>
-<dt><a href="#toString">toString</a> ⇒ <code>string</code></dt>
-<dd><p>returns stringified value for the given argument</p>
-</dd>
-<dt><a href="#getCleanString">getCleanString</a> ⇒ <code>string</code></dt>
-<dd><p>removes all multi Whitespaces and Newlines in given string</p>
-</dd>
-<dt><a href="#getWordCount">getWordCount</a> ⇒ <code>number</code></dt>
-<dd><p>returns number of words in a given text</p>
-</dd>
-<dt><a href="#removeAllBS">removeAllBS</a> ⇒ <code>string</code></dt>
-<dd><p>removes all Whitespaces in given string</p>
-</dd>
-<dt><a href="#removeAllNL">removeAllNL</a> ⇒ <code>string</code></dt>
-<dd><p>removes all Newlines in given string</p>
-</dd>
-<dt><a href="#removeMultiBS">removeMultiBS</a> ⇒ <code>string</code></dt>
-<dd><p>removes multi Whitespaces in given string</p>
-</dd>
-</dl>
-
-## Functions
-
-<dl>
+Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
+<dt><a href="#addClass">addClass(elements, ...classNames)</a></dt>
+<dd><p>adds given classes to one or multiple elements</p></dd>
+<dt><a href="#find">find(parent, selector)</a> ⇒ <code>Element</code> | <code>null</code></dt>
+<dd><p>returns the first child of a specific parent matching the given selector</p></dd>
+<dt><a href="#findAll">findAll(parent, selector)</a> ⇒ <code>Array.&lt;Element&gt;</code></dt>
+<dd><p>returns all children of a specific parent matching the given selector</p></dd>
 <dt><a href="#callback">callback(node, index)</a> ⇒</dt>
 <dd></dd>
+<dt><a href="#getCurrentMQ">getCurrentMQ(mediaQueries)</a> ⇒ <code>string</code></dt>
+<dd><p>returns current mediaQuery-name. e.g. &quot;MQ2&quot;</p></dd>
+<dt><a href="#getInnerText">getInnerText(el)</a> ⇒ <code>string</code></dt>
+<dd><p>returns innerText of given Element</p></dd>
+<dt><a href="#getParent">getParent(element, parentSelector)</a> ⇒ <code>Element</code> | <code>null</code></dt>
+<dd><p>returns parent of specific class, if found</p></dd>
+<dt><a href="#getUniqueID">getUniqueID()</a> ⇒ <code>string</code></dt>
+<dd><p>returns a random String to be used as ID</p></dd>
+<dt><a href="#hasChild">hasChild(parent, childSelector)</a> ⇒ <code>boolean</code></dt>
+<dd><p>returns if a specific parent has a child matching the given selector</p></dd>
+<dt><a href="#hasClass">hasClass(element, className)</a> ⇒ <code>boolean</code></dt>
+<dd><p>returns if a specific element has given class</p></dd>
+<dt><a href="#inViewport">inViewport(element, [parent])</a> ⇒ <code>boolean</code></dt>
+<dd><p>checks, whether an element is in the viewport</p></dd>
+<dt><a href="#isNodeList">isNodeList(target)</a> ⇒ <code>boolean</code></dt>
+<dd><p>checks, if target is NodeList</p></dd>
+<dt><a href="#onEvent">onEvent(target, events, handler, context)</a></dt>
+<dd><p>adds event with given parameters</p></dd>
+<dt><a href="#removeChildren">removeChildren(parent, selector)</a></dt>
+<dd><p>removes all children of a specific parent matching the given selector</p></dd>
+<dt><a href="#removeClass">removeClass(elements, ...classNames)</a></dt>
+<dd><p>removes given class from element</p></dd>
+<dt><a href="#removeEvent">removeEvent(target, events, handler, context)</a></dt>
+<dd><p>removes event with given parameters</p></dd>
+<dt><a href="#toggleClass">toggleClass(elements, className, add)</a></dt>
+<dd><p>toggles given class on given element</p></dd>
+<dt><a href="#waitFor">waitFor(timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
+<dd><p>resolves Promise after given timeout</p></dd>
+<dt><a href="#waitForEvent">waitForEvent(target, eventName, timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
+<dd><p>waits for given event for a (optional) max-timeout</p></dd>
 <dt><a href="#debounce">debounce(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a debounced function which when called multiple of times each time it waits the waiting duration
-and if the method was not called during this time, the last call will be passed to the callback.</p>
-</dd>
+and if the method was not called during this time, the last call will be passed to the callback.</p></dd>
+<dt><a href="#decoratorGenerator">decoratorGenerator(func)</a> ⇒ <code>function</code></dt>
+<dd><p>generates a decorator factory for the provided helper function.
+helper function should have this signature: <code>(Function, ...args: any[]) =&gt; Function</code></p></dd>
 <dt><a href="#throttle">throttle(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
-call <code>.cancel()</code> on the returned function, to cancel the callback invokation.</p>
-</dd>
+call <code>.cancel()</code> on the returned function, to cancel the callback invocation.</p></dd>
+<dt><del><a href="#getValue">getValue(obj, path)</a> ⇒ <code>*</code></del></dt>
+<dd><p>returns nested value without throwing an error if the parent doesn't exist</p></dd>
+<dt><a href="#isEqual">isEqual(arg1, arg2)</a> ⇒ <code>boolean</code></dt>
+<dd><p>compare two arguments, for object their toString values are compared</p></dd>
 <dt><a href="#naiveClone">naiveClone(arg)</a> ⇒ <code>Nullable.&lt;T&gt;</code> | <code>Array.&lt;T&gt;</code></dt>
-<dd><p>returns a deep link of the provided argument</p>
-</dd>
+<dd><p>returns a deep link of the provided argument</p></dd>
+<dt><a href="#toArray">toArray(arg)</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
+<dd><p>returns the argument wrapped in an array if it isn't array itself</p></dd>
+<dt><a href="#toString">toString(arg)</a> ⇒ <code>string</code></dt>
+<dd><p>returns stringified value for the given argument</p></dd>
+<dt><a href="#getCleanString">getCleanString(inputString)</a> ⇒ <code>string</code></dt>
+<dd><p>removes all multi Whitespaces and Newlines in given string</p></dd>
+<dt><a href="#getWordCount">getWordCount(text)</a> ⇒ <code>number</code></dt>
+<dd><p>returns number of words in a given text</p></dd>
+<dt><a href="#removeAllBS">removeAllBS(inputString)</a> ⇒ <code>string</code></dt>
+<dd><p>removes all Whitespaces in given string</p></dd>
+<dt><a href="#removeAllNL">removeAllNL(inputString)</a> ⇒ <code>string</code></dt>
+<dd><p>removes all Newlines in given string</p></dd>
+<dt><a href="#removeMultiBS">removeMultiBS(inputString)</a> ⇒ <code>string</code></dt>
+<dd><p>removes multi Whitespaces in given string</p></dd>
 <dt><a href="#toCamelCase">toCamelCase(str)</a> ⇒ <code>string</code></dt>
-<dd><p>function to convert texts to camelCase for example ti generate attribute names</p>
-</dd>
+<dd><p>function to convert texts to camelCase for example ti generate attribute names</p></dd>
 <dt><a href="#toKebabCase">toKebabCase(str)</a> ⇒ <code>string</code></dt>
-<dd><p>converts the provided string to a kebab case (kebab-case)</p>
-</dd>
+<dd><p>converts the provided string to a kebab case (kebab-case)</p></dd>
 </dl>
 
 ## Typedefs
@@ -163,16 +119,15 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 <dl>
 <dt><a href="#callback">callback</a> : <code>function</code></dt>
 <dd><p>iterates over all nodes in a node list
-(necessary because IE11 doesn&#39;t support .forEach  * for NodeLists)</p>
-</dd>
+(necessary because IE11 doesn't support .forEach  * for NodeLists)</p></dd>
 </dl>
 
 <a name="fetchJSON"></a>
 
-## fetchJSON ⇒ <code>Promise.&lt;T&gt;</code>
-Calls API and returns JSON as Promise
+## fetchJSON(url, [options]) ⇒ <code>Promise.&lt;T&gt;</code>
+<p>Calls API and returns JSON as Promise</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -191,10 +146,10 @@ fetchJSON("https://some.api/path").then((data) => console.log("myData:", data));
 ```
 <a name="hasElement"></a>
 
-## hasElement ⇒ <code>boolean</code>
-checks, if element is in given array
+## hasElement(array, element) ⇒ <code>boolean</code>
+<p>checks, if element is in given array</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -211,10 +166,10 @@ if (hasElement(fruits, "Apple")) {
 ```
 <a name="isFilledArray"></a>
 
-## isFilledArray ⇒ <code>boolean</code>
-checks, whether given Array exists and has at least one element
+## isFilledArray(array) ⇒ <code>boolean</code>
+<p>checks, whether given Array exists and has at least one element</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -231,16 +186,16 @@ if (isFilledArray(myBooks)) {
 ```
 <a name="mergeArraysBy"></a>
 
-## mergeArraysBy ⇒ <code>Array.&lt;T&gt;</code>
-merge two given arrays by the given checker function
+## mergeArraysBy(array1, array2, checker) ⇒ <code>Array.&lt;T&gt;</code>
+<p>merge two given arrays by the given checker function</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | array1 | <code>Array.&lt;T&gt;</code> |  |
 | array2 | <code>Array.&lt;T&gt;</code> |  |
-| checker | <code>function</code> | if this function returns true for a specific element combination the elements are getting merged |
+| checker | <code>function</code> | <p>if this function returns true for a specific element combination the elements are getting merged</p> |
 
 **Example**  
 ```js
@@ -292,14 +247,14 @@ const userList = mergeArraysBy(defaultUsers, projectUsers, (defaultUser, array) 
 //     "name": "User2",
 //     "mail": "user-two@company.com"
 //   }
-// ]
+// ] 
 ```
 <a name="pushIfNew"></a>
 
-## pushIfNew ⇒ <code>Array.&lt;T&gt;</code>
-pushes new Element to given array, if its not already in it
+## pushIfNew(array, newElement) ⇒ <code>Array.&lt;T&gt;</code>
+<p>pushes new Element to given array, if its not already in it</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -314,10 +269,10 @@ const newFruitStore = pushIfNew(fruitStore, newFruit);
 ```
 <a name="removeItem"></a>
 
-## removeItem ⇒ <code>Array.&lt;T&gt;</code>
-removes specific Item from array and return new array
+## removeItem(array, itemToRemove) ⇒ <code>Array.&lt;T&gt;</code>
+<p>removes specific Item from array and return new array</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -331,16 +286,16 @@ const newFruitStore = removeItem(fruitStore, "Apple"); // ["Banana", "Orange", "
 ```
 <a name="addDays"></a>
 
-## addDays ⇒ <code>Date</code>
-Adds given amount of days to given date
+## addDays(date, daysToAdd, [zeroHours]) ⇒ <code>Date</code>
+<p>Adds given amount of days to given date</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> |  |
-| daysToAdd | <code>number</code> |  |
-| [zeroHours] | <code>boolean</code> | set time to 0:00:00 |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| date | <code>Date</code> |  |  |
+| daysToAdd | <code>number</code> |  |  |
+| [zeroHours] | <code>boolean</code> | <code>false</code> | <p>set time to 0:00:00</p> |
 
 **Example**  
 ```js
@@ -349,10 +304,10 @@ const tomorrow = addDays(today, 2);
 ```
 <a name="addLeadingZero"></a>
 
-## addLeadingZero ⇒ <code>string</code>
-Optionally Adds leading Zero to Numbers < 10
+## addLeadingZero(inNumber) ⇒ <code>string</code>
+<p>Optionally Adds leading Zero to Numbers &lt; 10</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -365,10 +320,10 @@ const formattedDateSting = `${addLeadingZero(today.getDate())}.${addLeadingZero(
 ```
 <a name="isEqualDate"></a>
 
-## isEqualDate ⇒ <code>boolean</code>
-Checks whether given dates are equal
+## isEqualDate(dateA, dateB) ⇒ <code>boolean</code>
+<p>Checks whether given dates are equal</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -383,19 +338,19 @@ isEqualDate(dateA. dateB); // true
 ```
 <a name="sanitizeDateGMTOffset"></a>
 
-## sanitizeDateGMTOffset ⇒ <code>string</code>
-Helper to make date parsing cross browser compatible
-Some browsers (e.g. Safari) need the GMT offset part to be in format "+00:00"
+## sanitizeDateGMTOffset(date) ⇒ <code>string</code>
+<p>Helper to make date parsing cross browser compatible
+Some browsers (e.g. Safari) need the GMT offset part to be in format &quot;+00:00&quot;
 This helper makes sure that any present GMT offset follows that format and can safely be parsed:
-Date.parse("2020-01-01T12:13:14.000+0200") // throws error in Safari
-Date.parse("2020-01-01T12:13:14.000+02:00") // succes
+Date.parse(&quot;2020-01-01T12:13:14.000+0200&quot;) // throws error in Safari
+Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p>
 
-**Kind**: global constant  
-**Returns**: <code>string</code> - correctly formatted date  
+**Kind**: global function  
+**Returns**: <code>string</code> - <p>correctly formatted date</p>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | <code>string</code> | date string to be sanitized for parsing |
+| date | <code>string</code> | <p>date string to be sanitized for parsing</p> |
 
 **Example**  
 ```js
@@ -403,10 +358,10 @@ sanitizeDateGMTOffset("2020-01-01T12:13:14.000+0200") // "2020-01-01T12:13:14.00
 ```
 <a name="addClass"></a>
 
-## addClass
-adds given classes to one or multiple elements
+## addClass(elements, ...classNames)
+<p>adds given classes to one or multiple elements</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -425,10 +380,10 @@ addClass(inputs, 'my-button');
 ```
 <a name="find"></a>
 
-## find ⇒ <code>Element</code> \| <code>null</code>
-returns the first child of a specific parent matching the given selector
+## find(parent, selector) ⇒ <code>Element</code> \| <code>null</code>
+<p>returns the first child of a specific parent matching the given selector</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -441,10 +396,10 @@ const input = find(document, 'input');
 ```
 <a name="findAll"></a>
 
-## findAll ⇒ <code>Array.&lt;Element&gt;</code>
-returns all children of a specific parent matching the given selector
+## findAll(parent, selector) ⇒ <code>Array.&lt;Element&gt;</code>
+<p>returns all children of a specific parent matching the given selector</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -455,13 +410,26 @@ returns all children of a specific parent matching the given selector
 ```js
 const inputs = findAll(document, 'input');
 ```
+<a name="callback"></a>
+
+## callback(node, index) ⇒
+**Kind**: global function  
+**Returns**: <p>any</p>  
+
+| Param | Type |
+| --- | --- |
+| node | <code>Node</code> | 
+| index | <code>Number</code> | 
+
 <a name="getCurrentMQ"></a>
 
-## getCurrentMQ ⇒ <code>string</code>
-returns current mediaQuery-name. e.g. "MQ2"
+## getCurrentMQ(mediaQueries) ⇒ <code>string</code>
+<p>returns current mediaQuery-name. e.g. &quot;MQ2&quot;</p>
 
-**Kind**: global constant  
-**Returns**: <code>string</code> - - mediaQuery name e.g. MQ1  
+**Kind**: global function  
+**Returns**: <code>string</code> - <ul>
+<li>mediaQuery name e.g. MQ1</li>
+</ul>  
 
 | Param | Type |
 | --- | --- |
@@ -484,10 +452,10 @@ const curMQ = getCurrentMQ(myMqs);
 ```
 <a name="getInnerText"></a>
 
-## getInnerText ⇒ <code>string</code>
-returns innerText of given Element
+## getInnerText(el) ⇒ <code>string</code>
+<p>returns innerText of given Element</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -500,10 +468,10 @@ const articleText = getInnerText(myArticle);
 ```
 <a name="getParent"></a>
 
-## getParent ⇒ <code>Element</code> \| <code>null</code>
-returns parent of specific class, if found
+## getParent(element, parentSelector) ⇒ <code>Element</code> \| <code>null</code>
+<p>returns parent of specific class, if found</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -517,16 +485,16 @@ const myArticle = getParent(myText, 'article');
 ```
 <a name="getUniqueID"></a>
 
-## getUniqueID ⇒ <code>string</code>
-returns a random String to be used as ID
+## getUniqueID() ⇒ <code>string</code>
+<p>returns a random String to be used as ID</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 <a name="hasChild"></a>
 
-## hasChild ⇒ <code>boolean</code>
-returns if a specific parent has a child matching the given selector
+## hasChild(parent, childSelector) ⇒ <code>boolean</code>
+<p>returns if a specific parent has a child matching the given selector</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -540,10 +508,10 @@ if (hasChild(article, '.cta')) console.log('please click');
 ```
 <a name="hasClass"></a>
 
-## hasClass ⇒ <code>boolean</code>
-returns if a specific element has given class
+## hasClass(element, className) ⇒ <code>boolean</code>
+<p>returns if a specific element has given class</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -557,10 +525,10 @@ if (hasClass(cta, 'primary')) console.log("primary")
 ```
 <a name="inViewport"></a>
 
-## inViewport ⇒ <code>boolean</code>
-checks, whether an element is in the viewport
+## inViewport(element, [parent]) ⇒ <code>boolean</code>
+<p>checks, whether an element is in the viewport</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -574,10 +542,10 @@ if (inViewport(image)) image.setAttribute('src', image.dataset('src'));
 ```
 <a name="isNodeList"></a>
 
-## isNodeList ⇒ <code>boolean</code>
-checks, if target is NodeList
+## isNodeList(target) ⇒ <code>boolean</code>
+<p>checks, if target is NodeList</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -585,10 +553,10 @@ checks, if target is NodeList
 
 <a name="onEvent"></a>
 
-## onEvent
-adds event with given parameters
+## onEvent(target, events, handler, context)
+<p>adds event with given parameters</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -604,10 +572,10 @@ onEvent(buttons, 'click', () => console.log('button clicked'), this);
 ```
 <a name="removeChildren"></a>
 
-## removeChildren
-removes all children of a specific parent matching the given selector
+## removeChildren(parent, selector)
+<p>removes all children of a specific parent matching the given selector</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -621,10 +589,10 @@ removeChildren(article, '.ad');
 ```
 <a name="removeClass"></a>
 
-## removeClass
-removes given class from element
+## removeClass(elements, ...classNames)
+<p>removes given class from element</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -643,10 +611,10 @@ removeClass(inputs, 'active');
 ```
 <a name="removeEvent"></a>
 
-## removeEvent
-removes event with given parameters
+## removeEvent(target, events, handler, context)
+<p>removes event with given parameters</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -662,10 +630,10 @@ removeEvent(buttons, 'click', () => console.log('button clicked'), this);
 ```
 <a name="toggleClass"></a>
 
-## toggleClass
-toggles given class on given element
+## toggleClass(elements, className, add)
+<p>toggles given class on given element</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -680,14 +648,14 @@ onEvent(button, 'click', () => toggleClass(button, 'active'), this);
 ```
 <a name="waitFor"></a>
 
-## waitFor ⇒ <code>Promise.&lt;void&gt;</code>
-resolves Promise after given timeout
+## waitFor(timeout) ⇒ <code>Promise.&lt;void&gt;</code>
+<p>resolves Promise after given timeout</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| timeout | <code>number</code> | timeout in milliseconds |
+| timeout | <code>number</code> | <p>timeout in milliseconds</p> |
 
 **Example**  
 ```js
@@ -702,16 +670,16 @@ removeClass(button, 'animate');
 ```
 <a name="waitForEvent"></a>
 
-## waitForEvent ⇒ <code>Promise.&lt;void&gt;</code>
-waits for given event for a (optional) max-timeout
+## waitForEvent(target, eventName, timeout) ⇒ <code>Promise.&lt;void&gt;</code>
+<p>waits for given event for a (optional) max-timeout</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | target | <code>HTMLElement</code> |  |
 | eventName | <code>string</code> |  |
-| timeout | <code>number</code> | timeout in milliseconds |
+| timeout | <code>number</code> | <p>timeout in milliseconds</p> |
 
 **Example**  
 ```js
@@ -724,20 +692,92 @@ addClass(button, 'animate');
 await waitForEvent(button, 'transitionend', 500);
 removeClass(button, 'animate');
 ```
-<a name="getValue"></a>
+<a name="debounce"></a>
 
-## ~~getValue ⇒ <code>\*</code>~~
-***Deprecated***
+## debounce(callback, [wait]) ⇒ <code>function</code>
+<p>returns a debounced function which when called multiple of times each time it waits the waiting duration
+and if the method was not called during this time, the last call will be passed to the callback.</p>
 
-returns nested value without throwing an error if the parent doesn't exist
+**Kind**: global function  
+**Debounce(100)**: scrollHandler(event) {
+      // ...
+     }
+  }  
 
-**Kind**: global constant  
-**Returns**: <code>\*</code> - - returned the found value or undefined  
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| callback | <code>function</code> |  | <p>function to be called after the last wait period</p> |
+| [wait] | <code>number</code> | <code>0</code> | <p>waiting period in ms before the callback is invoked if during this time the debounced method was not called</p> |
+
+**Example**  
+```js
+const debounced = debounce(console.log, 500);
+  debonced("Hi");
+  debonced("Hello");
+  debonced("Hey");
+  if (neverMind) debonced.cancel();
+  // logs only "Hey", and when `neverMind === false`, doesn't log anything.
+
+
+  // or instead of decorator on class methods
+  Class Component {
+    constructor() {
+      window.addEventListener("resize", this.resizeHandler);
+      window.addEventListener("scroll", this.scrollHandler);
+    }
+
+    resizeHandler = debounce(event => {
+      // event handlers logic
+    }, 100);
+
+    // or when the decorator is imported:
+    
+```
+<a name="decoratorGenerator"></a>
+
+## decoratorGenerator(func) ⇒ <code>function</code>
+<p>generates a decorator factory for the provided helper function.
+helper function should have this signature: <code>(Function, ...args: any[]) =&gt; Function</code></p>
+
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| obj | <code>Object</code> | object to be looked for value |
-| path | <code>string</code> | a string with dot separated levels: e.g "a.b" |
+| func | <code>function</code> | <p>function to be wrapped with a decorator factory</p> |
+
+<a name="throttle"></a>
+
+## throttle(callback, [wait]) ⇒ <code>function</code>
+<p>returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
+call <code>.cancel()</code> on the returned function, to cancel the callback invocation.</p>
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| callback | <code>function</code> |  | <p>function to be caled after the last wait period</p> |
+| [wait] | <code>number</code> | <code>0</code> | <p>waiting period in ms before the callback is invoked if during this time the debounced method was not called</p> |
+
+**Example**  
+```js
+window.addEventListener("resize", throttle(updateSlider, 100));
+```
+<a name="getValue"></a>
+
+## ~~getValue(obj, path) ⇒ <code>\*</code>~~
+***Deprecated***
+
+<p>returns nested value without throwing an error if the parent doesn't exist</p>
+
+**Kind**: global function  
+**Returns**: <code>\*</code> - <ul>
+<li>returned the found value or undefined</li>
+</ul>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| obj | <code>Object</code> | <p>object to be looked for value</p> |
+| path | <code>string</code> | <p>a string with dot separated levels: e.g &quot;a.b&quot;</p> |
 
 **Example**  
 ```js
@@ -754,10 +794,10 @@ getValue(obj, "a.f") === undefined;
 ```
 <a name="isEqual"></a>
 
-## isEqual ⇒ <code>boolean</code>
-compare two arguments, for object their toString values are compared
+## isEqual(arg1, arg2) ⇒ <code>boolean</code>
+<p>compare two arguments, for object their toString values are compared</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -768,12 +808,27 @@ compare two arguments, for object their toString values are compared
 ```js
 if (!isEqual(oldState, newState)) console.log('state changed');
 ```
+<a name="naiveClone"></a>
+
+## naiveClone(arg) ⇒ <code>Nullable.&lt;T&gt;</code> \| <code>Array.&lt;T&gt;</code>
+<p>returns a deep link of the provided argument</p>
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| arg | <code>Nullable.&lt;T&gt;</code> \| <code>Array.&lt;T&gt;</code> | 
+
+**Example**  
+```js
+const state = naiveClone(initialState);
+```
 <a name="toArray"></a>
 
-## toArray ⇒ <code>Array.&lt;T&gt;</code>
-returns the argument wrapped in an array if it isn't array itself
+## toArray(arg) ⇒ <code>Array.&lt;T&gt;</code>
+<p>returns the argument wrapped in an array if it isn't array itself</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -782,14 +837,14 @@ returns the argument wrapped in an array if it isn't array itself
 **Example**  
 ```js
 const apple = "Apple";
-const fruits = toArray(apple); // ["Apple"]
+const fruits = toArray(apple); // ["Apple"] 
 ```
 <a name="toString"></a>
 
-## toString ⇒ <code>string</code>
-returns stringified value for the given argument
+## toString(arg) ⇒ <code>string</code>
+<p>returns stringified value for the given argument</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -801,10 +856,10 @@ const submitData = toString(formData);
 ```
 <a name="getCleanString"></a>
 
-## getCleanString ⇒ <code>string</code>
-removes all multi Whitespaces and Newlines in given string
+## getCleanString(inputString) ⇒ <code>string</code>
+<p>removes all multi Whitespaces and Newlines in given string</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -817,10 +872,10 @@ const text = getCleanString(article.innerText);
 ```
 <a name="getWordCount"></a>
 
-## getWordCount ⇒ <code>number</code>
-returns number of words in a given text
+## getWordCount(text) ⇒ <code>number</code>
+<p>returns number of words in a given text</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -833,10 +888,10 @@ const articleWords = getWordCount(article.innerText);
 ```
 <a name="removeAllBS"></a>
 
-## removeAllBS ⇒ <code>string</code>
-removes all Whitespaces in given string
+## removeAllBS(inputString) ⇒ <code>string</code>
+<p>removes all Whitespaces in given string</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -848,10 +903,10 @@ removeAllBS('Hello My  World  '); // HelloMyWorld
 ```
 <a name="removeAllNL"></a>
 
-## removeAllNL ⇒ <code>string</code>
-removes all Newlines in given string
+## removeAllNL(inputString) ⇒ <code>string</code>
+<p>removes all Newlines in given string</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -864,10 +919,10 @@ const textString = removeAllNL(article.innerText);
 ```
 <a name="removeMultiBS"></a>
 
-## removeMultiBS ⇒ <code>string</code>
-removes multi Whitespaces in given string
+## removeMultiBS(inputString) ⇒ <code>string</code>
+<p>removes multi Whitespaces in given string</p>
 
-**Kind**: global constant  
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
@@ -877,93 +932,16 @@ removes multi Whitespaces in given string
 ```js
 removeMultiBS('Hello My      World'); // Hello My World
 ```
-<a name="callback"></a>
-
-## callback(node, index) ⇒
-**Kind**: global function  
-**Returns**: any  
-
-| Param | Type |
-| --- | --- |
-| node | <code>Node</code> | 
-| index | <code>Number</code> | 
-
-<a name="debounce"></a>
-
-## debounce(callback, [wait]) ⇒ <code>function</code>
-returns a debounced function which when called multiple of times each time it waits the waiting duration
-and if the method was not called during this time, the last call will be passed to the callback.
-
-**Kind**: global function  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| callback | <code>function</code> |  | function to be caled after the last wait period |
-| [wait] | <code>number</code> | <code>0</code> | waiting period in ms before the callback is invoked if during this time the debounced method was not called |
-
-**Example**  
-```js
-const debounced = debounce(console.log, 500);
-  debonced("Hi");
-  debonced("Hello");
-  debonced("Hey");
-  if (neverMind) debonced.cancel;
-  // logs only "Hey"
-
-
-  // or instead of decorator on class methods
-  Class Component {
-    constructor() {
-         window.addEventListener("resize", this.resizeHandler);
-    }
-
-    resizeHandler = throttle(event => {
-      // event handlers logic
-    }, 100);
-  }
-```
-<a name="throttle"></a>
-
-## throttle(callback, [wait]) ⇒ <code>function</code>
-returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
-call `.cancel()` on the returned function, to cancel the callback invokation.
-
-**Kind**: global function  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| callback | <code>function</code> |  | function to be caled after the last wait period |
-| [wait] | <code>number</code> | <code>0</code> | waiting period in ms before the callback is invoked if during this time the debounced method was not called |
-
-**Example**  
-```js
-window.addEventListener("resize", throttle(updateSlider, 100));
-```
-<a name="naiveClone"></a>
-
-## naiveClone(arg) ⇒ <code>Nullable.&lt;T&gt;</code> \| <code>Array.&lt;T&gt;</code>
-returns a deep link of the provided argument
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| arg | <code>Nullable.&lt;T&gt;</code> \| <code>Array.&lt;T&gt;</code> | 
-
-**Example**  
-```js
-const state = naiveClone(initialState);
-```
 <a name="toCamelCase"></a>
 
 ## toCamelCase(str) ⇒ <code>string</code>
-function to convert texts to camelCase for example ti generate attribute names
+<p>function to convert texts to camelCase for example ti generate attribute names</p>
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>string</code> | sequence of letters, dashes and spaces to be converted to camelCase |
+| str | <code>string</code> | <p>sequence of letters, dashes and spaces to be converted to camelCase</p> |
 
 **Example**  
 ```js
@@ -973,7 +951,7 @@ toCamelCase("some other text") === "someOtherText";
 <a name="toKebabCase"></a>
 
 ## toKebabCase(str) ⇒ <code>string</code>
-converts the provided string to a kebab case (kebab-case)
+<p>converts the provided string to a kebab case (kebab-case)</p>
 
 **Kind**: global function  
 
@@ -988,8 +966,8 @@ toKebabCase("keyValuePair") === "key-value-pair"
 <a name="callback"></a>
 
 ## callback : <code>function</code>
-iterates over all nodes in a node list
-(necessary because IE11 doesn't support .forEach  * for NodeLists)
+<p>iterates over all nodes in a node list
+(necessary because IE11 doesn't support .forEach  * for NodeLists)</p>
 
 **Kind**: global typedef  
 

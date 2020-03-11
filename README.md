@@ -9,13 +9,13 @@
 </p>
 
 
-Kluntje is a javascript library that brings webcomponents to the next level. Take a look and make webcomponents development a breeze.
+Kluntje is a javascript library that brings web components to the next level. Take a look and make web components development a breeze.
 
 ## 🚀 Why Kluntje?
 
-Kluntje is the right tool if you want to use webcompoent with the feeling of a modern javascript framework. It suits good to CMS project and works with every JS framework.
+Kluntje is the right tool if you want to use web components with the feeling of a modern javascript framework. It fits well to CMS projects and works with every JS framework.
 
-*  It can hydrate existing (server-side rendered) markup and does not require to render client-side (although it can)
+*  It can hydrate existing (ie. server-side rendered) markup and does not require to render client-side (although it can)
 *  It does not force you to use shadow-dom (but you can)
 *  It has states and customizable state-reactions
 *  It adds helpful lifecycle hooks
@@ -28,7 +28,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Install
 
-Get the project up and running is pretty straight forward:
+Getting the project up and running is pretty straight forward:
 
 ```sh
 npm install @kluntje/core
@@ -56,9 +56,9 @@ And use it in your HTML file:
 <my-amazing-component></my-amazing-component>
 ```
 
-### How our components looks like
+### How our components look like
 
-Klutje-Components are defined as classes which extend from our core-component. Functionality can be in multiple ways:
+Kluntje-Components are defined as classes which extend from our core-component. Functionality can be added in multiple ways:
 
 *  of course you can always add properties and methods to your class 
 *  you can also provide a constructor object to add all kinds features
@@ -141,7 +141,7 @@ customElements.define("increment-input", IncrementInput);
 ```
 
 
-And our HTML will looks like:
+And our HTML will look like:
 
 ```html
 <increment-input>
