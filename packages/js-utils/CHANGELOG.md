@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.2.0...@kluntje/js-utils@0.3.0) (2020-03-11)
+
+
+### Bug Fixes
+
+* **js-utils:** fix folder name for js-utils unit tests ([990676b](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/990676bdd1291f2bb15a8229a209ccabc79b5a4a))
+* **js-utils:** fix single quote usage for window machines ([7820bdd](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/7820bdd3a0de5e3a67ae973c40223a6f50195601))
+
+
+### Features
+
+* **js-utils:** add decorators for `throttle` and `debounce` helper functions ([20865b2](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/20865b234cac682f2e303c695c2dbd1b817e7e6f))
+
+
+
+
+
 # [0.2.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.1.0...@kluntje/js-utils@0.2.0) (2020-03-06)
 
 

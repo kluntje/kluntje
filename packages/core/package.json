@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Library to make web-component development a breeze",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "contributors": [
@@ -24,7 +24,7 @@
     "build": "rimraf lib && rollup -c"
   },
   "dependencies": {
-    "@kluntje/js-utils": "^0.2.0",
-    "@kluntje/services": "^0.1.1"
+    "@kluntje/js-utils": "^0.3.0",
+    "@kluntje/services": "^0.2.0"
   }
 }

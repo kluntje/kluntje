@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/services",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Collection of useful services, when creating kluntje-components",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "contributors": [
@@ -23,6 +23,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@kluntje/js-utils": "^0.2.0"
+    "@kluntje/js-utils": "^0.3.0"
   }
 }
