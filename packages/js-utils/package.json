@@ -30,6 +30,7 @@
     "build:dateHelpers": "rollup -c build.js --environment TARGET:dateHelpers",
     "build:domHelpers": "rollup -c build.js --environment TARGET:domHelpers",
     "build:functionHelpers": "rollup -c build.js --environment TARGET:functionHelpers",
+    "build:functionHelpers/decorators": "rollup -c build.js --environment TARGET:functionHelpers/decorators",
     "build:objectHelpers": "rollup -c build.js --environment TARGET:objectHelpers",
     "build:stringHelpers": "rollup -c build.js --environment TARGET:stringHelpers",
     "test": "jest"

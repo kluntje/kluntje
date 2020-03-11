@@ -1,6 +1,6 @@
 /**
  * returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
- * call `.cancel()` on the returned function, to cancel the callback invokation.
+ * call `.cancel()` on the returned function, to cancel the callback invocation.
  *
  *
  * @example

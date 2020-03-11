@@ -7,22 +7,29 @@
  *   debonced("Hi");
  *   debonced("Hello");
  *   debonced("Hey");
- *   if (neverMind) debonced.cancel;
- *   // logs only "Hey"
+ *   if (neverMind) debonced.cancel();
+ *   // logs only "Hey", and when `neverMind === false`, doesn't log anything.
  *
  *
  *   // or instead of decorator on class methods
  *   Class Component {
  *     constructor() {
- *          window.addEventListener("resize", this.resizeHandler);
+ *       window.addEventListener("resize", this.resizeHandler);
+ *       window.addEventListener("scroll", this.scrollHandler);
  *     }
  *
- *     resizeHandler = throttle(event => {
+ *     resizeHandler = debounce(event => {
  *       // event handlers logic
  *     }, 100);
+ *
+ *     // or when the decorator is imported:
+ *     @debounce(100)
+ *     scrollHandler(event) {
+ *       // ...
+*      }
  *   }
  *
- * @param {Function} callback - function to be caled after the last wait period
+ * @param {Function} callback - function to be called after the last wait period
  * @param {number} [wait=0] - waiting period in ms before the callback is invoked if during this time the debounced method was not called
  * @returns {Function}
  */
