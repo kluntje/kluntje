@@ -5,6 +5,7 @@
     "create-package": "lerna create",
     "publish": "lerna run build && lerna publish --conventional-commits -m \"chore(root): Publish packages\"",
     "publish:canary": "lerna run build && lerna publish --canary -m \"chore(root): Publish canary version\"",
+    "publish:canary:force": "lerna run build && lerna publish --canary --force-publish=* -m \"chore(root): Publish canary version\"",
     "build": "lerna run build",
     "test": "lerna run test",
     "jest": "jest --watch",
