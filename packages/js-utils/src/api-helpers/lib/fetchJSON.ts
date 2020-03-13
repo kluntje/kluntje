@@ -10,11 +10,7 @@
  * // use as normal promise
  * fetchJSON("https://some.api/path").then((data) => console.log("myData:", data));
  */
-export const fetchJSON = async <T = any>(url: string, options?: RequestInit): Promise<T> => {
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-
-  return (await response.json()) as T;
+export const fetchJSON = <T = any>(url: string, options?: RequestInit): Promise<T> => {
+  return fetch(url, options)
+          .then(response => (response.json() as Promise<T>));
 };
