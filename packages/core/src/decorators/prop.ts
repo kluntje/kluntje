@@ -1,5 +1,5 @@
 // eslint-disable-next-line prettier/prettier
-import type { Component } from '../Component';
+import type { Component } from '../component';
 
 export const decoratedProps = Symbol('decorated-props');
 

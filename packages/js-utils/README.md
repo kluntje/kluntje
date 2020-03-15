@@ -92,6 +92,8 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 <dd><p>returns nested value without throwing an error if the parent doesn't exist</p></dd>
 <dt><a href="#isEqual">isEqual(arg1, arg2)</a> ⇒ <code>boolean</code></dt>
 <dd><p>compare two arguments, for object their toString values are compared</p></dd>
+<dt><a href="#isFilledObject">isFilledObject(obj)</a> ⇒ <code>boolean</code></dt>
+<dd><p>checks if provided argument is an object which has at least one entry in it.</p></dd>
 <dt><a href="#naiveClone">naiveClone(arg)</a> ⇒ <code>Nullable.&lt;T&gt;</code> | <code>Array.&lt;T&gt;</code></dt>
 <dd><p>returns a deep link of the provided argument</p></dd>
 <dt><a href="#toArray">toArray(arg)</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
@@ -807,6 +809,23 @@ getValue(obj, "a.f") === undefined;
 **Example**  
 ```js
 if (!isEqual(oldState, newState)) console.log('state changed');
+```
+<a name="isFilledObject"></a>
+
+## isFilledObject(obj) ⇒ <code>boolean</code>
+<p>checks if provided argument is an object which has at least one entry in it.</p>
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| obj | <code>any</code> | 
+
+**Example**  
+```js
+isFilledObject({ k: "v" }) === true;
+isFilledObject({}) === false;
+isFilledObject("text") === false;
 ```
 <a name="naiveClone"></a>
 
