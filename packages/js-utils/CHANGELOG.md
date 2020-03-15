@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.3.0...@kluntje/js-utils@0.4.0) (2020-03-15)
+
+
+### Bug Fixes
+
+* **js-utils:** fixed fetchJSON export bug by removing async/await ([bfa5f09](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/bfa5f09d3a2ab05932ab8eae909dd0f549a50180))
+
+
+### Features
+
+* **js-utils:** add simple helper to test if an object is empty ([3e51694](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/3e51694eedbe29a760f938d18eb5c262853b014e))
+
+
+
+
+
 # [0.3.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.2.0...@kluntje/js-utils@0.3.0) (2020-03-11)
 
 

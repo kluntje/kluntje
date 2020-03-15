@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.0.2...@kluntje/core@1.0.3) (2020-03-15)
+
+
+### Bug Fixes
+
+* **core:** fixed import error in prop.ts ([e73d7b1](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/e73d7b13de4665f16fc2ef26fab53d99044637ac))
+
+
+
+
+
 ## [1.0.2](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.0.1...@kluntje/core@1.0.2) (2020-03-11)
 
 **Note:** Version bump only for package @kluntje/core
