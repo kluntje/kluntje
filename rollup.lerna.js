@@ -6,10 +6,12 @@ export const generateRollupConfig = (pkg, inputPath) => ({
     {
       file: pkg.main,
       format: 'cjs',
+      sourcemap: true,
     },
     {
       file: pkg.module,
       format: 'es', // the preferred format
+      sourcemap: true,
     },
   ],
   external: [...Object.keys(pkg.dependencies || {})],
