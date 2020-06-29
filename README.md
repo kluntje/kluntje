@@ -75,8 +75,8 @@ class IncrementInput extends Component {
   constructor() {
     super({
       ui: {
-        input: "input",
-        button: ".handle-increment",
+        input: "input :-one",
+        button: ".handle-increment :-one",
       },
       events: [
         {
@@ -86,24 +86,24 @@ class IncrementInput extends Component {
         },
       ],
       initialStates: {
-        value: 0,
+        value: 1,
       },
       reactions: {
         value: ["handleIncrement"],
       },
     });
   }
-
+ 
   afterComponentRender() {
-    this.ui.input.value = this.state.value;
+    this.ui.input.value = this.state.value;    
   }
-  
+ 
   handleClick() {
-    this.setState({ value: this.state.value + 1}); 
+    this.setState({ value: this.state.value + 1});
   }
-  
-  handleIncrement({value}) {
-    this.ui.input.value = value;
+ 
+  handleIncrement() {
+    this.ui.input.value = this.state.value;
   }
 }
 
