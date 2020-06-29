@@ -102,8 +102,8 @@ class IncrementInput extends Component {
     this.setState({ value: this.state.value + 1});
   }
  
-  handleIncrement() {
-    this.ui.input.value = this.state.value;
+  handleIncrement({value}) {
+    this.ui.input.value = value;
   }
 }
 
