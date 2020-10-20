@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { naiveClone, isEqual, getValue, toArray } from '@kluntje/js-utils/lib/object-helpers';
 import { mergeArraysBy } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, removeEvent, waitForEvent, find, findAll } from '@kluntje/js-utils/lib/dom-helpers';
@@ -124,12 +123,12 @@ export class Component extends HTMLElement {
     // @ts-ignore
     (this.decoratedUiEls as Map<keyof this, DecoratorUiDefinition<this>>).forEach((decoratorUiDef, property) => {
       if (decoratorUiDef.selector === 'window') {
-        decoratorUiDef.events.forEach(event => {
+        decoratorUiDef.events.forEach((event) => {
           // @ts-ignore
           onEvent(window, event.eventName, this[event.handler], this);
         });
       } else if (decoratorUiDef.selector === 'this') {
-        decoratorUiDef.events.forEach(event => {
+        decoratorUiDef.events.forEach((event) => {
           // @ts-ignore
           onEvent(this, event.eventName, this[event.handler], this);
         });
@@ -139,7 +138,7 @@ export class Component extends HTMLElement {
           : findAll((this.getUiRoot() as unknown) as HTMLElement, decoratorUiDef.selector);
         // @ts-ignore
         this[property] = curEl;
-        decoratorUiDef.events.forEach(event => {
+        decoratorUiDef.events.forEach((event) => {
           // @ts-ignore
           onEvent(this[property], event.eventName, this[event.handler], this);
         });
@@ -217,8 +216,7 @@ export class Component extends HTMLElement {
       this.getUiRoot().appendChild(template.content.cloneNode(true));
     } else if (this.useShadowDOM) {
       this.shadowRoot!.innerHTML = template;
-    }
-    else {
+    } else {
       this.insertAdjacentHTML('beforeend', template);
     }
   }
@@ -291,7 +289,7 @@ export class Component extends HTMLElement {
   generateUI(): void {
     const uiRoot = this.getUiRoot();
     // Query DOM Nodes for ui-elements
-    Object.keys(this.ui).forEach(elementKey => {
+    Object.keys(this.ui).forEach((elementKey) => {
       const elementValue = this.ui[elementKey].trim();
       if (elementValue.endsWith(':-one')) {
         this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, '').trim());
@@ -306,7 +304,7 @@ export class Component extends HTMLElement {
    */
   generateEvents(): void {
     // Add given Events
-    this.events.forEach(event => {
+    this.events.forEach((event) => {
       if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
         // @ts-ignore
@@ -319,10 +317,11 @@ export class Component extends HTMLElement {
    * Removes all initially set eventbinding
    */
   removeEvents(): void {
-    this.events.forEach(event => {
+    this.events.forEach((event) => {
       if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
         if (NodeList.prototype.isPrototypeOf(targets)) {
+          // @ts-ignore
           targets.forEach((target: HTMLElement) => {
             // @ts-ignore
             removeEvent(target, event.event, this[event.handler], this);
@@ -341,7 +340,7 @@ export class Component extends HTMLElement {
   updateUI(): void {
     const uiRoot = this.getUiRoot();
     this.ui = {};
-    Object.keys(this.selectors).forEach(elementKey => {
+    Object.keys(this.selectors).forEach((elementKey) => {
       const elementValue = this.selectors[elementKey].trim();
       if (elementValue.endsWith(':-one')) {
         this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, '').trim());
@@ -355,11 +354,12 @@ export class Component extends HTMLElement {
    * Recreates Global Events-Array
    */
   updateEvents(): void {
-    this.events.forEach(event => {
+    this.events.forEach((event) => {
       if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
 
         if (NodeList.prototype.isPrototypeOf(targets)) {
+          // @ts-ignore
           targets.forEach((target: Node) => {
             // @ts-ignore
             removeEvent(target, event.event, this[event.handler], this);
@@ -412,7 +412,7 @@ export class Component extends HTMLElement {
         typeof value === 'object' &&
         value !== null &&
         Object.keys(value).length &&
-        Object.keys(value).every(key => propDefinitionKeys.includes(key));
+        Object.keys(value).every((key) => propDefinitionKeys.includes(key));
 
       const prop: PropDefinition = isDefProp ? value : { defaultValue: value };
 
@@ -665,7 +665,7 @@ export class Component extends HTMLElement {
 
     const reactions = this.reactions || {};
     // invoke necessary reactions
-    Object.keys(reactions).forEach(prop => {
+    Object.keys(reactions).forEach((prop) => {
       // always invoke the wildcard reaction
       if (prop === '*') {
         this.invokeReaction('*');
@@ -731,8 +731,8 @@ export class Component extends HTMLElement {
       delete this.reactions[propName];
     } else {
       // remove callback from values,
-      callbacks.forEach(cb => {
-        this.reactions[propName] = this.reactions[propName].filter(e => e !== cb);
+      callbacks.forEach((cb) => {
+        this.reactions[propName] = this.reactions[propName].filter((e) => e !== cb);
       });
       // if no value left -> delete key from reactions
       if (this.reactions[propName].length === 0) {
@@ -772,7 +772,7 @@ export class Component extends HTMLElement {
    * @param  {Array<ComponentEvent>} newEvents  Event-Object-Array
    */
   mergeEvents(newEvents: ComponentEvent[]): void {
-    this.events = this.events.filter(event => this.isNewEvent(event, newEvents)).concat(newEvents);
+    this.events = this.events.filter((event) => this.isNewEvent(event, newEvents)).concat(newEvents);
   }
 
   /**
@@ -783,7 +783,7 @@ export class Component extends HTMLElement {
    * @returns {boolean}        is given Event not in given Event-Array
    */
   isNewEvent(event: ComponentEvent, eventArr: ComponentEvent[]): boolean {
-    return !eventArr.some(newEvent => {
+    return !eventArr.some((newEvent) => {
       return newEvent.event === event.event && newEvent.target === event.target;
     });
   }

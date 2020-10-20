@@ -16,7 +16,7 @@ export class ViewportObserver {
   }
 
   private static handleIntersectionChange(e: IntersectionEvent) {
-    Object.keys(e).forEach(key => {
+    Object.keys(e).forEach((key) => {
       const observedEl = e[key];
       const target = observedEl.target;
 
