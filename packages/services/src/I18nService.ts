@@ -287,7 +287,7 @@ export class I18nService {
    * @memberof I18nService
    */
   private fillInPlaceholders() {
-    Array.from(document.getElementsByClassName(I18nService.PLACEHOLDER_SELECTOR)).forEach(el => {
+    Array.from(document.getElementsByClassName(I18nService.PLACEHOLDER_SELECTOR)).forEach((el) => {
       const { key, fallback, interpolations } = (el as HTMLElement).dataset;
 
       el.replaceWith(

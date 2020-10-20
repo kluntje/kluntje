@@ -86,17 +86,17 @@ describe('onEvent tests:', () => {
     describe('multiple target elements', () => {
       test('should add eventListener to target', () => {
         onEvent(mockTargets, 'click', mockContext.mockHandler, mockContext);
-        mockTargets.forEach(curTarget => expect(curTarget.addEventListener).toBeCalled());
+        mockTargets.forEach((curTarget) => expect(curTarget.addEventListener).toBeCalled());
         expect(mockContext.mockHandler).not.toBeCalled();
-        mockTargets.forEach(curTarget => curTarget.dispatchEvent(new Event('click')));
+        mockTargets.forEach((curTarget) => curTarget.dispatchEvent(new Event('click')));
         expect(mockContext.mockHandler).toBeCalledTimes(5);
       });
 
       test('should add listeners for all events in space separeted string', () => {
         onEvent(mockTargets, 'click touchstart touchend', mockContext.mockHandler, mockContext);
-        mockTargets.forEach(curTarget => expect(curTarget.addEventListener).toBeCalledTimes(3));
+        mockTargets.forEach((curTarget) => expect(curTarget.addEventListener).toBeCalledTimes(3));
         expect(mockContext.mockHandler).not.toBeCalled();
-        mockTargets.forEach(curTarget => {
+        mockTargets.forEach((curTarget) => {
           curTarget.dispatchEvent(new Event('click'));
           curTarget.dispatchEvent(new Event('touchstart'));
           curTarget.dispatchEvent(new Event('touchend'));
@@ -106,9 +106,9 @@ describe('onEvent tests:', () => {
 
       test('should add listeners for all events given in Array<string>', () => {
         onEvent(mockTargets, ['mouseenter', 'mouseleave'], mockContext.mockHandler, mockContext);
-        mockTargets.forEach(curTarget => expect(curTarget.addEventListener).toBeCalledTimes(2));
+        mockTargets.forEach((curTarget) => expect(curTarget.addEventListener).toBeCalledTimes(2));
         expect(mockContext.mockHandler).not.toBeCalled();
-        mockTargets.forEach(curTarget => {
+        mockTargets.forEach((curTarget) => {
           curTarget.dispatchEvent(new Event('mouseenter'));
           curTarget.dispatchEvent(new Event('mouseleave'));
         });
@@ -173,7 +173,7 @@ describe('onEvent tests:', () => {
     describe('multiple target elements', () => {
       test('should add new objects for all targets, handler and context to eventIdMap', () => {
         onEvent(mockTargets, 'click', mockContext.mockHandler, mockContext);
-        mockTargets.forEach(curTarget => expect(mockContext.eventIdMap.has(curTarget)).toBe(true));
+        mockTargets.forEach((curTarget) => expect(mockContext.eventIdMap.has(curTarget)).toBe(true));
         expect(mockContext.eventIdMap.has(mockContext.mockHandler)).toBe(true);
         // @ts-ignore
         expect(mockContext.eventIdMap.has(mockContext)).toBe(true);
@@ -181,7 +181,7 @@ describe('onEvent tests:', () => {
 
       test('should not add multiple new objects for the same target, handler and context to eventIdMap, if multiple events are provided', () => {
         onEvent(mockTargets, 'click touchstart touchend', mockContext.mockHandler, mockContext);
-        mockTargets.forEach(curTarget => expect(mockContext.eventIdMap.has(curTarget)).toBe(true));
+        mockTargets.forEach((curTarget) => expect(mockContext.eventIdMap.has(curTarget)).toBe(true));
         expect(mockContext.eventIdMap.has(mockContext.mockHandler)).toBe(true);
         // @ts-ignore
         expect(mockContext.eventIdMap.has(mockContext)).toBe(true);

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { removeAllBS } from '@kluntje/js-utils/lib/string-helpers';
 import { pushIfNew, hasElement } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, MQDefinition, getCurrentMQ } from '@kluntje/js-utils/lib/dom-helpers';
