@@ -12,7 +12,7 @@
  * @returns {Function}
  */
 export default function tag(tagName: string): Function {
-  return function<T extends { new (): HTMLElement }>(ComponentClass: T) {
+  return function <T extends { new (): HTMLElement }>(ComponentClass: T) {
     customElements.define(tagName, ComponentClass);
 
     return ComponentClass;

@@ -35,27 +35,27 @@ describe('toggleClass tests:', () => {
     const testEls = new Array(15).fill(document.createElement('div'));
 
     test('should remove class of all given Elements, if class is present', () => {
-      testEls.map(testel => testel.classList.add(textClassname));
+      testEls.map((testel) => testel.classList.add(textClassname));
       toggleClass(testEls, textClassname);
-      testEls.forEach(el => expect(el.classList).not.toContain(textClassname));
+      testEls.forEach((el) => expect(el.classList).not.toContain(textClassname));
     });
 
     test('should add class to all given Elements, if class is not present', () => {
-      testEls.map(testel => testel.classList.remove(textClassname));
+      testEls.map((testel) => testel.classList.remove(textClassname));
       toggleClass(testEls, textClassname);
-      testEls.forEach(el => expect(el.classList).toContain(textClassname));
+      testEls.forEach((el) => expect(el.classList).toContain(textClassname));
     });
 
     test('should not add class to given Elements, if add flag is false', () => {
-      testEls.map(testel => testel.classList.remove(textClassname));
+      testEls.map((testel) => testel.classList.remove(textClassname));
       toggleClass(testEls, textClassname, false);
-      testEls.forEach(el => expect(el.classList).not.toContain(textClassname));
+      testEls.forEach((el) => expect(el.classList).not.toContain(textClassname));
     });
 
     test('should not remove class of given Elements, if add flag is true', () => {
-      testEls.map(testel => testel.classList.add(textClassname));
+      testEls.map((testel) => testel.classList.add(textClassname));
       toggleClass(testEls, textClassname, true);
-      testEls.forEach(el => expect(el.classList).toContain(textClassname));
+      testEls.forEach((el) => expect(el.classList).toContain(textClassname));
     });
   });
 });

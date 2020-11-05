@@ -90,18 +90,18 @@ describe('removeEvent tests:', () => {
       test('should remove eventListener from target', () => {
         onEvent(mockTargets, 'click', mockContext.mockHandler, mockContext);
         removeEvent(mockTargets, 'click', mockContext.mockHandler, mockContext);
-        mockTargets.forEach(curTarget => expect(curTarget.removeEventListener).toBeCalled());
+        mockTargets.forEach((curTarget) => expect(curTarget.removeEventListener).toBeCalled());
         expect(mockContext.mockHandler).not.toBeCalled();
-        mockTargets.forEach(curTarget => curTarget.dispatchEvent(new Event('click')));
+        mockTargets.forEach((curTarget) => curTarget.dispatchEvent(new Event('click')));
         expect(mockContext.mockHandler).not.toBeCalled();
       });
 
       test('should remove listeners of all events in space separeted string', () => {
         onEvent(mockTargets, 'click touchstart touchend', mockContext.mockHandler, mockContext);
         removeEvent(mockTargets, 'click touchstart touchend', mockContext.mockHandler, mockContext);
-        mockTargets.forEach(curTarget => expect(curTarget.removeEventListener).toBeCalledTimes(3));
+        mockTargets.forEach((curTarget) => expect(curTarget.removeEventListener).toBeCalledTimes(3));
         expect(mockContext.mockHandler).not.toBeCalled();
-        mockTargets.forEach(curTarget => {
+        mockTargets.forEach((curTarget) => {
           curTarget.dispatchEvent(new Event('click'));
           curTarget.dispatchEvent(new Event('touchstart'));
           curTarget.dispatchEvent(new Event('touchend'));
@@ -112,9 +112,9 @@ describe('removeEvent tests:', () => {
       test('should remove listeners of all events given in Array<string>', () => {
         onEvent(mockTargets, ['mouseenter', 'mouseleave'], mockContext.mockHandler, mockContext);
         removeEvent(mockTargets, ['mouseenter', 'mouseleave'], mockContext.mockHandler, mockContext);
-        mockTargets.forEach(curTarget => expect(curTarget.removeEventListener).toBeCalledTimes(2));
+        mockTargets.forEach((curTarget) => expect(curTarget.removeEventListener).toBeCalledTimes(2));
         expect(mockContext.mockHandler).not.toBeCalled();
-        mockTargets.forEach(curTarget => {
+        mockTargets.forEach((curTarget) => {
           curTarget.dispatchEvent(new Event('mouseenter'));
           curTarget.dispatchEvent(new Event('mouseleave'));
         });
