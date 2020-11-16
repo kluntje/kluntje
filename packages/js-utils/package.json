@@ -20,6 +20,45 @@
   "files": [
     "lib"
   ],
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./lib/index.mjs"
+    },
+    "./lib/api-helpers": {
+      "require": "./lib/api-helpers/index.js",
+      "import": "./lib/api-helpers/index.mjs"
+    },
+    "./lib/array-helpers": {
+      "require": "./lib/array-helpers/index.js",
+      "import": "./lib/array-helpers/index.mjs"
+    },
+    "./lib/date-helpers": {
+      "require": "./lib/date-helpers/index.js",
+      "import": "./lib/date-helpers/index.mjs",
+      "types": "./lib/date-helpers/index.d.ts"
+    },
+    "./lib/dom-helpers": {
+      "require": "./lib/dom-helpers/index.js",
+      "import": "./lib/dom-helpers/index.mjs"
+    },
+    "./lib/function-helpers": {
+      "require": "./lib/function-helpers/index.js",
+      "import": "./lib/function-helpers/index.mjs"
+    },
+    "./lib/function-helpers/decorators": {
+      "require": "./lib/function-helpers/decorators/index.js",
+      "import": "./lib/function-helpers/decorators/index.mjs"
+    },
+    "./lib/object-helpers": {
+      "require": "./lib/object-helpers/index.js",
+      "import": "./lib/object-helpers/index.mjs"
+    },
+    "./lib/string-helpers": {
+      "require": "./lib/string-helpers/index.js",
+      "import": "./lib/string-helpers/index.mjs"
+    }
+  },
   "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/js-utils",
   "scripts": {
     "build": "npm-run-all clean-dist generate-declarations build:*",
