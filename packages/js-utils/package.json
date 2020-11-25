@@ -23,15 +23,18 @@
   "exports": {
     ".": {
       "require": "./lib/index.js",
-      "import": "./lib/index.mjs"
+      "import": "./lib/index.mjs",
+      "types": "./lib/index.d.ts"
     },
     "./lib/api-helpers": {
       "require": "./lib/api-helpers/index.js",
-      "import": "./lib/api-helpers/index.mjs"
+      "import": "./lib/api-helpers/index.mjs",
+      "types": "./lib/api-helpers/index.d.ts"
     },
     "./lib/array-helpers": {
       "require": "./lib/array-helpers/index.js",
-      "import": "./lib/array-helpers/index.mjs"
+      "import": "./lib/array-helpers/index.mjs",
+      "types": "./lib/array-helpers/index.d.ts"
     },
     "./lib/date-helpers": {
       "require": "./lib/date-helpers/index.js",
@@ -40,39 +43,36 @@
     },
     "./lib/dom-helpers": {
       "require": "./lib/dom-helpers/index.js",
-      "import": "./lib/dom-helpers/index.mjs"
+      "import": "./lib/dom-helpers/index.mjs",
+      "types": "./lib/dom-helpers/index.d.ts"
     },
     "./lib/function-helpers": {
       "require": "./lib/function-helpers/index.js",
-      "import": "./lib/function-helpers/index.mjs"
+      "import": "./lib/function-helpers/index.mjs",
+      "types": "./lib/function-helpers/index.d.ts"
     },
     "./lib/function-helpers/decorators": {
       "require": "./lib/function-helpers/decorators/index.js",
-      "import": "./lib/function-helpers/decorators/index.mjs"
+      "import": "./lib/function-helpers/decorators/index.mjs",
+      "types": "./lib/function-helpers/decorators.d.ts"
     },
     "./lib/object-helpers": {
       "require": "./lib/object-helpers/index.js",
-      "import": "./lib/object-helpers/index.mjs"
+      "import": "./lib/object-helpers/index.mjs",
+      "types": "./lib/object-helpers/index.d.ts"
     },
     "./lib/string-helpers": {
       "require": "./lib/string-helpers/index.js",
-      "import": "./lib/string-helpers/index.mjs"
+      "import": "./lib/string-helpers/index.mjs",
+      "types": "./lib/string-helpers/index.d.ts"
     }
   },
   "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/js-utils",
   "scripts": {
-    "build": "npm-run-all clean-dist generate-declarations build:*",
+    "build": "npm-run-all clean-dist generate-declarations rollup",
     "clean-dist": "rimraf lib",
     "generate-declarations": "tsc -d --outDir lib --emitDeclarationOnly",
-    "build:index": "rollup -c build.js --environment TARGET:index",
-    "build:apiHelpers": "rollup -c build.js --environment TARGET:apiHelpers",
-    "build:arrayHelpers": "rollup -c build.js --environment TARGET:arrayHelpers",
-    "build:dateHelpers": "rollup -c build.js --environment TARGET:dateHelpers",
-    "build:domHelpers": "rollup -c build.js --environment TARGET:domHelpers",
-    "build:functionHelpers": "rollup -c build.js --environment TARGET:functionHelpers",
-    "build:functionHelpers/decorators": "rollup -c build.js --environment TARGET:functionHelpers/decorators",
-    "build:objectHelpers": "rollup -c build.js --environment TARGET:objectHelpers",
-    "build:stringHelpers": "rollup -c build.js --environment TARGET:stringHelpers",
+    "rollup": "rollup -c",
     "test": "jest"
   }
 }
