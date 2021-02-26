@@ -32,6 +32,8 @@ type ComponentProps<T> = {
   [key: string]: PropDefinition<T>;
 };
 
+export const INITIALIZED_EVENT = 'kl-component-initialized';
+
 export type ComponentArgs = {
   ui?: ComponentUiEl;
   events?: ComponentEvent[];
@@ -238,12 +240,12 @@ export class Component extends HTMLElement {
   }
 
   onComponentInitialized() {
-    this.dispatchEvent(new CustomEvent('kl-component-initialized'));
+    this.dispatchEvent(new CustomEvent(INITIALIZED_EVENT));
   }
 
   async waitForInitialization() {
     if (this.state.initialized) return;
-    return await waitForEvent(this, 'kl-component-initialized');
+    return await waitForEvent(this, INITIALIZED_EVENT);
   }
 
   /* ====================================================
