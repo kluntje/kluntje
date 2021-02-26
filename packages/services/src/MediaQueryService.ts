@@ -1,5 +1,6 @@
 import { throttle } from '@kluntje/js-utils/lib/function-helpers/decorators';
 import { onEvent, getCurrentMQ, MQDefinition } from '@kluntje/js-utils/lib/dom-helpers';
+import { MQ_CHANGE_EVENT } from './eventNames';
 
 export class MediaQueryService {
   private static instance: MediaQueryService;
@@ -33,7 +34,7 @@ export class MediaQueryService {
     }
 
     window.dispatchEvent(
-      new CustomEvent('kl-mq-change', {
+      new CustomEvent(MQ_CHANGE_EVENT, {
         detail: {
           newMQ,
           oldMQ: this.lastMQ,
