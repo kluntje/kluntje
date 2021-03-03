@@ -1,7 +1,7 @@
 import { removeAllBS } from '@kluntje/js-utils/lib/string-helpers';
 import { pushIfNew, hasElement } from '@kluntje/js-utils/lib/array-helpers';
 import { onEvent, MQDefinition, getCurrentMQ } from '@kluntje/js-utils/lib/dom-helpers';
-import { MediaQueryService } from '@kluntje/services';
+import { MediaQueryService, MQ_CHANGE_EVENT } from '@kluntje/services';
 
 export { default as prop } from './prop';
 export { default as tag } from './tag';
@@ -154,7 +154,7 @@ export function MQBasedRendered<T extends { new (...args: any[]): any }>(mediaQu
       connectedCallback(): void {
         MediaQueryService.getInstance(mediaQueries);
         // @ts-ignore
-        onEvent(window, 'kl-mq-change', this.handleMqChange, this);
+        onEvent(window, MQ_CHANGE_EVENT, this.handleMqChange, this);
         this.mqBasedConnect();
       }
     };

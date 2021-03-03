@@ -1,3 +1,5 @@
+import { IN_VP_EVENT, OUT_VP_EVENT } from './eventNames';
+
 type IntersectionEvent = {
   [key: string]: any;
 };
@@ -21,9 +23,9 @@ export class ViewportObserver {
       const target = observedEl.target;
 
       if (observedEl.isIntersecting) {
-        target.dispatchEvent(new CustomEvent('kl-in-vp'));
+        target.dispatchEvent(new CustomEvent(IN_VP_EVENT));
       } else {
-        target.dispatchEvent(new CustomEvent('kl-out-vp'));
+        target.dispatchEvent(new CustomEvent(OUT_VP_EVENT));
       }
     });
   }
