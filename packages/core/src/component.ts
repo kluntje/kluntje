@@ -274,6 +274,8 @@ export class Component extends HTMLElement {
    * Recreates global ui-Object
    */
   public updateUI(): void {
+    this.destroyDecoratedProperties();
+    this.enableDecoratedProperties();
     this.ui = {};
     this.generateUI();
   }
