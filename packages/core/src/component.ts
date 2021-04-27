@@ -88,36 +88,6 @@ export class Component extends HTMLElement {
     this.props = this.normalizeProps({ ...(this[decoratedProps] || null), ...props });
   }
 
-  private enableDecoratedProperties() {
-    // @ts-ignore
-    if (this.decoratedUiEls === undefined) return;
-
-    // @ts-ignore
-    (this.decoratedUiEls as Map<keyof this, DecoratorUiDefinition<this>>).forEach((decoratorUiDef, property) => {
-      if (decoratorUiDef.selector === 'window') {
-        decoratorUiDef.events.forEach((event) => {
-          // @ts-ignore
-          onEvent(window, event.eventName, this[event.handler], this);
-        });
-      } else if (decoratorUiDef.selector === 'this') {
-        decoratorUiDef.events.forEach((event) => {
-          // @ts-ignore
-          onEvent(this, event.eventName, this[event.handler], this);
-        });
-      } else {
-        const curEl = decoratorUiDef.justOne
-          ? find(this.getUiRoot() as HTMLElement, decoratorUiDef.selector)
-          : findAll(this.getUiRoot() as HTMLElement, decoratorUiDef.selector);
-        // @ts-ignore
-        this[property] = curEl;
-        decoratorUiDef.events.forEach((event) => {
-          // @ts-ignore
-          onEvent(this[property], event.eventName, this[event.handler], this);
-        });
-      }
-    });
-  }
-
   /* ====================================================
                     Lifcycle-Hooks
     ==================================================*/
@@ -251,6 +221,7 @@ export class Component extends HTMLElement {
    * removes all component Props (ui, event)
    */
   private destroyComponentProps(): void {
+    this.destroyDecoratedProperties();
     this.removeEvents();
     this.ui = {};
   }
@@ -303,6 +274,8 @@ export class Component extends HTMLElement {
    * Recreates global ui-Object
    */
   public updateUI(): void {
+    this.destroyDecoratedProperties();
+    this.enableDecoratedProperties();
     this.ui = {};
     this.generateUI();
   }
@@ -318,6 +291,70 @@ export class Component extends HTMLElement {
         removeEvent(targets, event.event, this[event.handler], this);
         // @ts-ignore
         onEvent(targets, event.event, this[event.handler], this);
+      }
+    });
+  }
+
+  /* ====================================================
+                    Decorator Handling
+    ==================================================*/
+
+  private enableDecoratedProperties() {
+    // @ts-ignore
+    if (this.decoratedUiEls === undefined) return;
+
+    // @ts-ignore
+    (this.decoratedUiEls as Map<keyof this, DecoratorUiDefinition<this>>).forEach((decoratorUiDef, property) => {
+      if (decoratorUiDef.selector === 'window') {
+        decoratorUiDef.events.forEach((event) => {
+          // @ts-ignore
+          onEvent(window, event.eventName, this[event.handler], this);
+        });
+      } else if (decoratorUiDef.selector === 'this') {
+        decoratorUiDef.events.forEach((event) => {
+          // @ts-ignore
+          onEvent(this, event.eventName, this[event.handler], this);
+        });
+      } else {
+        const curEl = decoratorUiDef.justOne
+          ? find(this.getUiRoot() as HTMLElement, decoratorUiDef.selector)
+          : findAll(this.getUiRoot() as HTMLElement, decoratorUiDef.selector);
+        // @ts-ignore
+        this[property] = curEl;
+        decoratorUiDef.events.forEach((event) => {
+          // @ts-ignore
+          onEvent(this[property], event.eventName, this[event.handler], this);
+        });
+      }
+    });
+  }
+
+  private destroyDecoratedProperties() {
+    // @ts-ignore
+    if (this.decoratedUiEls === undefined) return;
+
+    // @ts-ignore
+    (this.decoratedUiEls as Map<keyof this, DecoratorUiDefinition<this>>).forEach((decoratorUiDef, property) => {
+      if (decoratorUiDef.selector === 'window') {
+        decoratorUiDef.events.forEach((event) => {
+          // @ts-ignore
+          removeEvent(window, event.eventName, this[event.handler], this);
+        });
+      } else if (decoratorUiDef.selector === 'this') {
+        decoratorUiDef.events.forEach((event) => {
+          // @ts-ignore
+          removeEvent(this, event.eventName, this[event.handler], this);
+        });
+      } else {
+        const curEl = this[property];
+        if (curEl !== null && curEl !== undefined) {
+          decoratorUiDef.events.forEach((event) => {
+            // @ts-ignore
+            removeEvent(this[property], event.eventName, this[event.handler], this);
+          });
+        }
+        // @ts-ignore
+        this[property] = undefined;
       }
     });
   }
