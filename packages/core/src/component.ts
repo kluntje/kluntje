@@ -442,8 +442,9 @@ export class Component extends HTMLElement {
       prop.defaultValue = prop.hasOwnProperty('defaultValue') ? prop.defaultValue : this[propName];
       //@ts-ignore - assuming user won't use any non supported type, in any case switch statement has a default type in the casting for that
       prop.type =
-        prop.type ||
-        (prop.defaultValue !== null && prop.defaultValue !== undefined ? typeof prop.defaultValue : 'string');
+        prop.type || (prop.defaultValue !== null && prop.defaultValue !== undefined)
+          ? typeof prop.defaultValue
+          : 'string';
     });
   }
 
