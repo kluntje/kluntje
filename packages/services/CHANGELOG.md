@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.3.1...@kluntje/services@0.4.0) (2021-04-28)
+
+
+### Features
+
+* **all:** added exports for all kluntje-specific events ([4bfbdbd](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/4bfbdbd74a04fd0dd8696ef22736a25a7e7749c7)), closes [#43](https://github.com/kluntje/kluntje/tree/develop/packages/services/issues/43)
+
+
+
+
+
 ## [0.3.1](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.3.0...@kluntje/services@0.3.1) (2021-02-24)
 
 **Note:** Version bump only for package @kluntje/services
