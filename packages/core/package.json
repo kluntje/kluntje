@@ -11,8 +11,9 @@
   ],
   "license": "Apache-2.0",
   "main": "lib/component.js",
-  "module": "lib/component.module.js",
+  "module": "lib/component.mjs",
   "types": "lib/component.d.ts",
+  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
