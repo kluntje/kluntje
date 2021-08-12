@@ -30,7 +30,7 @@ class MyAmazingComponent extends Component {
 
 ### MediaQueryService
 
-Service, that fires "kl-mq-change"-events on window, when mq-change occures.
+Service, that fires "kl-mq-change"-events on window, when mq-change occurs.
 
 ```javascript
 import { MediaQueryService } from "@kluntje/services";
@@ -55,7 +55,7 @@ MediaQueryService.getInstance(myMQs);
 ### I18nService
 
 A service to provide sync/async way to provide internationalization values.
-With i18n values beeing able to have variable placeholder in them. indexed for arrays e.g. `{0}` or named for objects e.g. `{hour}`.
+With i18n values being able to have variable placeholder in them. indexed for arrays e.g. `{0}` or named for objects e.g. `{hour}`.
 
 Usage:
 
