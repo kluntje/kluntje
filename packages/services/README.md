@@ -75,6 +75,24 @@ const filters: string[] | null = URLSearchParamsService.getAll("filter");
 
 ```
 
+### DebuggerService
+
+Service to log messages to the console depending on js-debug query-param.
+
+```javascript
+import { DebuggerService } from "@kluntje/services";
+
+// log message to console
+DebuggerService.log("Hello World");
+
+// log warning to console
+DebuggerService.warn("Warning");
+
+// log error to console
+DebuggerService.error("Error");
+
+```
+
 ### I18nService
 
 A service to provide sync/async way to provide internationalization values.
