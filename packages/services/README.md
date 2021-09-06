@@ -52,6 +52,29 @@ MediaQueryService.getInstance(myMQs);
 
 ```
 
+### URLSearchParamsService
+
+Service, that gets and sets URLSearchParams.
+
+```javascript
+import { URLSearchParamsService } from "@kluntje/services";
+
+// get single query param
+const queryParam = URLSearchParamsService.get("query");
+
+// set single query param
+URLSearchParamsService.set("query", "newValue");
+
+// delete single query param
+URLSearchParamsService.delete("filter");
+
+// get all query params of specific key
+const filters: string[] | null = URLSearchParamsService.getAll("filter");
+
+// ...
+
+```
+
 ### I18nService
 
 A service to provide sync/async way to provide internationalization values.
