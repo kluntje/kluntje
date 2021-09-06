@@ -93,6 +93,17 @@ DebuggerService.error("Error");
 
 ```
 
+### LazyConnectService
+
+Service to trigger callback, when component is in viewport.
+
+```javascript
+import { LazyConnectService } from "@kluntje/services";
+
+LazyConnectService.subscribe(this, () => this.doSomething());
+
+```
+
 ### I18nService
 
 A service to provide sync/async way to provide internationalization values.
