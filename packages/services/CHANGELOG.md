@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.5.0...@kluntje/services@0.6.0) (2021-09-15)
+
+
+### Features
+
+* **services:** added getAllKeys method to URLSearchParamsService ([dd8443b](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/dd8443bf1cddcae87e939872a70aa11dd31e8941))
+
+
+
+
+
 # [0.5.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.4.0...@kluntje/services@0.5.0) (2021-09-06)
 
 

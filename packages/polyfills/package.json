@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/polyfills",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Collection of Polyfills for kluntje usage",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "license": "Apache-2.0",
