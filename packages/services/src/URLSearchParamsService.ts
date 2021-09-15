@@ -9,6 +9,11 @@ export class URLSearchParamsService {
     return this.urlSearchParams.getAll(param);
   }
 
+  public getAllKeys(): Array<string> {
+    // @ts-ignore
+    return Array.from(this.urlSearchParams.keys());
+  }
+
   public set(param: string, value: string): void {
     this.urlSearchParams.set(param, value);
     this.updateUrl();
