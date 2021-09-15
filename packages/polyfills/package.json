@@ -1,0 +1,26 @@
+{
+  "name": "@kluntje/polyfills",
+  "version": "0.0.1",
+  "description": "Collection of Polyfills for kluntje usage",
+  "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "modern",
+    "legacy"
+  ],
+  "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/polyfills",
+  "dependencies": {
+    "@webcomponents/custom-elements": "1.5.0",
+    "@webcomponents/shadydom": "1.9.0",
+    "@webcomponents/template": "1.5.0",
+    "core-js": "3.17.3",
+    "intersection-observer": "0.12.0",
+    "objectFitPolyfill": "2.3.5",
+    "scroll-behavior-polyfill": "2.0.13",
+    "url-search-params-polyfill": "8.1.1",
+    "whatwg-fetch": "3.6.2"
+  }
+}
