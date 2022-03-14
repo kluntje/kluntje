@@ -38,7 +38,7 @@ export class URLSearchParamsService {
     const hashCache = window.location.hash;
     const newUrl = curQueryString !== '' ? `${curUrl}?${curQueryString}` : curUrl;
     window.history.replaceState({ path: newUrl }, '', newUrl);
-    window.location.hash = hashCache;
+    if (hashCache !== '') window.location.hash = hashCache;
   }
 }
 
