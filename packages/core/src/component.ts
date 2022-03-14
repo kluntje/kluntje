@@ -32,7 +32,7 @@ export interface ComponentArgs {
 }
 
 export class Component extends HTMLElement {
-  private uiDefinitions: ComponentUiElementDefinitions = {};
+  protected uiDefinitions: ComponentUiElementDefinitions = {};
   protected ui: ComponentUiElements = {};
   private events: Array<ComponentEvent<this>> = [];
   private useShadowDOM: boolean;
