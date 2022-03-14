@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.1](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.0...@kluntje/services@0.6.1) (2022-03-14)
+
+
+### Bug Fixes
+
+* **services:** fixed FF issue in URLSearchParamService with empty hashes ([9ce6314](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/9ce6314f68887c4881b733007280f0f1a09f9755))
+
+
+
+
+
 # [0.6.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.5.0...@kluntje/services@0.6.0) (2021-09-15)
 
 
