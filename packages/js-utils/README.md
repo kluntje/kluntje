@@ -77,8 +77,12 @@ Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
 <dd><p>toggles given class on given element</p></dd>
 <dt><a href="#waitFor">waitFor(timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
 <dd><p>resolves Promise after given timeout</p></dd>
+<dt><a href="#waitForAnimationEnd">waitForAnimationEnd(el, [animationName])</a> ⇒ <code>Promise</code></dt>
+<dd><p>returns a promise which resolves after the animationend event</p></dd>
 <dt><a href="#waitForEvent">waitForEvent(target, eventName, timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
 <dd><p>waits for given event for a (optional) max-timeout</p></dd>
+<dt><a href="#waitForTransitionEnd">waitForTransitionEnd(el, [propertyName])</a> ⇒ <code>Promise</code></dt>
+<dd><p>returns a promise which resolves after the <code>transitionend</code> event</p></dd>
 <dt><a href="#debounce">debounce(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a debounced function which when called multiple of times each time it waits the waiting duration
 and if the method was not called during this time, the last call will be passed to the callback.</p></dd>
@@ -88,14 +92,14 @@ helper function should have this signature: <code>(Function, ...args: any[]) =&g
 <dt><a href="#throttle">throttle(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
 call <code>.cancel()</code> on the returned function, to cancel the callback invocation.</p></dd>
-<dt><del><a href="#getValue">getValue(obj, path)</a> ⇒ <code>*</code></del></dt>
+<dt><a href="#getValue">getValue(obj, path)</a> ⇒ <code>*</code></dt>
 <dd><p>returns nested value without throwing an error if the parent doesn't exist</p></dd>
 <dt><a href="#isEqual">isEqual(arg1, arg2)</a> ⇒ <code>boolean</code></dt>
 <dd><p>compare two arguments, for object their toString values are compared</p></dd>
 <dt><a href="#isFilledObject">isFilledObject(obj)</a> ⇒ <code>boolean</code></dt>
 <dd><p>checks if provided argument is an object which has at least one entry in it.</p></dd>
-<dt><a href="#naiveClone">naiveClone(arg)</a> ⇒ <code>Nullable.&lt;T&gt;</code> | <code>Array.&lt;T&gt;</code></dt>
-<dd><p>returns a deep link of the provided argument</p></dd>
+<dt><a href="#naiveClone">naiveClone(arg)</a> ⇒ <code>T</code></dt>
+<dd><p>returns a deep clone of the provided argument. supports any primitive types, arrays, sets, maps, dates which can also be deeply nested in an object.</p></dd>
 <dt><a href="#toArray">toArray(arg)</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
 <dd><p>returns the argument wrapped in an array if it isn't array itself</p></dd>
 <dt><a href="#toString">toString(arg)</a> ⇒ <code>string</code></dt>
@@ -670,6 +674,28 @@ addClass(button, 'animate');
 await waitFor(300);
 removeClass(button, 'animate');
 ```
+<a name="waitForAnimationEnd"></a>
+
+## waitForAnimationEnd(el, [animationName]) ⇒ <code>Promise</code>
+<p>returns a promise which resolves after the animationend event</p>
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>SVGElement</code> | <p>DOM Element which has the css animation</p> |
+| [animationName] | <code>string</code> | <p>keyframes' name. e.g. &quot;slideOut&quot;</p> |
+
+**Example**  
+```
+  el.classList.add("hide");
+  await waitForAnimationEnd(el, "fade-out");
+  el.parentElement.removeChild(el);
+  // css:
+  // .hide {
+  //   animation: fade-out 0.5s forwards;
+  // }
+```
 <a name="waitForEvent"></a>
 
 ## waitForEvent(target, eventName, timeout) ⇒ <code>Promise.&lt;void&gt;</code>
@@ -693,6 +719,26 @@ waitForEvent(button, 'transitionend', 500).then(() => removeClass(button, 'anima
 addClass(button, 'animate');
 await waitForEvent(button, 'transitionend', 500);
 removeClass(button, 'animate');
+```
+<a name="waitForTransitionEnd"></a>
+
+## waitForTransitionEnd(el, [propertyName]) ⇒ <code>Promise</code>
+<p>returns a promise which resolves after the <code>transitionend</code> event</p>
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>SVGElement</code> | <p>DOM Element which has the css transition</p> |
+| [propertyName] | <code>string</code> | <p>transition's propertyName. e.g. &quot;width&quot;</p> |
+
+**Example**  
+```
+  menu.classList.add("open");
+  await waitForTransitionEnd(menu, "transform");
+  input.classList.add("visible");
+  await waitForTransitionEnd(input, "opacity");
+  input.focus();
 ```
 <a name="debounce"></a>
 
@@ -766,9 +812,7 @@ window.addEventListener("resize", throttle(updateSlider, 100));
 ```
 <a name="getValue"></a>
 
-## ~~getValue(obj, path) ⇒ <code>\*</code>~~
-***Deprecated***
-
+## getValue(obj, path) ⇒ <code>\*</code>
 <p>returns nested value without throwing an error if the parent doesn't exist</p>
 
 **Kind**: global function  
@@ -803,8 +847,8 @@ getValue(obj, "a.f") === undefined;
 
 | Param | Type |
 | --- | --- |
-| arg1 | <code>T</code> | 
-| arg2 | <code>T</code> | 
+| arg1 | <code>\*</code> | 
+| arg2 | <code>\*</code> | 
 
 **Example**  
 ```js
@@ -829,18 +873,18 @@ isFilledObject("text") === false;
 ```
 <a name="naiveClone"></a>
 
-## naiveClone(arg) ⇒ <code>Nullable.&lt;T&gt;</code> \| <code>Array.&lt;T&gt;</code>
-<p>returns a deep link of the provided argument</p>
+## naiveClone(arg) ⇒ <code>T</code>
+<p>returns a deep clone of the provided argument. supports any primitive types, arrays, sets, maps, dates which can also be deeply nested in an object.</p>
 
 **Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| arg | <code>Nullable.&lt;T&gt;</code> \| <code>Array.&lt;T&gt;</code> | 
+| arg | <code>T</code> | 
 
 **Example**  
 ```js
-const state = naiveClone(initialState);
+const state = naiveClone({a: {b: 123, c: false}});
 ```
 <a name="toArray"></a>
 

@@ -3,7 +3,6 @@
  * @param {Object} obj - object to be looked for value
  * @param {string} path - a string with dot separated levels: e.g "a.b"
  * @returns {*} - returned the found value or undefined
- * @deprecated - use typescript's optional chaining feature instead
  *
  * @example
  * const obj = {
