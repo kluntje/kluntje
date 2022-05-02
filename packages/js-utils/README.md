@@ -47,7 +47,7 @@ Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
 <dd><p>returns the first child of a specific parent matching the given selector</p></dd>
 <dt><a href="#findAll">findAll(parent, selector)</a> ⇒ <code>Array.&lt;Element&gt;</code></dt>
 <dd><p>returns all children of a specific parent matching the given selector</p></dd>
-<dt><a href="#callback">callback(node, index)</a> ⇒</dt>
+<dt><a href="#callback">callback(node, index, nodeList)</a></dt>
 <dd></dd>
 <dt><a href="#getCurrentMQ">getCurrentMQ(mediaQueries)</a> ⇒ <code>string</code></dt>
 <dd><p>returns current mediaQuery-name. e.g. &quot;MQ2&quot;</p></dd>
@@ -414,14 +414,14 @@ const inputs = findAll(document, 'input');
 ```
 <a name="callback"></a>
 
-## callback(node, index) ⇒
+## callback(node, index, nodeList)
 **Kind**: global function  
-**Returns**: <p>any</p>  
 
 | Param | Type |
 | --- | --- |
 | node | <code>Node</code> | 
 | index | <code>Number</code> | 
+| nodeList | <code>NodeListOf.&lt;T&gt;</code> | 
 
 <a name="getCurrentMQ"></a>
 
@@ -990,10 +990,10 @@ toKebabCase("keyValuePair") === "key-value-pair"
 
 **Kind**: global typedef  
 
-| Param | Type |
-| --- | --- |
-| nodeList | <code>NodeListOf.&lt;T&gt;</code> | 
-| [context] | <code>Context</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| nodeList | <code>NodeListOf.&lt;T&gt;</code> |  | 
+| [context] | <code>any</code> | <code>window</code> | 
 
 **Example**  
 ```js
