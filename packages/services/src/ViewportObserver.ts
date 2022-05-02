@@ -23,9 +23,9 @@ export class ViewportObserver {
       const target = observedEl.target;
 
       if (observedEl.isIntersecting) {
-        target.dispatchEvent(new CustomEvent(IN_VP_EVENT));
+        target.dispatchEvent(new CustomEvent(IN_VP_EVENT, { bubbles: false }));
       } else {
-        target.dispatchEvent(new CustomEvent(OUT_VP_EVENT));
+        target.dispatchEvent(new CustomEvent(OUT_VP_EVENT, { bubbles: false }));
       }
     });
   }
