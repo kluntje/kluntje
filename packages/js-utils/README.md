@@ -65,13 +65,13 @@ Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
 <dd><p>checks, whether an element is in the viewport</p></dd>
 <dt><a href="#isNodeList">isNodeList(target)</a> ⇒ <code>boolean</code></dt>
 <dd><p>checks, if target is NodeList</p></dd>
-<dt><a href="#onEvent">onEvent(target, events, handler, context)</a></dt>
+<dt><a href="#onEvent">onEvent(target, events, handler, context, [options])</a></dt>
 <dd><p>adds event with given parameters</p></dd>
 <dt><a href="#removeChildren">removeChildren(parent, selector)</a></dt>
 <dd><p>removes all children of a specific parent matching the given selector</p></dd>
 <dt><a href="#removeClass">removeClass(elements, ...classNames)</a></dt>
 <dd><p>removes given class from element</p></dd>
-<dt><a href="#removeEvent">removeEvent(target, events, handler, context)</a></dt>
+<dt><a href="#removeEvent">removeEvent(target, events, handler, context, [options])</a></dt>
 <dd><p>removes event with given parameters</p></dd>
 <dt><a href="#toggleClass">toggleClass(elements, className, add)</a></dt>
 <dd><p>toggles given class on given element</p></dd>
@@ -555,7 +555,7 @@ if (inViewport(image)) image.setAttribute('src', image.dataset('src'));
 
 <a name="onEvent"></a>
 
-## onEvent(target, events, handler, context)
+## onEvent(target, events, handler, context, [options])
 <p>adds event with given parameters</p>
 
 **Kind**: global function  
@@ -566,6 +566,7 @@ if (inViewport(image)) image.setAttribute('src', image.dataset('src'));
 | events | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 | handler | <code>function</code> | 
 | context | <code>Context</code> | 
+| [options] | <code>AddEventListenerOptions</code> | 
 
 **Example**  
 ```js
@@ -613,7 +614,7 @@ removeClass(inputs, 'active');
 ```
 <a name="removeEvent"></a>
 
-## removeEvent(target, events, handler, context)
+## removeEvent(target, events, handler, context, [options])
 <p>removes event with given parameters</p>
 
 **Kind**: global function  
@@ -624,6 +625,7 @@ removeClass(inputs, 'active');
 | events | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 | handler | <code>function</code> | 
 | context | <code>Context</code> | 
+| [options] | <code>AddEventListenerOptions</code> | 
 
 **Example**  
 ```js

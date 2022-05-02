@@ -8,6 +8,7 @@ import { Context } from './Context';
  * @param {string | Array<string>} events
  * @param {Function} handler
  * @param {Context} context
+ * @param {AddEventListenerOptions} [options]
  * @example
  * const buttons = findAll(document, 'button);
  * removeEvent(buttons, 'click', () => console.log('button clicked'), this);
@@ -17,6 +18,7 @@ export const removeEvent = <T extends Event = Event>(
   events: string | Array<string>,
   handler: EventHandler<T>,
   context: Context,
+  options?: AddEventListenerOptions,
 ) => {
   if (target === undefined
     || target === null
@@ -27,7 +29,7 @@ export const removeEvent = <T extends Event = Event>(
 
   if (isIterable<HTMLElement>(target) && !(target instanceof HTMLElement)) {
     for (const element of target) {
-      removeEvent(element, events, handler, context);
+      removeEvent(element, events, handler, context, options);
     }
     return;
   }
@@ -45,7 +47,7 @@ export const removeEvent = <T extends Event = Event>(
     const newFunc = context.eventBindingMap[key];
     if (newFunc) { // can't add two listeners with exact same arguments
       delete context.eventBindingMap[key];
-      target.removeEventListener(event, newFunc);
+      target.removeEventListener(event, newFunc, options);
     }
   });
 };

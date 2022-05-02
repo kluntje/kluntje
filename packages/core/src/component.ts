@@ -252,7 +252,7 @@ export class Component extends HTMLElement {
       if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
         // @ts-ignore
-        onEvent(targets, event.event, this[event.handler], this);
+        onEvent(targets, event.event, this[event.handler], this, event.options);
       }
     });
   }
@@ -265,7 +265,7 @@ export class Component extends HTMLElement {
       if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
         // @ts-ignore
-        removeEvent(targets, event.event, this[event.handler], this);
+        removeEvent(targets, event.event, this[event.handler], this, event.options);
       }
     });
   }
@@ -288,9 +288,9 @@ export class Component extends HTMLElement {
       if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
         // @ts-ignore
-        removeEvent(targets, event.event, this[event.handler], this);
+        removeEvent(targets, event.event, this[event.handler], this, event.options);
         // @ts-ignore
-        onEvent(targets, event.event, this[event.handler], this);
+        onEvent(targets, event.event, this[event.handler], this, event.options);
       }
     });
   }
@@ -308,12 +308,12 @@ export class Component extends HTMLElement {
       if (decoratorUiDef.selector === 'window') {
         decoratorUiDef.events.forEach((event) => {
           // @ts-ignore
-          onEvent(window, event.eventName, this[event.handler], this);
+          onEvent(window, event.eventName, this[event.handler], this, event.options);
         });
       } else if (decoratorUiDef.selector === 'this') {
         decoratorUiDef.events.forEach((event) => {
           // @ts-ignore
-          onEvent(this, event.eventName, this[event.handler], this);
+          onEvent(this, event.eventName, this[event.handler], this, event.options);
         });
       } else {
         const curEl = decoratorUiDef.justOne
@@ -323,7 +323,7 @@ export class Component extends HTMLElement {
         this[property] = curEl;
         decoratorUiDef.events.forEach((event) => {
           // @ts-ignore
-          onEvent(this[property], event.eventName, this[event.handler], this);
+          onEvent(this[property], event.eventName, this[event.handler], this, event.options);
         });
       }
     });
@@ -338,19 +338,19 @@ export class Component extends HTMLElement {
       if (decoratorUiDef.selector === 'window') {
         decoratorUiDef.events.forEach((event) => {
           // @ts-ignore
-          removeEvent(window, event.eventName, this[event.handler], this);
+          removeEvent(window, event.eventName, this[event.handler], this, event.options);
         });
       } else if (decoratorUiDef.selector === 'this') {
         decoratorUiDef.events.forEach((event) => {
           // @ts-ignore
-          removeEvent(this, event.eventName, this[event.handler], this);
+          removeEvent(this, event.eventName, this[event.handler], this, event.options);
         });
       } else {
         const curEl = this[property];
         if (curEl !== null && curEl !== undefined) {
           decoratorUiDef.events.forEach((event) => {
             // @ts-ignore
-            removeEvent(this[property], event.eventName, this[event.handler], this);
+            removeEvent(this[property], event.eventName, this[event.handler], this, event.options);
           });
         }
         // @ts-ignore
