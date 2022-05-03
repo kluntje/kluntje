@@ -14,11 +14,29 @@
 npm install @kuntje/js-utils
 ```
 
+## Usage
+
+```js
+import { inViewport } from '@kluntje/js-utils/lib/dom-helpers';
+const inView = inViewport(document.querySelector("#teaser"));
+
+// You can also import from top level. But this is not suitable for three shaking!
+import { domHelpers } from "@kluntje/js-utils";
+const inView = domHelpers.inViewport(document.querySelector("#teaser"));
+```
+
 ## Functions
+
+### api-helpers
 
 <dl>
 <dt><a href="#fetchJSON">fetchJSON(url, [options])</a> ⇒ <code>Promise.&lt;T&gt;</code></dt>
 <dd><p>Calls API and returns JSON as Promise</p></dd>
+</dl>
+
+### array-helpers
+
+<dl>
 <dt><a href="#hasElement">hasElement(array, element)</a> ⇒ <code>boolean</code></dt>
 <dd><p>checks, if element is in given array</p></dd>
 <dt><a href="#isFilledArray">isFilledArray(array)</a> ⇒ <code>boolean</code></dt>
@@ -29,6 +47,11 @@ npm install @kuntje/js-utils
 <dd><p>pushes new Element to given array, if its not already in it</p></dd>
 <dt><a href="#removeItem">removeItem(array, itemToRemove)</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
 <dd><p>removes specific Item from array and return new array</p></dd>
+</dl>
+
+### date-helpers
+
+<dl>
 <dt><a href="#addDays">addDays(date, daysToAdd, [zeroHours])</a> ⇒ <code>Date</code></dt>
 <dd><p>Adds given amount of days to given date</p></dd>
 <dt><a href="#addLeadingZero">addLeadingZero(inNumber)</a> ⇒ <code>string</code></dt>
@@ -41,6 +64,11 @@ Some browsers (e.g. Safari) need the GMT offset part to be in format &quot;+00:0
 This helper makes sure that any present GMT offset follows that format and can safely be parsed:
 Date.parse(&quot;2020-01-01T12:13:14.000+0200&quot;) // throws error in Safari
 Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
+</dl>
+
+### dom-helpers
+
+<dl>
 <dt><a href="#addClass">addClass(elements, ...classNames)</a></dt>
 <dd><p>adds given classes to one or multiple elements</p></dd>
 <dt><a href="#find">find(parent, selector)</a> ⇒ <code>Element</code> | <code>null</code></dt>
@@ -79,6 +107,11 @@ Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
 <dd><p>resolves Promise after given timeout</p></dd>
 <dt><a href="#waitForEvent">waitForEvent(target, eventName, timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
 <dd><p>waits for given event for a (optional) max-timeout</p></dd>
+</dl>
+
+### function-helpers
+
+<dl>
 <dt><a href="#debounce">debounce(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a debounced function which when called multiple of times each time it waits the waiting duration
 and if the method was not called during this time, the last call will be passed to the callback.</p></dd>
@@ -88,6 +121,11 @@ helper function should have this signature: <code>(Function, ...args: any[]) =&g
 <dt><a href="#throttle">throttle(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
 call <code>.cancel()</code> on the returned function, to cancel the callback invocation.</p></dd>
+</dl>
+
+### object-helpers
+
+<dl>
 <dt><del><a href="#getValue">getValue(obj, path)</a> ⇒ <code>*</code></del></dt>
 <dd><p>returns nested value without throwing an error if the parent doesn't exist</p></dd>
 <dt><a href="#isEqual">isEqual(arg1, arg2)</a> ⇒ <code>boolean</code></dt>
@@ -100,6 +138,11 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 <dd><p>returns the argument wrapped in an array if it isn't array itself</p></dd>
 <dt><a href="#toString">toString(arg)</a> ⇒ <code>string</code></dt>
 <dd><p>returns stringified value for the given argument</p></dd>
+</dl>
+
+### string-helpers
+
+<dl>
 <dt><a href="#getCleanString">getCleanString(inputString)</a> ⇒ <code>string</code></dt>
 <dd><p>removes all multi Whitespaces and Newlines in given string</p></dd>
 <dt><a href="#getWordCount">getWordCount(text)</a> ⇒ <code>number</code></dt>
@@ -118,12 +161,13 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 
 ## Typedefs
 
+### dom-helpers
+
 <dl>
 <dt><a href="#callback">callback</a> : <code>function</code></dt>
 <dd><p>iterates over all nodes in a node list
 (necessary because IE11 doesn't support .forEach  * for NodeLists)</p></dd>
 </dl>
-
 <a name="fetchJSON"></a>
 
 ## fetchJSON(url, [options]) ⇒ <code>Promise.&lt;T&gt;</code>
