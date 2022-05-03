@@ -22,49 +22,49 @@
   ],
   "exports": {
     ".": {
-      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts",
       "import": "./lib/index.mjs",
-      "types": "./lib/index.d.ts"
+      "require": "./lib/index.js"
     },
     "./lib/api-helpers": {
-      "require": "./lib/api-helpers/index.js",
+      "types": "./lib/api-helpers/index.d.ts",
       "import": "./lib/api-helpers/index.mjs",
-      "types": "./lib/api-helpers/index.d.ts"
+      "require": "./lib/api-helpers/index.js"
     },
     "./lib/array-helpers": {
-      "require": "./lib/array-helpers/index.js",
+      "types": "./lib/array-helpers/index.d.ts",
       "import": "./lib/array-helpers/index.mjs",
-      "types": "./lib/array-helpers/index.d.ts"
+      "require": "./lib/array-helpers/index.js"
     },
     "./lib/date-helpers": {
-      "require": "./lib/date-helpers/index.js",
+      "types": "./lib/date-helpers/index.d.ts",
       "import": "./lib/date-helpers/index.mjs",
-      "types": "./lib/date-helpers/index.d.ts"
+      "require": "./lib/date-helpers/index.js"
     },
     "./lib/dom-helpers": {
-      "require": "./lib/dom-helpers/index.js",
+      "types": "./lib/dom-helpers/index.d.ts",
       "import": "./lib/dom-helpers/index.mjs",
-      "types": "./lib/dom-helpers/index.d.ts"
+      "require": "./lib/dom-helpers/index.js"
     },
     "./lib/function-helpers": {
-      "require": "./lib/function-helpers/index.js",
+      "types": "./lib/function-helpers/index.d.ts",
       "import": "./lib/function-helpers/index.mjs",
-      "types": "./lib/function-helpers/index.d.ts"
+      "require": "./lib/function-helpers/index.js"
     },
     "./lib/function-helpers/decorators": {
-      "require": "./lib/function-helpers/decorators/index.js",
+      "types": "./lib/function-helpers/decorators.d.ts",
       "import": "./lib/function-helpers/decorators/index.mjs",
-      "types": "./lib/function-helpers/decorators.d.ts"
+      "require": "./lib/function-helpers/decorators/index.js"
     },
     "./lib/object-helpers": {
-      "require": "./lib/object-helpers/index.js",
+      "types": "./lib/object-helpers/index.d.ts",
       "import": "./lib/object-helpers/index.mjs",
-      "types": "./lib/object-helpers/index.d.ts"
+      "require": "./lib/object-helpers/index.js"
     },
     "./lib/string-helpers": {
-      "require": "./lib/string-helpers/index.js",
+      "types": "./lib/string-helpers/index.d.ts",
       "import": "./lib/string-helpers/index.mjs",
-      "types": "./lib/string-helpers/index.d.ts"
+      "require": "./lib/string-helpers/index.js"
     }
   },
   "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/js-utils",

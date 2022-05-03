@@ -13,6 +13,11 @@
   "main": "lib/component.js",
   "module": "lib/component.mjs",
   "types": "lib/component.d.ts",
+  "exports": {
+    "types": "./lib/component.d.ts",
+    "import": "./lib/component.mjs",
+    "require": "./lib/component.js"
+  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
