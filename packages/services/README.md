@@ -30,7 +30,7 @@ class MyAmazingComponent extends Component {
 
 ### MediaQueryService
 
-Service, that fires "kl-mq-change"-events on window, when mq-change occures.
+Service, that fires "kl-mq-change"-events on window, when mq-change occurs.
 
 ```javascript
 import { MediaQueryService } from "@kluntje/services";
@@ -52,10 +52,62 @@ MediaQueryService.getInstance(myMQs);
 
 ```
 
+### URLSearchParamsService
+
+Service, that gets and sets URLSearchParams.
+
+```javascript
+import { URLSearchParamsService } from "@kluntje/services";
+
+// get single query param
+const queryParam = URLSearchParamsService.get("query");
+
+// set single query param
+URLSearchParamsService.set("query", "newValue");
+
+// delete single query param
+URLSearchParamsService.delete("filter");
+
+// get all query params of specific key
+const filters: string[] | null = URLSearchParamsService.getAll("filter");
+
+// ...
+
+```
+
+### DebuggerService
+
+Service to log messages to the console depending on js-debug query-param.
+
+```javascript
+import { DebuggerService } from "@kluntje/services";
+
+// log message to console
+DebuggerService.log("Hello World");
+
+// log warning to console
+DebuggerService.warn("Warning");
+
+// log error to console
+DebuggerService.error("Error");
+
+```
+
+### LazyConnectService
+
+Service to trigger callback, when component is in viewport.
+
+```javascript
+import { LazyConnectService } from "@kluntje/services";
+
+LazyConnectService.subscribe(this, () => this.doSomething());
+
+```
+
 ### I18nService
 
 A service to provide sync/async way to provide internationalization values.
-With i18n values beeing able to have variable placeholder in them. indexed for arrays e.g. `{0}` or named for objects e.g. `{hour}`.
+With i18n values being able to have variable placeholder in them. indexed for arrays e.g. `{0}` or named for objects e.g. `{hour}`.
 
 Usage:
 

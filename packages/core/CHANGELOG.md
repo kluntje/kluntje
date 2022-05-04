@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.1.2...@kluntje/core@1.1.3) (2022-03-14)
+
+
+### Bug Fixes
+
+* **core:** accessible ui definitions to make preservable after updateUI ([5184748](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/5184748dbdd29fa53e0054cac9fe4bddaa6e4601))
+
+
+
+
+
+## [1.1.2](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.1.1...@kluntje/core@1.1.2) (2021-09-15)
+
+**Note:** Version bump only for package @kluntje/core
+
+
+
+
+
+## [1.1.1](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.1.0...@kluntje/core@1.1.1) (2021-09-06)
+
+**Note:** Version bump only for package @kluntje/core
+
+
+
+
+
+# [1.1.0](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.0.4...@kluntje/core@1.1.0) (2021-04-28)
+
+
+### Bug Fixes
+
+* **core:** fixed issue with decorated ui and mq-based rendering ([fc43d86](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/fc43d8612c334eb88cf5db496187a5dac5c42f17))
+* **core:** reinitiallize decorated props, when updateUI method is called ([9bf956c](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/9bf956c9e4e8a41a3c085c27946f0823564db489))
+
+
+### Features
+
+* **all:** added exports for all kluntje-specific events ([4bfbdbd](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/4bfbdbd74a04fd0dd8696ef22736a25a7e7749c7)), closes [#43](https://github.com/kluntje/kluntje/tree/develop/packages/core/issues/43)
+* **core:** additionally export INITIALIZED_EVENT constant containing event-name as string ([d947758](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/d947758b39b8e70425d4221892edb322c676ef23))
+
+
+
+
+
+## [1.0.4](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.0.3...@kluntje/core@1.0.4) (2021-02-24)
+
+**Note:** Version bump only for package @kluntje/core
+
+
+
+
+
 ## [1.0.3](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.0.2...@kluntje/core@1.0.3) (2020-03-15)
 
 

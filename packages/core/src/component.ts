@@ -7,33 +7,21 @@ import { DecoratorUiDefinition } from './decorators';
 import { decoratedProps, DEFAULT_PROP_DECORATOR_OPTIONS, propDefinitionKeys } from './decorators/prop';
 // eslint-disable-next-line prettier/prettier
 import type { PropDefinition, PropCastTypes } from './decorators/prop';
+import {
+  ComponentUiElementDefinitions,
+  ComponentEvent,
+  ComponentStates,
+  ComponentReactions,
+  ComponentUiElements,
+  ComponentProps,
+} from './component.types';
 
 export { uiElement, uiElements, uiEvent, MQBasedRendered, prop, tag } from './decorators';
 
-type ComponentUiEl<T = any> = {
-  [key in keyof T]: any;
-};
+export const INITIALIZED_EVENT = 'kl-component-initialized';
 
-type ComponentEvent<T = any> = {
-  event: string;
-  target: keyof T;
-  handler: keyof T;
-};
-
-type ComponentStates = {
-  [key: string]: any;
-};
-
-type ComponentReactions<T = any> = {
-  [key: string]: Array<Function | keyof T>;
-};
-
-type ComponentProps<T> = {
-  [key: string]: PropDefinition<T>;
-};
-
-export type ComponentArgs = {
-  ui?: ComponentUiEl;
+export interface ComponentArgs {
+  ui?: ComponentUiElementDefinitions;
   events?: ComponentEvent[];
   initialStates?: ComponentStates;
   reactions?: ComponentReactions;
@@ -41,37 +29,28 @@ export type ComponentArgs = {
   useShadowDOM?: boolean;
   preserveChildren?: boolean;
   asyncRendering?: boolean;
-};
+}
 
 export class Component extends HTMLElement {
-  ui: ComponentUiEl;
-
-  events: Array<ComponentEvent<this>>;
-
-  selectors: ComponentUiEl;
-
-  useShadowDOM: boolean;
-
-  preserveChildren: boolean;
-
-  asyncRendering: boolean;
-
-  reactions: ComponentReactions<this>;
-
-  eventIdMap: WeakMap<HTMLElement | Function, string>;
-
-  [decoratedProps]?: Record<string, PropDefinition>;
-
-  // stores prop definition passed in the constructor options or as decorators
-  props: ComponentProps<this>;
-
-  eventBindingMap: {
-    [index: string]: EventListenerOrEventListenerObject;
+  protected uiDefinitions: ComponentUiElementDefinitions = {};
+  protected ui: ComponentUiElements = {};
+  private events: Array<ComponentEvent<this>> = [];
+  private useShadowDOM: boolean;
+  private preserveChildren: boolean;
+  private asyncRendering: boolean;
+  protected reactions: ComponentReactions<this> = {
+    initialized: ['onComponentInitialized'],
   };
 
-  _state = {};
+  private _state = {};
+  private _initialStates = {};
 
-  _initialStates = {};
+  eventIdMap: WeakMap<HTMLElement | Function, string> = new WeakMap();
+  eventBindingMap: Record<string, EventListenerOrEventListenerObject> = {};
+
+  [decoratedProps]?: Record<string, PropDefinition>;
+  // stores prop definition passed in the constructor options or as decorators
+  props: ComponentProps<this>;
 
   constructor({
     ui = {},
@@ -84,28 +63,21 @@ export class Component extends HTMLElement {
     asyncRendering = false,
   }: ComponentArgs = {}) {
     super();
-    this.ui = {};
-    this.selectors = {};
-    this.events = [];
+
     this.initialStates = {
       initialized: false,
     };
-    this.reactions = {
-      initialized: ['onComponentInitialized'],
-    };
+
     this.useShadowDOM = useShadowDOM;
     this.preserveChildren = preserveChildren;
     this.asyncRendering = asyncRendering;
-    this.eventIdMap = new WeakMap();
-    this.eventBindingMap = {};
 
     // initialize shadowDOM if needed
     if (this.useShadowDOM) {
       this.attachShadow({ mode: 'open' });
     }
 
-    Object.assign(this.ui, ui);
-    Object.assign(this.selectors, ui);
+    Object.assign(this.uiDefinitions, ui);
 
     Object.assign(this.initialStates, initialStates);
     Object.assign(this.reactions, reactions);
@@ -116,7 +88,218 @@ export class Component extends HTMLElement {
     this.props = this.normalizeProps({ ...(this[decoratedProps] || null), ...props });
   }
 
-  enableDecoratedProperties() {
+  /* ====================================================
+                    Lifcycle-Hooks
+    ==================================================*/
+
+  /**
+   * On Web-Components-Lifcycle-Hook add own Lifcycle-Hooks
+   * and generate global properties
+   */
+  public connectedCallback(): void {
+    this.setupComponent();
+  }
+
+  /**
+   * Lifecycle-Hook, triggered before componentProps get destroyed
+   */
+  public beforeComponentDisconnects(): void {
+    // can be overridden
+  }
+
+  /**
+   * Lifecycle-Hook, needed to destroy Component on non active MQs
+   */
+  public disconnectComponent(): void {
+    this.beforeComponentDisconnects();
+    this.destroyComponentProps();
+    this.destroyComponent();
+    this.setState({ initialized: false });
+  }
+
+  /**
+   * Overrideable rendering Template getter
+   * @returns {string | null | HTMLTemplateElement} rendering template for component
+   */
+  public renderingTemplate(): string | null | HTMLTemplateElement {
+    return null;
+  }
+
+  /**
+   * Lifecycle-Hook for rendering component markup
+   * before generating global properties
+   */
+  public renderComponent(): void {
+    const template = this.renderingTemplate();
+    if (template !== null) {
+      this.render(template);
+    }
+  }
+
+  /**
+   * Async rendering Method. Has to be overridden by extender
+   * @async
+   * @returns {Promise<void>}
+   */
+  // eslint-disable-next-line require-await
+  public async renderAsync(): Promise<void> {
+    console.warn('please override renderAsync-method');
+    return;
+  }
+
+  /**
+   * renders Component inner Markup
+   * @param {string | HTMLTemplateElement} template
+   */
+  public render(template: string | HTMLTemplateElement): void {
+    if (!this.preserveChildren) this.getUiRoot().innerHTML = '';
+
+    if (template instanceof HTMLTemplateElement) {
+      this.getUiRoot().appendChild(template.content.cloneNode(true));
+    } else if (this.useShadowDOM) {
+      this.shadowRoot!.innerHTML = template;
+    } else {
+      this.insertAdjacentHTML('beforeend', template);
+    }
+  }
+
+  /**
+   * Lifecycle-Hook for removing markup on destroy
+   */
+  public destroyComponent(): void {
+    // has to be overridden by extender
+    console.warn('please override destroyComponent-method');
+  }
+
+  /**
+   * Lifecycle-Hook after global properties initialization
+   * can be overridden by components
+   */
+  public afterComponentRender(): void {
+    // has to be overridden extender
+  }
+
+  public onComponentInitialized() {
+    this.dispatchEvent(new CustomEvent(INITIALIZED_EVENT));
+  }
+
+  public async waitForInitialization() {
+    if (this.state.initialized) return;
+    return await waitForEvent(this, INITIALIZED_EVENT);
+  }
+
+  /* ====================================================
+                    Component Properties
+    ==================================================*/
+
+  /**
+   * Description
+   */
+  private async setupComponent(): Promise<void> {
+    if (this.asyncRendering) {
+      await this.renderAsync();
+    } else {
+      this.renderComponent();
+    }
+    this.setupComponentProps();
+    this.afterComponentRender();
+    this.checkForMissingAttributes();
+    this.setState({ initialized: true });
+  }
+
+  /**
+   * Generates global properties
+   */
+  private setupComponentProps(): void {
+    this.enableDecoratedProperties();
+    this.generateUI();
+    this.generateEvents();
+    this.initializeProps();
+  }
+
+  /**
+   * removes all component Props (ui, event)
+   */
+  private destroyComponentProps(): void {
+    this.destroyDecoratedProperties();
+    this.removeEvents();
+    this.ui = {};
+  }
+
+  /**
+   * generates ui-Object by replacing selectors with HTML-Notes
+   */
+  private generateUI(): void {
+    const uiRoot = this.getUiRoot();
+    // Query DOM Nodes for ui-elements
+    Object.keys(this.uiDefinitions).forEach((elementKey) => {
+      const elementValue = this.uiDefinitions[elementKey].trim();
+      if (elementValue.endsWith(':-one')) {
+        const clearedSelector = elementValue.replace(/:-one/g, '').trim();
+        this.ui[elementKey] = find<HTMLElement>(uiRoot as Component, clearedSelector);
+      } else {
+        this.ui[elementKey] = findAll<HTMLElement>(uiRoot as Component, elementValue);
+      }
+    });
+  }
+
+  /**
+   * adds Event-Listeners for given Events
+   */
+  private generateEvents(): void {
+    // Add given Events
+    this.events.forEach((event) => {
+      if (typeof this[event.handler] === 'function') {
+        const targets = this.getEventTargets(event.target);
+        // @ts-ignore
+        onEvent(targets, event.event, this[event.handler], this);
+      }
+    });
+  }
+
+  /**
+   * Removes all initially set eventbinding
+   */
+  private removeEvents(): void {
+    this.events.forEach((event) => {
+      if (typeof this[event.handler] === 'function') {
+        const targets = this.getEventTargets(event.target);
+        // @ts-ignore
+        removeEvent(targets, event.event, this[event.handler], this);
+      }
+    });
+  }
+
+  /**
+   * Recreates global ui-Object
+   */
+  public updateUI(): void {
+    this.destroyDecoratedProperties();
+    this.enableDecoratedProperties();
+    this.ui = {};
+    this.generateUI();
+  }
+
+  /**
+   * Recreates Global Events-Array
+   */
+  public updateEvents(): void {
+    this.events.forEach((event) => {
+      if (typeof this[event.handler] === 'function') {
+        const targets = this.getEventTargets(event.target);
+        // @ts-ignore
+        removeEvent(targets, event.event, this[event.handler], this);
+        // @ts-ignore
+        onEvent(targets, event.event, this[event.handler], this);
+      }
+    });
+  }
+
+  /* ====================================================
+                    Decorator Handling
+    ==================================================*/
+
+  private enableDecoratedProperties() {
     // @ts-ignore
     if (this.decoratedUiEls === undefined) return;
 
@@ -134,8 +317,8 @@ export class Component extends HTMLElement {
         });
       } else {
         const curEl = decoratorUiDef.justOne
-          ? find((this.getUiRoot() as unknown) as HTMLElement, decoratorUiDef.selector)
-          : findAll((this.getUiRoot() as unknown) as HTMLElement, decoratorUiDef.selector);
+          ? find(this.getUiRoot() as HTMLElement, decoratorUiDef.selector)
+          : findAll(this.getUiRoot() as HTMLElement, decoratorUiDef.selector);
         // @ts-ignore
         this[property] = curEl;
         decoratorUiDef.events.forEach((event) => {
@@ -146,232 +329,32 @@ export class Component extends HTMLElement {
     });
   }
 
-  /* ====================================================
-                    Lifcycle-Hooks
-    ==================================================*/
+  private destroyDecoratedProperties() {
+    // @ts-ignore
+    if (this.decoratedUiEls === undefined) return;
 
-  /**
-   * On Web-Components-Lifcycle-Hook add own Lifcycle-Hooks
-   * and generate global properties
-   */
-  connectedCallback(): void {
-    this.setupComponent();
-  }
-
-  /**
-   * Lifecycle-Hook, triggered before componentProps get destroyed
-   */
-  beforeComponentDisconnects(): void {
-    // can be overridden
-  }
-
-  /**
-   * Lifecycle-Hook, needed to destroy Component on non active MQs
-   */
-  disconnectComponent(): void {
-    this.beforeComponentDisconnects();
-    this.destroyComponentProps();
-    this.destroyComponent();
-    this.setState({ initialized: false });
-  }
-
-  /**
-   * Overrideable rendering Template getter
-   * @returns {string | null | HTMLTemplateElement} rendering template for component
-   */
-  renderingTemplate(): string | null | HTMLTemplateElement {
-    return null;
-  }
-
-  /**
-   * Lifecycle-Hook for rendering component markup
-   * before generating global properties
-   */
-  renderComponent(): void {
-    const template = this.renderingTemplate();
-    if (template !== null) {
-      this.render(template);
-    }
-  }
-
-  /**
-   * Async rendering Method. Has to be overridden by extender
-   * @async
-   * @returns {Promise<void>}
-   */
-  // eslint-disable-next-line require-await
-  async renderAsync(): Promise<void> {
-    console.warn('please override renderAsync-method');
-    return;
-  }
-
-  /**
-   * renders Component inner Markup
-   * @param {string | HTMLTemplateElement} template
-   */
-  render(template: string | HTMLTemplateElement): void {
-    if (!this.preserveChildren) this.getUiRoot().innerHTML = '';
-
-    if (template instanceof HTMLTemplateElement) {
-      this.getUiRoot().appendChild(template.content.cloneNode(true));
-    } else if (this.useShadowDOM) {
-      this.shadowRoot!.innerHTML = template;
-    } else {
-      this.insertAdjacentHTML('beforeend', template);
-    }
-  }
-
-  /**
-   * Lifecycle-Hook for removing markup on destroy
-   */
-  destroyComponent(): void {
-    // has to be overidden by extender
-    console.warn('please override destroyComponent-method');
-  }
-
-  /**
-   * Lifecycle-Hook after global properties initialization
-   * can be overidden by components
-   */
-  afterComponentRender(): void {
-    // has to be overidden extender
-  }
-
-  onComponentInitialized() {
-    this.dispatchEvent(new CustomEvent('kl-component-initialized'));
-  }
-
-  async waitForInitialization() {
-    if (this.state.initialized) return;
-    return await waitForEvent(this, 'kl-component-initialized');
-  }
-
-  /* ====================================================
-                    Component Properties
-    ==================================================*/
-
-  /**
-   * Description
-   */
-  async setupComponent(): Promise<void> {
-    if (this.asyncRendering) {
-      await this.renderAsync();
-    } else {
-      this.renderComponent();
-    }
-    this.setupComponentProps();
-    this.afterComponentRender();
-    this.checkForMissingAttributes();
-    this.setState({ initialized: true });
-  }
-
-  /**
-   * Generates global properties
-   */
-  setupComponentProps(): void {
-    this.enableDecoratedProperties();
-    this.generateUI();
-    this.generateEvents();
-    this.initializeProps();
-  }
-
-  /**
-   * removes all component Props (ui, event)
-   */
-  destroyComponentProps(): void {
-    this.removeEvents();
-    this.ui = Object.assign({}, this.selectors);
-  }
-
-  /**
-   * generates ui-Object by replacing selectors with HTML-Notes
-   */
-  generateUI(): void {
-    const uiRoot = this.getUiRoot();
-    // Query DOM Nodes for ui-elements
-    Object.keys(this.ui).forEach((elementKey) => {
-      const elementValue = this.ui[elementKey].trim();
-      if (elementValue.endsWith(':-one')) {
-        this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, '').trim());
+    // @ts-ignore
+    (this.decoratedUiEls as Map<keyof this, DecoratorUiDefinition<this>>).forEach((decoratorUiDef, property) => {
+      if (decoratorUiDef.selector === 'window') {
+        decoratorUiDef.events.forEach((event) => {
+          // @ts-ignore
+          removeEvent(window, event.eventName, this[event.handler], this);
+        });
+      } else if (decoratorUiDef.selector === 'this') {
+        decoratorUiDef.events.forEach((event) => {
+          // @ts-ignore
+          removeEvent(this, event.eventName, this[event.handler], this);
+        });
       } else {
-        this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
-      }
-    });
-  }
-
-  /**
-   * adds Event-Listeners for given Events
-   */
-  generateEvents(): void {
-    // Add given Events
-    this.events.forEach((event) => {
-      if (typeof this[event.handler] === 'function') {
-        const targets = this.getEventTargets(event.target);
+        const curEl = this[property];
+        if (curEl !== null && curEl !== undefined) {
+          decoratorUiDef.events.forEach((event) => {
+            // @ts-ignore
+            removeEvent(this[property], event.eventName, this[event.handler], this);
+          });
+        }
         // @ts-ignore
-        onEvent(targets, event.event, this[event.handler], this);
-      }
-    });
-  }
-
-  /**
-   * Removes all initially set eventbinding
-   */
-  removeEvents(): void {
-    this.events.forEach((event) => {
-      if (typeof this[event.handler] === 'function') {
-        const targets = this.getEventTargets(event.target);
-        if (NodeList.prototype.isPrototypeOf(targets)) {
-          // @ts-ignore
-          targets.forEach((target: HTMLElement) => {
-            // @ts-ignore
-            removeEvent(target, event.event, this[event.handler], this);
-          });
-        } else {
-          // @ts-ignore
-          removeEvent(targets, event.event, this[event.handler], this);
-        }
-      }
-    });
-  }
-
-  /**
-   * Recreates global ui-Object
-   */
-  updateUI(): void {
-    const uiRoot = this.getUiRoot();
-    this.ui = {};
-    Object.keys(this.selectors).forEach((elementKey) => {
-      const elementValue = this.selectors[elementKey].trim();
-      if (elementValue.endsWith(':-one')) {
-        this.ui[elementKey] = uiRoot.querySelector(elementValue.replace(/:-one/g, '').trim());
-      } else {
-        this.ui[elementKey] = uiRoot.querySelectorAll(elementValue);
-      }
-    });
-  }
-
-  /**
-   * Recreates Global Events-Array
-   */
-  updateEvents(): void {
-    this.events.forEach((event) => {
-      if (typeof this[event.handler] === 'function') {
-        const targets = this.getEventTargets(event.target);
-
-        if (NodeList.prototype.isPrototypeOf(targets)) {
-          // @ts-ignore
-          targets.forEach((target: Node) => {
-            // @ts-ignore
-            removeEvent(target, event.event, this[event.handler], this);
-            // @ts-ignore
-            onEvent(target, event.event, this[event.handler], this);
-          });
-        } else {
-          // @ts-ignore
-          removeEvent(targets, event.event, this[event.handler], this);
-          // @ts-ignore
-          onEvent(targets, event.event, this[event.handler], this);
-        }
+        this[property] = undefined;
       }
     });
   }
@@ -440,8 +423,9 @@ export class Component extends HTMLElement {
       prop.defaultValue = prop.hasOwnProperty('defaultValue') ? prop.defaultValue : this[propName];
       //@ts-ignore - assuming user won't use any non supported type, in any case switch statement has a default type in the casting for that
       prop.type =
-        prop.type ||
-        (prop.defaultValue !== null && prop.defaultValue !== undefined ? typeof prop.defaultValue : 'string');
+        prop.type || (prop.defaultValue !== null && prop.defaultValue !== undefined)
+          ? typeof prop.defaultValue
+          : 'string';
     });
   }
 
@@ -610,7 +594,7 @@ export class Component extends HTMLElement {
    * @returns {object}
    * @alias Component.state
    */
-  get state(): any {
+  public get state(): any {
     return naiveClone(this._state || {});
   }
 
@@ -619,7 +603,7 @@ export class Component extends HTMLElement {
    * @param {*} arg
    * @throw error always
    */
-  set state(arg: any) {
+  public set state(arg: any) {
     throw new Error('The state should only be modified via the "setState" method.');
   }
 
@@ -627,7 +611,7 @@ export class Component extends HTMLElement {
    * sets the initial state. Would overwrite the current state if set before.
    * @param {object} initialStates
    */
-  set initialStates(initialStates: object) {
+  protected set initialStates(initialStates: object) {
     this._initialStates = initialStates;
     this._state = initialStates;
   }
@@ -636,7 +620,7 @@ export class Component extends HTMLElement {
    * returns the initial state
    * @returns {*|{}}
    */
-  get initialStates(): object {
+  protected get initialStates(): object {
     return this._initialStates || {};
   }
 
@@ -650,7 +634,7 @@ export class Component extends HTMLElement {
    * @return {Object} this
    * @alias Component.setState
    */
-  setState(change: object, { merge = true, silent = false } = {}) {
+  public setState(change: object, { merge = true, silent = false } = {}) {
     const oldState = this.state;
     this._state = Object.assign({}, merge ? oldState : {}, change);
 
@@ -690,7 +674,7 @@ export class Component extends HTMLElement {
    * @return {Object} this
    * @alias Component.addReactions
    */
-  addReactions(propName: string | object, callbacks?: string[]): object {
+  private addReactions(propName: string | object, callbacks?: string[]): object {
     if (typeof propName === 'object') {
       Object.entries(propName).forEach(([key, val]) => this.addReactions(key, val));
     } else {
@@ -704,7 +688,7 @@ export class Component extends HTMLElement {
     return this;
   }
 
-  isNewReaction(reaction: string, newReactions: string[]) {
+  private isNewReaction(reaction: string, newReactions: string[]) {
     return !newReactions.some((newReaction: string) => {
       return reaction === newReaction;
     });
@@ -717,7 +701,7 @@ export class Component extends HTMLElement {
    * @return {Object} this
    * @alias Component.removeReactions
    */
-  removeReactions(propName: string | object, callbacks: string[]): object {
+  private removeReactions(propName: string | object, callbacks: string[]): object {
     if (typeof propName === 'object') {
       Object.entries(propName).forEach(([key, val]) => this.removeReactions(key, val));
       return this;
@@ -748,7 +732,7 @@ export class Component extends HTMLElement {
    * @param {string} propName - property key name
    * @alias Component.invokeReaction
    */
-  invokeReaction(propName: string): void {
+  private invokeReaction(propName: string): void {
     const reactions = this.reactions || {};
     const callbacks = reactions[propName] || new Set();
     callbacks.forEach((cb: keyof this | Function) => {
@@ -771,7 +755,7 @@ export class Component extends HTMLElement {
    * Add new Events to Global Events-Array
    * @param  {Array<ComponentEvent>} newEvents  Event-Object-Array
    */
-  mergeEvents(newEvents: ComponentEvent[]): void {
+  protected mergeEvents(newEvents: ComponentEvent[]): void {
     this.events = this.events.filter((event) => this.isNewEvent(event, newEvents)).concat(newEvents);
   }
 
@@ -782,7 +766,7 @@ export class Component extends HTMLElement {
    *
    * @returns {boolean}        is given Event not in given Event-Array
    */
-  isNewEvent(event: ComponentEvent, eventArr: ComponentEvent[]): boolean {
+  private isNewEvent(event: ComponentEvent, eventArr: ComponentEvent[]): boolean {
     return !eventArr.some((newEvent) => {
       return newEvent.event === event.event && newEvent.target === event.target;
     });
@@ -793,7 +777,7 @@ export class Component extends HTMLElement {
    *
    * @returns { ShadowRoot | Component} - DOM-Root of Component
    */
-  getUiRoot(): ShadowRoot | Component {
+  public getUiRoot(): ShadowRoot | Component {
     if (this.shadowRoot) return this.shadowRoot;
     return this;
   }
@@ -804,7 +788,7 @@ export class Component extends HTMLElement {
    * @param {string} eventTarget  name of event Target Element
    * @returns {Array} DOM-Root of Component
    */
-  getEventTargets(eventTarget: keyof this | 'this' | 'window') {
+  private getEventTargets(eventTarget: string) {
     let targets = null;
 
     if (eventTarget === 'this') {

@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.1](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.0...@kluntje/services@0.6.1) (2022-03-14)
+
+
+### Bug Fixes
+
+* **services:** fixed FF issue in URLSearchParamService with empty hashes ([9ce6314](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/9ce6314f68887c4881b733007280f0f1a09f9755))
+
+
+
+
+
+# [0.6.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.5.0...@kluntje/services@0.6.0) (2021-09-15)
+
+
+### Features
+
+* **services:** added getAllKeys method to URLSearchParamsService ([dd8443b](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/dd8443bf1cddcae87e939872a70aa11dd31e8941))
+
+
+
+
+
+# [0.5.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.4.0...@kluntje/services@0.5.0) (2021-09-06)
+
+
+### Features
+
+* **services:** added DebuggerService ([885fdd1](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/885fdd1c9288ee3d840d6945ede8b3d60605f017))
+* **services:** added LazyConnectService ([903fbf4](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/903fbf4edb838d58f7d4f8c0713910cc0b4d182c))
+* **services:** added URLSearchParamsService ([ec52cdb](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/ec52cdbe867a8bcf03172116bbf90f8de6f84ba5))
+
+
+
+
+
+# [0.4.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.3.1...@kluntje/services@0.4.0) (2021-04-28)
+
+
+### Features
+
+* **all:** added exports for all kluntje-specific events ([4bfbdbd](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/4bfbdbd74a04fd0dd8696ef22736a25a7e7749c7)), closes [#43](https://github.com/kluntje/kluntje/tree/develop/packages/services/issues/43)
+
+
+
+
+
+## [0.3.1](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.3.0...@kluntje/services@0.3.1) (2021-02-24)
+
+**Note:** Version bump only for package @kluntje/services
+
+
+
+
+
 # [0.3.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.2.0...@kluntje/services@0.3.0) (2020-03-15)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.4.0...@kluntje/js-utils@0.5.0) (2021-02-24)
+
+
+### Features
+
+* **js-utils:** add promise wrapper for animation and transition end events ([bc06c01](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/bc06c01f22ea8c6af40e112ce3f0b9ca20c2a8b4))
+
+
+
+
+
 # [0.4.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.3.0...@kluntje/js-utils@0.4.0) (2020-03-15)
 
 
