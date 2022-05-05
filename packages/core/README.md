@@ -394,6 +394,17 @@ class extends Component {
 
 instead of `customElements.define('fancy-dropdown', class extends Component {});`
 
+### @renderAsync
+
+Enables async rendering for the decorated component.
+
+```javascript
+@renderAsync
+class extends Component {
+  // ...
+}
+```
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://github.com/kluntje/kluntje/blob/master/.github/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.

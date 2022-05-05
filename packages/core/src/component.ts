@@ -16,7 +16,7 @@ import {
   ComponentProps,
 } from './component.types';
 
-export { uiElement, uiElements, uiEvent, MQBasedRendered, prop, tag } from './decorators';
+export { uiElement, uiElements, uiEvent, MQBasedRendered, prop, tag, renderAsync } from './decorators';
 
 export const INITIALIZED_EVENT = 'kl-component-initialized';
 
@@ -41,6 +41,8 @@ export class Component extends HTMLElement {
   protected reactions: ComponentReactions<this> = {
     initialized: ['onComponentInitialized'],
   };
+
+  protected _shouldRenderAsync?: boolean;
 
   private _state = {};
   private _initialStates = {};
@@ -86,6 +88,10 @@ export class Component extends HTMLElement {
 
     this.mergeEvents(events);
     this.props = this.normalizeProps({ ...(this[decoratedProps] || null), ...props });
+  }
+
+  private get asyncRenderingEnabled(): boolean {
+    return this._shouldRenderAsync || this.asyncRendering;
   }
 
   /* ====================================================
@@ -196,7 +202,7 @@ export class Component extends HTMLElement {
    * Description
    */
   private async setupComponent(): Promise<void> {
-    if (this.asyncRendering) {
+    if (this.asyncRenderingEnabled) {
       await this.renderAsync();
     } else {
       this.renderComponent();

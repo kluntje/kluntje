@@ -5,6 +5,7 @@ import { MediaQueryService, MQ_CHANGE_EVENT } from '@kluntje/services';
 
 export { default as prop } from './prop';
 export { default as tag } from './tag';
+export { default as renderAsync } from './renderAsync';
 // eslint-disable-next-line prettier/prettier
 export type { PropDefinition, PropCastTypes } from './prop';
 
