@@ -400,7 +400,7 @@ Enables async rendering for the decorated component.
 
 ```javascript
 @renderAsync
-class extends Component {
+class MyComponent extends Component {
   // ...
 }
 ```
