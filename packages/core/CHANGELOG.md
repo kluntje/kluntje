@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.1.3...@kluntje/core@1.2.0) (2022-05-05)
+
+
+### Features
+
+* **core:** added renderAsync Decorator ([36f2e90](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/36f2e909056d20f810b0fe86e8c1286335b3fd31))
+* **js-utils|core:** add support for event options to onEvent and ctor`s events and  [@ui](https://github.com/ui)Events ([457132a](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/457132a6ac27bdec4ae0370d7a08ddd0530f9546))
+
+
+
+
+
 ## [1.1.3](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.1.2...@kluntje/core@1.1.3) (2022-03-14)
 
 

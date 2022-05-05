@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.5.0...@kluntje/js-utils@0.6.0) (2022-05-05)
+
+
+### Bug Fixes
+
+* **js-utils:** use the same callback argument as the platforms NodeList#forEach uses ([dc71dd3](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/dc71dd31b729ed1b04b00dfe2dc893b92aa4eaad))
+
+
+### Features
+
+* **js-utils|core:** add support for event options to onEvent and ctor`s events and  [@ui](https://github.com/ui)Events ([457132a](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/457132a6ac27bdec4ae0370d7a08ddd0530f9546))
+
+
+
+
+
 # [0.5.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.4.0...@kluntje/js-utils@0.5.0) (2021-02-24)
 
 

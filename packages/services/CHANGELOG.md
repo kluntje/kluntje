@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.2](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.1...@kluntje/services@0.6.2) (2022-05-05)
+
+
+### Bug Fixes
+
+* **services:** dispatch in/out vp event non-bubbling ([4882343](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/488234397b38034bfdcd5aa2a1b73eeb5844980d))
+
+
+
+
+
 ## [0.6.1](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.0...@kluntje/services@0.6.1) (2022-03-14)
 
 
