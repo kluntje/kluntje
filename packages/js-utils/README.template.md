@@ -14,6 +14,16 @@
 npm install @kuntje/js-utils
 ```
 
+## Usage
+
+```js
+import { inViewport } from '@kluntje/js-utils/lib/dom-helpers';
+const inView = inViewport(document.querySelector("#teaser"));
+
+// You can also import from top level. But this is not suitable for three shaking!
+import { domHelpers } from "@kluntje/js-utils";
+const inView = domHelpers.inViewport(document.querySelector("#teaser"));
+```
 {%body%}
 
 ## Author

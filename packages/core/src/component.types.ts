@@ -7,6 +7,7 @@ export interface ComponentEvent<T = any> {
   event: string;
   target: string;
   handler: keyof T;
+  options?: AddEventListenerOptions;
 }
 
 export type ComponentStates = Record<string, any>;

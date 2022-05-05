@@ -84,14 +84,14 @@ describe('ViewportObsever tests:', () => {
     test('should dispatch kl-in-vp event on all intersecting element', () => {
       expect(mockObservedEl1.dispatchEvent).toBeCalled();
       expect(mockObservedEl3.dispatchEvent).toBeCalled();
-      expect(window.CustomEvent).nthCalledWith(1, 'kl-in-vp');
-      expect(window.CustomEvent).nthCalledWith(3, 'kl-in-vp');
+      expect(window.CustomEvent).nthCalledWith(1, 'kl-in-vp', { bubbles: false });
+      expect(window.CustomEvent).nthCalledWith(3, 'kl-in-vp', { bubbles: false });
     });
 
     test('should dispatch kl-out-vp event on all non-intersecting element', () => {
       expect(mockObservedEl2.dispatchEvent).toBeCalled();
       expect(mockObservedEl4.dispatchEvent).toBeCalled();
-      expect(window.CustomEvent).nthCalledWith(4, 'kl-out-vp');
+      expect(window.CustomEvent).nthCalledWith(4, 'kl-out-vp', { bubbles: false });
     });
   });
 });
