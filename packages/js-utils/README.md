@@ -109,6 +109,8 @@ Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
 <dd><p>returns a promise which resolves after the animationend event</p></dd>
 <dt><a href="#waitForEvent">waitForEvent(target, eventName, timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
 <dd><p>waits for given event for a (optional) max-timeout</p></dd>
+<dt><a href="#waitForInitialization">waitForInitialization(component)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
+<dd><p>Promise that resolves, when the given component is initialized</p></dd>
 <dt><a href="#waitForTransitionEnd">waitForTransitionEnd(el, [propertyName])</a> ⇒ <code>Promise</code></dt>
 <dd><p>returns a promise which resolves after the <code>transitionend</code> event</p></dd>
 </dl>
@@ -169,7 +171,7 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 <dt><a href="#ensureHttpProtocol">ensureHttpProtocol(url, useHttp)</a> ⇒ <code>string</code></dt>
 <dd><p>Ensures that the given url has an http protocol. If the url does not have an http protocol, it will be prepended with https://. If the url already has an http protocol, it will be returned as is. If the protocol should be http instead of https, you can pass in the optional parameter <code>useHttp</code> as true.</p></dd>
 <dt><a href="#removeHttpProtocol">removeHttpProtocol(url)</a> ⇒ <code>string</code></dt>
-<dd><p>reurns a string without http or https protocol</p></dd>
+<dd><p>returns a string without the http or https protocol</p></dd>
 </dl>
 
 ## Typedefs
@@ -775,6 +777,26 @@ addClass(button, 'animate');
 await waitForEvent(button, 'transitionend', 500);
 removeClass(button, 'animate');
 ```
+<a name="waitForInitialization"></a>
+
+## waitForInitialization(component) ⇒ <code>Promise.&lt;void&gt;</code>
+<p>Promise that resolves, when the given component is initialized</p>
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| component | <code>Component</code> | 
+
+**Example**  
+```js
+waitForInitialization(my-input).then(() => my-input.value = 'Hello World');
+```
+**Example**  
+```js
+await  waitForInitialization(my-input);
+my-input.value = 'Hello World';
+```
 <a name="waitForTransitionEnd"></a>
 
 ## waitForTransitionEnd(el, [propertyName]) ⇒ <code>Promise</code>
@@ -1115,7 +1137,7 @@ console.log(result);
 <a name="removeHttpProtocol"></a>
 
 ## removeHttpProtocol(url) ⇒ <code>string</code>
-<p>reurns a string without http or https protocol</p>
+<p>returns a string without the http or https protocol</p>
 
 **Kind**: global function  
 
