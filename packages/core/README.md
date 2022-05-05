@@ -195,9 +195,10 @@ constructor() {
         handler: "onFormSubmit",
       },
       {
-        event: "focusin",
-        target: "inputs",
-        handler: "handleFocusChange",
+        event: "focusout",
+        target: "input",
+        handler: "enableInvalidStyling",
+        options: { once: true }
       },
     ],
     // ...

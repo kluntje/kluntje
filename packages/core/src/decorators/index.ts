@@ -11,6 +11,7 @@ export type { PropDefinition, PropCastTypes } from './prop';
 type DecoratorEventDefinition<T> = {
   handler: keyof T;
   eventName: string;
+  options?: AddEventListenerOptions;
 };
 
 export type DecoratorUiDefinition<T> = {
@@ -47,7 +48,11 @@ export function uiElements(selector: string) {
   };
 }
 
-export function uiEvent<T>(elementName: keyof T | 'window' | 'this', eventName: string) {
+export function uiEvent<T>(
+  elementName: keyof T | 'window' | 'this',
+  eventName: string,
+  options?: AddEventListenerOptions,
+) {
   return function decorator(component: any, handlerName: string) {
     if (component.decoratedUiEls === undefined) component.decoratedUiEls = new Map();
 
@@ -57,12 +62,13 @@ export function uiEvent<T>(elementName: keyof T | 'window' | 'this', eventName: 
       component.decoratedUiEls.set(elementName.toString(), {
         selector: elementName,
         justOne: true,
-        events: new Set([{ eventName, handler: handlerName }]),
+        events: new Set([{ eventName, handler: handlerName, options }]),
       });
     } else {
       curUiElement.events.add({
         eventName,
         handler: handlerName,
+        options,
       });
       component.decoratedUiEls.set(elementName, curUiElement);
     }
