@@ -105,8 +105,12 @@ Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
 <dd><p>toggles given class on given element</p></dd>
 <dt><a href="#waitFor">waitFor(timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
 <dd><p>resolves Promise after given timeout</p></dd>
+<dt><a href="#waitForAnimationEnd">waitForAnimationEnd(el, [animationName])</a> ⇒ <code>Promise</code></dt>
+<dd><p>returns a promise which resolves after the animationend event</p></dd>
 <dt><a href="#waitForEvent">waitForEvent(target, eventName, timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
 <dd><p>waits for given event for a (optional) max-timeout</p></dd>
+<dt><a href="#waitForTransitionEnd">waitForTransitionEnd(el, [propertyName])</a> ⇒ <code>Promise</code></dt>
+<dd><p>returns a promise which resolves after the <code>transitionend</code> event</p></dd>
 </dl>
 
 ### function-helpers
@@ -157,6 +161,15 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 <dd><p>function to convert texts to camelCase for example ti generate attribute names</p></dd>
 <dt><a href="#toKebabCase">toKebabCase(str)</a> ⇒ <code>string</code></dt>
 <dd><p>converts the provided string to a kebab case (kebab-case)</p></dd>
+</dl>
+
+### url-helpers
+
+<dl>
+<dt><a href="#ensureHttpProtocol">ensureHttpProtocol(url, useHttp)</a> ⇒ <code>string</code></dt>
+<dd><p>Ensures that the given url has an http protocol. If the url does not have an http protocol, it will be prepended with https://. If the url already has an http protocol, it will be returned as is. If the protocol should be http instead of https, you can pass in the optional parameter <code>useHttp</code> as true.</p></dd>
+<dt><a href="#removeHttpProtocol">removeHttpProtocol(url)</a> ⇒ <code>string</code></dt>
+<dd><p>reurns a string without http or https protocol</p></dd>
 </dl>
 
 ## Typedefs
@@ -716,6 +729,28 @@ addClass(button, 'animate');
 await waitFor(300);
 removeClass(button, 'animate');
 ```
+<a name="waitForAnimationEnd"></a>
+
+## waitForAnimationEnd(el, [animationName]) ⇒ <code>Promise</code>
+<p>returns a promise which resolves after the animationend event</p>
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>SVGElement</code> | <p>DOM Element which has the css animation</p> |
+| [animationName] | <code>string</code> | <p>keyframes' name. e.g. &quot;slideOut&quot;</p> |
+
+**Example**  
+```
+  el.classList.add("hide");
+  await waitForAnimationEnd(el, "fade-out");
+  el.parentElement.removeChild(el);
+  // css:
+  // .hide {
+  //   animation: fade-out 0.5s forwards;
+  // }
+```
 <a name="waitForEvent"></a>
 
 ## waitForEvent(target, eventName, timeout) ⇒ <code>Promise.&lt;void&gt;</code>
@@ -739,6 +774,26 @@ waitForEvent(button, 'transitionend', 500).then(() => removeClass(button, 'anima
 addClass(button, 'animate');
 await waitForEvent(button, 'transitionend', 500);
 removeClass(button, 'animate');
+```
+<a name="waitForTransitionEnd"></a>
+
+## waitForTransitionEnd(el, [propertyName]) ⇒ <code>Promise</code>
+<p>returns a promise which resolves after the <code>transitionend</code> event</p>
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>SVGElement</code> | <p>DOM Element which has the css transition</p> |
+| [propertyName] | <code>string</code> | <p>transition's propertyName. e.g. &quot;width&quot;</p> |
+
+**Example**  
+```
+  menu.classList.add("open");
+  await waitForTransitionEnd(menu, "transform");
+  input.classList.add("visible");
+  await waitForTransitionEnd(input, "opacity");
+  input.focus();
 ```
 <a name="debounce"></a>
 
@@ -1027,6 +1082,53 @@ toCamelCase("some other text") === "someOtherText";
 **Example**  
 ```js
 toKebabCase("keyValuePair") === "key-value-pair"
+```
+<a name="ensureHttpProtocol"></a>
+
+## ensureHttpProtocol(url, useHttp) ⇒ <code>string</code>
+<p>Ensures that the given url has an http protocol. If the url does not have an http protocol, it will be prepended with https://. If the url already has an http protocol, it will be returned as is. If the protocol should be http instead of https, you can pass in the optional parameter <code>useHttp</code> as true.</p>
+
+**Kind**: global function  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| useHttp | <code>boolean</code> | <code>false</code> | 
+
+**Example**  
+```js
+const url = 'https://www.google.com';
+const result = ensureHttpProtocol(url);
+console.log(result);
+// => 'https://www.google.com'
+
+const url = 'www.google.com';
+const result = ensureHttpProtocol(url);
+console.log(result);
+// => 'https://www.google.com'
+
+const url = 'http://www.google.com';
+const result = ensureHttpProtocol(url);
+console.log(result);
+// => 'http://www.google.com'
+```
+<a name="removeHttpProtocol"></a>
+
+## removeHttpProtocol(url) ⇒ <code>string</code>
+<p>reurns a string without http or https protocol</p>
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| url | <code>string</code> | 
+
+**Example**  
+```js
+const url = 'https://www.google.com';
+const result = removeHttpProtocol(url);
+console.log(result);
+// => 'www.google.com'
 ```
 <a name="callback"></a>
 
