@@ -1,31 +1,26 @@
-import { Nullable } from "../../types/Nullable";
-
-export function naiveClone<T>(arg: Array<T>): Array<T>;
-
-export function naiveClone<T>(arg: T): T;
-
 /**
- * returns a deep link of the provided argument
- * @param {Nullable<T> | Array<T>} arg
- * @returns {Nullable<T> | Array<T>}
+ * returns a deep clone of the provided argument. supports any primitive types, arrays, sets, maps, dates which can also be deeply nested in an object.
+ * @param {T} arg
+ * @returns {T}
  * @example
- * const state = naiveClone(initialState);
+ * const state = naiveClone({a: {b: 123, c: false}});
  */
-export function naiveClone<T>(arg: Nullable<T> | Array<T>): Nullable<T> | Array<T> {
-  if (typeof arg !== 'object') {
+export function naiveClone<T>(arg: T): T {
+  if (typeof arg !== 'object' || arg === null) {
     return arg;
   }
-
-  if (arg === null) {
-    return null;
+  else if (Array.isArray(arg)) {
+    return arg.map(a => naiveClone(a)) as unknown as T;
+  }
+  else if (arg instanceof Set) {
+    return new Set(naiveClone(Array.from(arg))) as unknown as T;
+  }
+  else if (arg instanceof Map) {
+    return new Map(naiveClone(Array.from(arg))) as unknown as T;
+  }
+  else if (arg instanceof Date) {
+    return new Date(arg) as unknown as T;
   }
 
-  if (Array.isArray(arg)) {
-    return arg.map(a => naiveClone(a));
-  }
-
-  return Object.entries(arg).reduce((result, [key, value]) => {
-    result[key] = naiveClone(value);
-    return result;
-  }, {} as any);
+  return Object.fromEntries(Object.entries(arg).map(([k, v]) => [k, naiveClone(v)])) as unknown as T;
 };

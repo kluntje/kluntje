@@ -642,7 +642,7 @@ export class Component extends HTMLElement {
    */
   public setState(change: object, { merge = true, silent = false } = {}) {
     const oldState = this.state;
-    this._state = Object.assign({}, merge ? oldState : {}, change);
+    this._state = naiveClone(Object.assign({}, merge ? oldState : {}, change));
 
     if (silent || isEqual(oldState, this._state)) {
       return this;
