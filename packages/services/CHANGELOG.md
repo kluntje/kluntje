@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.3](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.2...@kluntje/services@0.6.3) (2022-05-05)
+
+**Note:** Version bump only for package @kluntje/services
+
+
+
+
+
 ## [0.6.2](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.1...@kluntje/services@0.6.2) (2022-05-05)
 
 

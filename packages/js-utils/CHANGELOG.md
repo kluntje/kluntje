@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.6.0...@kluntje/js-utils@0.7.0) (2022-05-05)
+
+
+### Features
+
+* **added new url-helpers to js-utils:** added ensureHttpProtocol and removeHttpProtocol methods ([682f8b9](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/682f8b9d5aea900c48a79779f4facdc95e1bf62a))
+* **js-utils:** added waitForInitialization helper ([ce4a694](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/ce4a694fc7f66626cabc81e5ec3de856c8997c0c))
+
+
+
+
+
 # [0.6.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.5.0...@kluntje/js-utils@0.6.0) (2022-05-05)
 
 
