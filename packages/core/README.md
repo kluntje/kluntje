@@ -28,6 +28,7 @@
     - [@uiEvent](#uievent)
     - [@prop](#prop)
     - [@tag](#tag)
+    - [@renderAsync](#renderAsync)
   - [Contributing](#contributing)
   - [Show your support](#show-your-support)
   - [📝 License](#📝-license)
@@ -161,7 +162,7 @@ And our HTML will looks like:
 
 Since kluntje is based on the [Custom Elements](https://developers.google.com/web/fundamentals/web-components/customelements) standard, our API extends the Custom Elements API.
 
-## Contructor Object
+## Constructor Object
 
 One way to add functionality to your component is to add a configuration-object to the Component-constructor (see first example). It is possible to add the following keys:
 
@@ -195,9 +196,10 @@ constructor() {
         handler: "onFormSubmit",
       },
       {
-        event: "focusin",
-        target: "inputs",
-        handler: "handleFocusChange",
+        event: "focusout",
+        target: "input",
+        handler: "enableInvalidStyling",
+        options: { once: true }
       },
     ],
     // ...
@@ -238,11 +240,11 @@ constructor() {
 ### props
 
 A list of properties with corresponding attributes to be generated as accessors, optional type casting, default values and reaction when prop/attribute is changed.
-simply pass the propertyname and the default value. Or pass the `PropDefinition` object which has these default values:
+simply pass the property name and the default value. Or pass the `PropDefinition` object which has these default values:
 
 | option          | description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | type                                                                     |               default value |
 | --------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- | --------------------------: |
-| `type`          | when reading from attribute cast to this type. <table> <thead> <tr> <th>type</th> <th>hint</th> </tr> </thead> <tbody> <tr> <td>`"object"`</td> <td> is used for anything that can be parsed as `JSON`.</td> </tr> <tr> <td>`"boolean"`</td> <td>checks for the exsitence for the attribute not if the value is the string `"true"`.</td> </tr> <tr> <td>`"number"`</td> <td>will return `NaN` when the attribute is missing. use `0` as default value if you prefer `0` instead of `NaN` </td> </tr> </tbody> </table> | `'string' | 'boolean' | 'number' | 'object'`                             |                  `'string'` |
+| `type`          | when reading from attribute cast to this type. <table> <thead> <tr> <th>type</th> <th>hint</th> </tr> </thead> <tbody> <tr> <td>`"object"`</td> <td> is used for anything that can be parsed as `JSON`.</td> </tr> <tr> <td>`"boolean"`</td> <td>checks for the existence for the attribute not if the value is the string `"true"`.</td> </tr> <tr> <td>`"number"`</td> <td>will return `NaN` when the attribute is missing. use `0` as default value if you prefer `0` instead of `NaN` </td> </tr> </tbody> </table> | `'string' | 'boolean' | 'number' | 'object'`                             |                  `'string'` |
 | `required`      | component needs this attribute and can't fallback to a default value. warn when during the `connectedCallback` the attribute is not on the custom element                                                                                                                                                                                                                                                                                                                                                               | boolean                                                                  |                     `false` |
 | `defaultValue`  | default value to be returned when the attribute is not set                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `string | boolean | number | Record<string, unknown> | undefined | null` |                 `undefined` |
 | `reactions`     | a list of function, or the name of components methods to be called when the prop/attribute has changed. these methods will be invoked with the new value of the prop                                                                                                                                                                                                                                                                                                                                                    | `Array<keyof T | Function> | null`                                       |                      `null` |
@@ -250,16 +252,16 @@ simply pass the propertyname and the default value. Or pass the `PropDefinition`
 | `attributeName` | name of the attribute connected to the prop.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `string`                                                                 | kebab-case of the prop name |
 
 ```javascript
-class FancyDorpdown extends Component {
+class FancyDropdown extends Component {
   constructor() {
     super({
       props: {
-        // can be used by `FancyDropdown.required = true` or `<fancy-dropdown requird></component-name>`
+        // can be used by `FancyDropdown.required = true` or `<fancy-dropdown required></component-name>`
         // false will be the default value and implicitly has `boolean` as it's type
         required: false,
 
-        // proporty definition with all options used.
-        // useage: `FancyDorpdown.options = [4, 8, 12]` and `<fancy-dropdown select-options="[0.33, 0.5]"`
+        // property definition with all options used.
+        // usage: `FancyDropdown.options = [4, 8, 12]` and `<fancy-dropdown select-options="[0.33, 0.5]"`
         options: {
           type: 'object', // use "object" for Array or any other JSON structure
           required: false,
@@ -287,11 +289,11 @@ class FancyDorpdown extends Component {
   }
 }
 
-customElements.define('fancy-dropdown', FancyDorpdown);
+customElements.define('fancy-dropdown', FancyDropdown);
 ```
 
 ```html
-<fancy-dropdown requird select-options="[0.33, 0.5]"></fancy-dropdown>
+<fancy-dropdown required select-options="[0.33, 0.5]"></fancy-dropdown>
 ```
 
 #### custom types
@@ -322,7 +324,7 @@ class extends Component {
 }
 ```
 
-Make sure when suig your own custom types, and you set the prop (e.g. `this.startDay = new Date()`), it's `.toString()` generates a string that your custom `castFromAttribute` override can cast back from.
+Make sure when using your own custom types, and you set the prop (e.g. `this.startDay = new Date()`), it's `.toString()` generates a string that your custom `castFromAttribute` override can cast back from.
 
 ### useShadowDOM
 
@@ -392,6 +394,17 @@ class extends Component {
 ```
 
 instead of `customElements.define('fancy-dropdown', class extends Component {});`
+
+### @renderAsync
+
+Enables async rendering for the decorated component.
+
+```javascript
+@renderAsync
+class MyComponent extends Component {
+  // ...
+}
+```
 
 ## Contributing
 

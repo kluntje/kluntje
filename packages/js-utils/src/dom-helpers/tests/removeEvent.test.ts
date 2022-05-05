@@ -64,6 +64,13 @@ describe('removeEvent tests:', () => {
         expect(mockContext.mockHandler).not.toBeCalled();
       });
 
+      test('should remove eventListener with option from target', () => {
+        onEvent(mockTarget, 'click', mockContext.mockHandler, mockContext, { once: true });
+        removeEvent(mockTarget, 'click', mockContext.mockHandler, mockContext, { once: true });
+        mockTarget.dispatchEvent(new Event('click'));
+        expect(mockContext.mockHandler).not.toBeCalled();
+      });
+
       test('should remove listeners of all events in space separeted string', () => {
         onEvent(mockTarget, 'click touchstart touchend', mockContext.mockHandler, mockContext);
         removeEvent(mockTarget, 'click touchstart touchend', mockContext.mockHandler, mockContext);

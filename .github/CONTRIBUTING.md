@@ -56,7 +56,7 @@ We strongly suggest to document your code at least with proper [JSDoc](https://g
 The following script will parse your source for `JSDoc` annotations and automatically add your changes to the documentation.
 
 ```bash
-$ node ./scripts/jsdoc2md.js
+$ npm run doc
 ```
 
 Once everything is done conclude your development task with a commit
