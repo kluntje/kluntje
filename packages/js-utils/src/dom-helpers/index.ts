@@ -18,6 +18,6 @@ export { waitFor } from './lib/waitFor';
 export { Context } from './lib/Context';
 export { waitForEvent } from './lib/waitForEvent';
 export { waitForAnimationEnd } from './lib/waitForAnimationEnd';
-export { waitForInitialization } from './lib/waitForInitialization';
+export { waitForInit } from './lib/waitForInit';
 export { waitForTransitionEnd } from './lib/waitForTransitionEnd';
 export { getCurrentMQ, MQDefinition } from './lib/getCurrentMQ';

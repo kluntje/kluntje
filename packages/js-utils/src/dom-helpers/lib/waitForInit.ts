@@ -14,7 +14,7 @@ interface Component extends HTMLElement {
  * await  waitForInitialization(my-input);
  * my-input.value = 'Hello World';
  */
-export const waitForInitialization = async <T extends Component>(component: T) => {
+export const waitForInit = async <T extends Component>(component: T) => {
   if (component.state?.initialized === true) return;
   return await waitForEvent(component, "kl-component-initialized", 3000);
 };
