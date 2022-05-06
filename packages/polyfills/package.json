@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/polyfills",
-  "version": "0.2.1-alpha.4+0a32265",
+  "version": "0.2.1-alpha.6+628403d",
   "description": "Collection of Polyfills for kluntje usage",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "license": "Apache-2.0",
@@ -23,5 +23,5 @@
     "url-search-params-polyfill": "8.1.1",
     "whatwg-fetch": "3.6.2"
   },
-  "gitHead": "0a3226571688061b8c265041776ad480f2894284"
+  "gitHead": "628403dbf8288d4563fd938a5dcc84f81de28783"
 }

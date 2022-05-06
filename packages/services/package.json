@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/services",
-  "version": "0.6.4-alpha.1+0a32265",
+  "version": "0.6.4-alpha.3+628403d",
   "description": "Collection of useful services, when creating kluntje-components",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "contributors": [
@@ -23,7 +23,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@kluntje/js-utils": "^0.7.1-alpha.1+0a32265"
+    "@kluntje/js-utils": "^0.7.1-alpha.3+628403d"
   },
-  "gitHead": "0a3226571688061b8c265041776ad480f2894284"
+  "gitHead": "628403dbf8288d4563fd938a5dcc84f81de28783"
 }
