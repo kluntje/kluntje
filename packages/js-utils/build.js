@@ -44,7 +44,7 @@ const bundles = {
       module: 'lib/function-helpers/index.module.js',
     },
   },
-  'functionHelpers/decorators': {
+  "functionHelpers/decorators": {
     inputPath: './src/function-helpers/decorators.ts',
     outFiles: {
       main: 'lib/function-helpers/decorators/index.js',
@@ -65,16 +65,9 @@ const bundles = {
       module: 'lib/string-helpers/index.module.js',
     },
   },
-  urlHelpers: {
-    inputPath: './src/url-helpers/index.ts',
-    outFiles: {
-      main: 'lib/url-helpers/index.js',
-      module: 'lib/url-helpers/index.module.js',
-    },
-  },
 };
 
-const getConfig = (target) => {
+const getConfig = target => {
   return generateRollupConfig(
     {
       main: bundles[target].outFiles.main,
