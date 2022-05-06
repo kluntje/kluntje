@@ -33,6 +33,7 @@
     "build:functionHelpers/decorators": "rollup -c build.js --environment TARGET:functionHelpers/decorators",
     "build:objectHelpers": "rollup -c build.js --environment TARGET:objectHelpers",
     "build:stringHelpers": "rollup -c build.js --environment TARGET:stringHelpers",
+    "build:urlHelpers": "rollup -c build.js --environment TARGET:urlHelpers",
     "test": "jest"
   },
   "gitHead": "628403dbf8288d4563fd938a5dcc84f81de28783"
