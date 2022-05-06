@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.7.0...@kluntje/js-utils@0.7.1) (2022-05-06)
+
+
+### Bug Fixes
+
+* **js-utils:** fixed import issue by removing async/await syntax ([0460687](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/0460687e9d743c6c2a527eedb3dd8d871c2d4488))
+
+
+
+
+
 # [0.7.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.6.0...@kluntje/js-utils@0.7.0) (2022-05-05)
 
 
