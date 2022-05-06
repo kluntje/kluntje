@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/js-utils",
-  "version": "0.7.0",
+  "version": "0.7.1-alpha.0+067b044",
   "description": "Collection of js helper functions",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "contributors": [
@@ -34,5 +34,6 @@
     "build:objectHelpers": "rollup -c build.js --environment TARGET:objectHelpers",
     "build:stringHelpers": "rollup -c build.js --environment TARGET:stringHelpers",
     "test": "jest"
-  }
+  },
+  "gitHead": "067b044c31b8ae6b9fdac5f2558784455f4a3edd"
 }
