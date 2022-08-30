@@ -762,7 +762,7 @@ removeClass(button, 'animate');
 
 | Param | Type | Description |
 | --- | --- | --- |
-| target | <code>HTMLElement</code> |  |
+| target | <code>EventTarget</code> |  |
 | eventName | <code>string</code> |  |
 | timeout | <code>number</code> | <p>timeout in milliseconds</p> |
 
