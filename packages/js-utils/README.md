@@ -837,14 +837,14 @@ and if the method was not called during this time, the last call will be passed 
 **Example**  
 ```js
 const debounced = debounce(console.log, 500);
-  debonced("Hi");
-  debonced("Hello");
-  debonced("Hey");
-  if (neverMind) debonced.cancel();
-  // logs only "Hey", and when `neverMind === false`, doesn't log anything.
+  debounced("Hi");
+  debounced("Hello");
+  debounced("Hey");
+  if (neverMind) debounced.cancel();
+  // logs only "Hey", and when `neverMind === true`, doesn't log anything.
 
 
-  // or instead of decorator on class methods
+  // or use as decorator on class methods
   Class Component {
     constructor() {
       window.addEventListener("resize", this.resizeHandler);
@@ -880,7 +880,7 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| callback | <code>function</code> |  | <p>function to be caled after the last wait period</p> |
+| callback | <code>function</code> |  | <p>function to be called after the last wait period</p> |
 | [wait] | <code>number</code> | <code>0</code> | <p>waiting period in ms before the callback is invoked if during this time the debounced method was not called</p> |
 
 **Example**  
