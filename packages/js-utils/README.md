@@ -14,11 +14,29 @@
 npm install @kuntje/js-utils
 ```
 
+## Usage
+
+```js
+import { inViewport } from '@kluntje/js-utils/lib/dom-helpers';
+const inView = inViewport(document.querySelector("#teaser"));
+
+// You can also import from top level. But this is not suitable for three shaking!
+import { domHelpers } from "@kluntje/js-utils";
+const inView = domHelpers.inViewport(document.querySelector("#teaser"));
+```
+
 ## Functions
+
+### api-helpers
 
 <dl>
 <dt><a href="#fetchJSON">fetchJSON(url, [options])</a> ⇒ <code>Promise.&lt;T&gt;</code></dt>
 <dd><p>Calls API and returns JSON as Promise</p></dd>
+</dl>
+
+### array-helpers
+
+<dl>
 <dt><a href="#hasElement">hasElement(array, element)</a> ⇒ <code>boolean</code></dt>
 <dd><p>checks, if element is in given array</p></dd>
 <dt><a href="#isFilledArray">isFilledArray(array)</a> ⇒ <code>boolean</code></dt>
@@ -29,6 +47,11 @@ npm install @kuntje/js-utils
 <dd><p>pushes new Element to given array, if its not already in it</p></dd>
 <dt><a href="#removeItem">removeItem(array, itemToRemove)</a> ⇒ <code>Array.&lt;T&gt;</code></dt>
 <dd><p>removes specific Item from array and return new array</p></dd>
+</dl>
+
+### date-helpers
+
+<dl>
 <dt><a href="#addDays">addDays(date, daysToAdd, [zeroHours])</a> ⇒ <code>Date</code></dt>
 <dd><p>Adds given amount of days to given date</p></dd>
 <dt><a href="#addLeadingZero">addLeadingZero(inNumber)</a> ⇒ <code>string</code></dt>
@@ -41,13 +64,18 @@ Some browsers (e.g. Safari) need the GMT offset part to be in format &quot;+00:0
 This helper makes sure that any present GMT offset follows that format and can safely be parsed:
 Date.parse(&quot;2020-01-01T12:13:14.000+0200&quot;) // throws error in Safari
 Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
+</dl>
+
+### dom-helpers
+
+<dl>
 <dt><a href="#addClass">addClass(elements, ...classNames)</a></dt>
 <dd><p>adds given classes to one or multiple elements</p></dd>
 <dt><a href="#find">find(parent, selector)</a> ⇒ <code>Element</code> | <code>null</code></dt>
 <dd><p>returns the first child of a specific parent matching the given selector</p></dd>
 <dt><a href="#findAll">findAll(parent, selector)</a> ⇒ <code>Array.&lt;Element&gt;</code></dt>
 <dd><p>returns all children of a specific parent matching the given selector</p></dd>
-<dt><a href="#callback">callback(node, index)</a> ⇒</dt>
+<dt><a href="#callback">callback(node, index, nodeList)</a></dt>
 <dd></dd>
 <dt><a href="#getCurrentMQ">getCurrentMQ(mediaQueries)</a> ⇒ <code>string</code></dt>
 <dd><p>returns current mediaQuery-name. e.g. &quot;MQ2&quot;</p></dd>
@@ -65,20 +93,31 @@ Date.parse(&quot;2020-01-01T12:13:14.000+02:00&quot;) // succes</p></dd>
 <dd><p>checks, whether an element is in the viewport</p></dd>
 <dt><a href="#isNodeList">isNodeList(target)</a> ⇒ <code>boolean</code></dt>
 <dd><p>checks, if target is NodeList</p></dd>
-<dt><a href="#onEvent">onEvent(target, events, handler, context)</a></dt>
+<dt><a href="#onEvent">onEvent(target, events, handler, context, [options])</a></dt>
 <dd><p>adds event with given parameters</p></dd>
 <dt><a href="#removeChildren">removeChildren(parent, selector)</a></dt>
 <dd><p>removes all children of a specific parent matching the given selector</p></dd>
 <dt><a href="#removeClass">removeClass(elements, ...classNames)</a></dt>
 <dd><p>removes given class from element</p></dd>
-<dt><a href="#removeEvent">removeEvent(target, events, handler, context)</a></dt>
+<dt><a href="#removeEvent">removeEvent(target, events, handler, context, [options])</a></dt>
 <dd><p>removes event with given parameters</p></dd>
 <dt><a href="#toggleClass">toggleClass(elements, className, add)</a></dt>
 <dd><p>toggles given class on given element</p></dd>
 <dt><a href="#waitFor">waitFor(timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
 <dd><p>resolves Promise after given timeout</p></dd>
+<dt><a href="#waitForAnimationEnd">waitForAnimationEnd(el, [animationName])</a> ⇒ <code>Promise</code></dt>
+<dd><p>returns a promise which resolves after the animationend event</p></dd>
 <dt><a href="#waitForEvent">waitForEvent(target, eventName, timeout)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
 <dd><p>waits for given event for a (optional) max-timeout</p></dd>
+<dt><a href="#waitForInitialization">waitForInitialization(component)</a> ⇒ <code>Promise.&lt;void&gt;</code></dt>
+<dd><p>Promise that resolves, when the given component is initialized</p></dd>
+<dt><a href="#waitForTransitionEnd">waitForTransitionEnd(el, [propertyName])</a> ⇒ <code>Promise</code></dt>
+<dd><p>returns a promise which resolves after the <code>transitionend</code> event</p></dd>
+</dl>
+
+### function-helpers
+
+<dl>
 <dt><a href="#debounce">debounce(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a debounced function which when called multiple of times each time it waits the waiting duration
 and if the method was not called during this time, the last call will be passed to the callback.</p></dd>
@@ -88,6 +127,11 @@ helper function should have this signature: <code>(Function, ...args: any[]) =&g
 <dt><a href="#throttle">throttle(callback, [wait])</a> ⇒ <code>function</code></dt>
 <dd><p>returns a throttled function which when called, waits the given period of time before passing the last call during this time to the provided callback.
 call <code>.cancel()</code> on the returned function, to cancel the callback invocation.</p></dd>
+</dl>
+
+### object-helpers
+
+<dl>
 <dt><del><a href="#getValue">getValue(obj, path)</a> ⇒ <code>*</code></del></dt>
 <dd><p>returns nested value without throwing an error if the parent doesn't exist</p></dd>
 <dt><a href="#isEqual">isEqual(arg1, arg2)</a> ⇒ <code>boolean</code></dt>
@@ -100,6 +144,11 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 <dd><p>returns the argument wrapped in an array if it isn't array itself</p></dd>
 <dt><a href="#toString">toString(arg)</a> ⇒ <code>string</code></dt>
 <dd><p>returns stringified value for the given argument</p></dd>
+</dl>
+
+### string-helpers
+
+<dl>
 <dt><a href="#getCleanString">getCleanString(inputString)</a> ⇒ <code>string</code></dt>
 <dd><p>removes all multi Whitespaces and Newlines in given string</p></dd>
 <dt><a href="#getWordCount">getWordCount(text)</a> ⇒ <code>number</code></dt>
@@ -116,14 +165,24 @@ call <code>.cancel()</code> on the returned function, to cancel the callback inv
 <dd><p>converts the provided string to a kebab case (kebab-case)</p></dd>
 </dl>
 
+### url-helpers
+
+<dl>
+<dt><a href="#ensureHttpProtocol">ensureHttpProtocol(url, useHttp)</a> ⇒ <code>string</code></dt>
+<dd><p>Ensures that the given url has an http protocol. If the url does not have an http protocol, it will be prepended with https://. If the url already has an http protocol, it will be returned as is. If the protocol should be http instead of https, you can pass in the optional parameter <code>useHttp</code> as true.</p></dd>
+<dt><a href="#removeHttpProtocol">removeHttpProtocol(url)</a> ⇒ <code>string</code></dt>
+<dd><p>returns a string without the http or https protocol</p></dd>
+</dl>
+
 ## Typedefs
+
+### dom-helpers
 
 <dl>
 <dt><a href="#callback">callback</a> : <code>function</code></dt>
 <dd><p>iterates over all nodes in a node list
 (necessary because IE11 doesn't support .forEach  * for NodeLists)</p></dd>
 </dl>
-
 <a name="fetchJSON"></a>
 
 ## fetchJSON(url, [options]) ⇒ <code>Promise.&lt;T&gt;</code>
@@ -414,14 +473,14 @@ const inputs = findAll(document, 'input');
 ```
 <a name="callback"></a>
 
-## callback(node, index) ⇒
+## callback(node, index, nodeList)
 **Kind**: global function  
-**Returns**: <p>any</p>  
 
 | Param | Type |
 | --- | --- |
 | node | <code>Node</code> | 
 | index | <code>Number</code> | 
+| nodeList | <code>NodeListOf.&lt;T&gt;</code> | 
 
 <a name="getCurrentMQ"></a>
 
@@ -555,7 +614,7 @@ if (inViewport(image)) image.setAttribute('src', image.dataset('src'));
 
 <a name="onEvent"></a>
 
-## onEvent(target, events, handler, context)
+## onEvent(target, events, handler, context, [options])
 <p>adds event with given parameters</p>
 
 **Kind**: global function  
@@ -566,6 +625,7 @@ if (inViewport(image)) image.setAttribute('src', image.dataset('src'));
 | events | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 | handler | <code>function</code> | 
 | context | <code>Context</code> | 
+| [options] | <code>AddEventListenerOptions</code> | 
 
 **Example**  
 ```js
@@ -613,7 +673,7 @@ removeClass(inputs, 'active');
 ```
 <a name="removeEvent"></a>
 
-## removeEvent(target, events, handler, context)
+## removeEvent(target, events, handler, context, [options])
 <p>removes event with given parameters</p>
 
 **Kind**: global function  
@@ -624,6 +684,7 @@ removeClass(inputs, 'active');
 | events | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 | handler | <code>function</code> | 
 | context | <code>Context</code> | 
+| [options] | <code>AddEventListenerOptions</code> | 
 
 **Example**  
 ```js
@@ -670,6 +731,28 @@ addClass(button, 'animate');
 await waitFor(300);
 removeClass(button, 'animate');
 ```
+<a name="waitForAnimationEnd"></a>
+
+## waitForAnimationEnd(el, [animationName]) ⇒ <code>Promise</code>
+<p>returns a promise which resolves after the animationend event</p>
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>SVGElement</code> | <p>DOM Element which has the css animation</p> |
+| [animationName] | <code>string</code> | <p>keyframes' name. e.g. &quot;slideOut&quot;</p> |
+
+**Example**  
+```
+  el.classList.add("hide");
+  await waitForAnimationEnd(el, "fade-out");
+  el.parentElement.removeChild(el);
+  // css:
+  // .hide {
+  //   animation: fade-out 0.5s forwards;
+  // }
+```
 <a name="waitForEvent"></a>
 
 ## waitForEvent(target, eventName, timeout) ⇒ <code>Promise.&lt;void&gt;</code>
@@ -693,6 +776,46 @@ waitForEvent(button, 'transitionend', 500).then(() => removeClass(button, 'anima
 addClass(button, 'animate');
 await waitForEvent(button, 'transitionend', 500);
 removeClass(button, 'animate');
+```
+<a name="waitForInitialization"></a>
+
+## waitForInitialization(component) ⇒ <code>Promise.&lt;void&gt;</code>
+<p>Promise that resolves, when the given component is initialized</p>
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| component | <code>Component</code> | 
+
+**Example**  
+```js
+waitForInitialization(my-input).then(() => my-input.value = 'Hello World');
+```
+**Example**  
+```js
+await  waitForInitialization(my-input);
+my-input.value = 'Hello World';
+```
+<a name="waitForTransitionEnd"></a>
+
+## waitForTransitionEnd(el, [propertyName]) ⇒ <code>Promise</code>
+<p>returns a promise which resolves after the <code>transitionend</code> event</p>
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>SVGElement</code> | <p>DOM Element which has the css transition</p> |
+| [propertyName] | <code>string</code> | <p>transition's propertyName. e.g. &quot;width&quot;</p> |
+
+**Example**  
+```
+  menu.classList.add("open");
+  await waitForTransitionEnd(menu, "transform");
+  input.classList.add("visible");
+  await waitForTransitionEnd(input, "opacity");
+  input.focus();
 ```
 <a name="debounce"></a>
 
@@ -982,6 +1105,53 @@ toCamelCase("some other text") === "someOtherText";
 ```js
 toKebabCase("keyValuePair") === "key-value-pair"
 ```
+<a name="ensureHttpProtocol"></a>
+
+## ensureHttpProtocol(url, useHttp) ⇒ <code>string</code>
+<p>Ensures that the given url has an http protocol. If the url does not have an http protocol, it will be prepended with https://. If the url already has an http protocol, it will be returned as is. If the protocol should be http instead of https, you can pass in the optional parameter <code>useHttp</code> as true.</p>
+
+**Kind**: global function  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| useHttp | <code>boolean</code> | <code>false</code> | 
+
+**Example**  
+```js
+const url = 'https://www.google.com';
+const result = ensureHttpProtocol(url);
+console.log(result);
+// => 'https://www.google.com'
+
+const url = 'www.google.com';
+const result = ensureHttpProtocol(url);
+console.log(result);
+// => 'https://www.google.com'
+
+const url = 'http://www.google.com';
+const result = ensureHttpProtocol(url);
+console.log(result);
+// => 'http://www.google.com'
+```
+<a name="removeHttpProtocol"></a>
+
+## removeHttpProtocol(url) ⇒ <code>string</code>
+<p>returns a string without the http or https protocol</p>
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| url | <code>string</code> | 
+
+**Example**  
+```js
+const url = 'https://www.google.com';
+const result = removeHttpProtocol(url);
+console.log(result);
+// => 'www.google.com'
+```
 <a name="callback"></a>
 
 ## callback : <code>function</code>
@@ -990,10 +1160,10 @@ toKebabCase("keyValuePair") === "key-value-pair"
 
 **Kind**: global typedef  
 
-| Param | Type |
-| --- | --- |
-| nodeList | <code>NodeListOf.&lt;T&gt;</code> | 
-| [context] | <code>Context</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| nodeList | <code>NodeListOf.&lt;T&gt;</code> |  | 
+| [context] | <code>any</code> | <code>window</code> | 
 
 **Example**  
 ```js

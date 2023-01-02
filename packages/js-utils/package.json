@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/js-utils",
-  "version": "0.5.0",
+  "version": "0.7.1",
   "description": "Collection of js helper functions",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "contributors": [
@@ -65,6 +65,11 @@
       "types": "./lib/string-helpers/index.d.ts",
       "import": "./lib/string-helpers/index.mjs",
       "require": "./lib/string-helpers/index.js"
+    },
+    "./lib/url-helpers": {
+      "types": "./lib/url-helpers/index.d.ts",
+      "import": "./lib/url-helpers/index.mjs",
+      "require": "./lib/url-helpers/index.js"
     }
   },
   "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/js-utils",

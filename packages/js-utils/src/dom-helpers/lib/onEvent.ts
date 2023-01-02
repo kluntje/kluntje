@@ -11,6 +11,7 @@ export type EventHandler<T> = (e: T) => void;
  * @param {string | Array<string>} events
  * @param {Function} handler
  * @param {Context} context
+ * @param {AddEventListenerOptions} [options]
  * @example
  * const buttons = findAll(document, 'button);
  * onEvent(buttons, 'click', () => console.log('button clicked'), this);
@@ -20,6 +21,7 @@ export const onEvent = <T extends Event = Event>(
   events: string | Array<string>,
   handler: EventHandler<T>,
   context: Context,
+  options?: AddEventListenerOptions,
 ) => {
   if (target === undefined
     || target === null
@@ -30,7 +32,7 @@ export const onEvent = <T extends Event = Event>(
 
   if (isIterable<HTMLElement>(target) && !(target instanceof HTMLElement)) {
     for (const element of target) {
-      onEvent(element, events, handler, context);
+      onEvent(element, events, handler, context, options);
     }
     return;
   }
@@ -44,11 +46,12 @@ export const onEvent = <T extends Event = Event>(
   }
 
   eventList.forEach(event => {
+    // assuming there is no use-case to add multiple eventListeners with same arguments were only the eventListenerOptions is different
     const key = getKey(target, event, handler, context);
     if (!context.eventBindingMap[key]) { // can't add two listeners with exact same arguments
       const newFunc = handler.bind(context) as EventListener;
       context.eventBindingMap[key] = newFunc;
-      return target.addEventListener(event.trim(), newFunc);
+      return target.addEventListener(event.trim(), newFunc, options);
     }
   });
 };

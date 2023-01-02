@@ -63,6 +63,14 @@ describe('onEvent tests:', () => {
         expect(mockContext.mockHandler).toBeCalled();
       });
 
+      test('should add eventListener with options to target', () => {
+        onEvent(mockTarget, 'click', mockContext.mockHandler, mockContext, { once: true });
+        mockTarget.dispatchEvent(new Event('click'));
+        // second click shouldn't trigger callback when `once` option is used
+        mockTarget.dispatchEvent(new Event('click'));
+        expect(mockContext.mockHandler).toHaveBeenCalledTimes(1);
+      });
+
       test('should add listeners for all events in space separeted string', () => {
         onEvent(mockTarget, 'click touchstart touchend', mockContext.mockHandler, mockContext);
         expect(mockTarget.addEventListener).toBeCalledTimes(3);
