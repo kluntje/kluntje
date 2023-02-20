@@ -10,7 +10,6 @@ import type { PropDefinition, PropCastTypes } from './decorators/prop';
 import {
   ComponentUiElementDefinitions,
   ComponentEvent,
-  ComponentStates,
   ComponentReactions,
   ComponentUiElements,
   ComponentProps,
@@ -20,10 +19,10 @@ export { uiElement, uiElements, uiEvent, MQBasedRendered, prop, tag, renderAsync
 
 export const INITIALIZED_EVENT = 'kl-component-initialized';
 
-export interface ComponentArgs {
+export interface ComponentArgs<S = {}> {
   ui?: ComponentUiElementDefinitions;
   events?: ComponentEvent[];
-  initialStates?: ComponentStates;
+  initialStates?: S;
   reactions?: ComponentReactions;
   props?: Record<string, undefined | null | string | boolean | number | object | PropDefinition>;
   useShadowDOM?: boolean;
@@ -31,7 +30,9 @@ export interface ComponentArgs {
   asyncRendering?: boolean;
 }
 
-export class Component extends HTMLElement {
+type InternalComponentState = { initialized: boolean };
+
+export class Component<S = {}> extends HTMLElement {
   protected uiDefinitions: ComponentUiElementDefinitions = {};
   protected ui: ComponentUiElements = {};
   private events: Array<ComponentEvent<this>> = [];
@@ -44,8 +45,8 @@ export class Component extends HTMLElement {
 
   protected _shouldRenderAsync?: boolean;
 
-  private _state = {};
-  private _initialStates = {};
+  private _state: S & InternalComponentState;
+  private _initialStates: S & InternalComponentState;
 
   eventIdMap: WeakMap<HTMLElement | Function, string> = new WeakMap();
   eventBindingMap: Record<string, EventListenerOrEventListenerObject> = {};
@@ -57,18 +58,21 @@ export class Component extends HTMLElement {
   constructor({
     ui = {},
     events = [],
-    initialStates = {},
+    initialStates = {} as S, // type assertion `as S` added for backward compatibility with code not defining initialStates
     reactions = {},
     props = {},
     useShadowDOM = false,
     preserveChildren = false,
     asyncRendering = false,
-  }: ComponentArgs = {}) {
+  }: ComponentArgs<S> = {}) {
     super();
 
-    this.initialStates = {
+    const state = {
+      ...initialStates,
       initialized: false,
     };
+    this._initialStates = state;
+    this._state = state;
 
     this.useShadowDOM = useShadowDOM;
     this.preserveChildren = preserveChildren;
@@ -81,7 +85,7 @@ export class Component extends HTMLElement {
 
     Object.assign(this.uiDefinitions, ui);
 
-    Object.assign(this.initialStates, initialStates);
+    Object.assign(this.initialStates, state);
     Object.assign(this.reactions, reactions);
 
     this.addReactions(reactions);
@@ -242,9 +246,9 @@ export class Component extends HTMLElement {
       const elementValue = this.uiDefinitions[elementKey].trim();
       if (elementValue.endsWith(':-one')) {
         const clearedSelector = elementValue.replace(/:-one/g, '').trim();
-        this.ui[elementKey] = find<HTMLElement>(uiRoot as Component, clearedSelector);
+        this.ui[elementKey] = find<HTMLElement>(uiRoot as Component<S>, clearedSelector);
       } else {
-        this.ui[elementKey] = findAll<HTMLElement>(uiRoot as Component, elementValue);
+        this.ui[elementKey] = findAll<HTMLElement>(uiRoot as Component<S>, elementValue);
       }
     });
   }
@@ -600,8 +604,8 @@ export class Component extends HTMLElement {
    * @returns {object}
    * @alias Component.state
    */
-  public get state(): any {
-    return naiveClone(this._state || {});
+  public get state(): S & InternalComponentState {
+    return naiveClone(this._state);
   }
 
   /**
@@ -609,7 +613,7 @@ export class Component extends HTMLElement {
    * @param {*} arg
    * @throw error always
    */
-  public set state(arg: any) {
+  public set state(arg: S & InternalComponentState) {
     throw new Error('The state should only be modified via the "setState" method.');
   }
 
@@ -617,7 +621,7 @@ export class Component extends HTMLElement {
    * sets the initial state. Would overwrite the current state if set before.
    * @param {object} initialStates
    */
-  protected set initialStates(initialStates: object) {
+  protected set initialStates(initialStates: S & InternalComponentState) {
     this._initialStates = initialStates;
     this._state = initialStates;
   }
@@ -626,23 +630,31 @@ export class Component extends HTMLElement {
    * returns the initial state
    * @returns {*|{}}
    */
-  protected get initialStates(): object {
-    return this._initialStates || {};
+  protected get initialStates(): S & InternalComponentState {
+    return this._initialStates;
   }
 
   /**
    * updates state object an triggers the reactions if needed
    *
    * @param {object} change - the new/modifed state key value map
-   * @param {Object} [options]
-   * @param {boolean} [options.merge] - should the given change be merged with the current state
-   * @param {boolean} [options.silent=false] - should the reactions be called
+   * @param {Object} options
+   * @param {boolean} options.merge - should the given change be merged with the current state
+   * @param {boolean} options.silent=false - should the reactions be called
    * @return {Object} this
    * @alias Component.setState
    */
-  public setState(change: object, { merge = true, silent = false } = {}) {
+  public setState<K1 extends keyof S, K2 extends keyof InternalComponentState>(
+    change: Pick<S, K1> | Pick<InternalComponentState, K2>,
+    { merge = true, silent = false } = {},
+  ) {
     const oldState = this.state;
-    this._state = Object.assign({}, merge ? oldState : {}, change);
+    if (merge) {
+      this._state = Object.assign(oldState, change);
+    } else {
+      // type assertion to support calling with `merge=false`
+      this._state = change as S & InternalComponentState;
+    }
 
     if (silent || isEqual(oldState, this._state)) {
       return this;
@@ -783,7 +795,7 @@ export class Component extends HTMLElement {
    *
    * @returns { ShadowRoot | Component} - DOM-Root of Component
    */
-  public getUiRoot(): ShadowRoot | Component {
+  public getUiRoot(): ShadowRoot | Component<S> {
     if (this.shadowRoot) return this.shadowRoot;
     return this;
   }
