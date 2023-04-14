@@ -11,9 +11,9 @@
  * ```
  * @returns {Function}
  */
-export default function tag(tagName: string): Function {
+export default function tag(tagName: string, options?: ElementDefinitionOptions): Function {
   return function <T extends { new (): HTMLElement }>(ComponentClass: T) {
-    customElements.define(tagName, ComponentClass);
+    customElements.define(tagName, ComponentClass, options);
 
     return ComponentClass;
   };
