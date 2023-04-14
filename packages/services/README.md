@@ -93,6 +93,16 @@ DebuggerService.error("Error");
 
 ```
 
+When using in Jest unit tests, make sure using `jest.mock` to properly mock the imported module.
+
+```javascript
+import { DebuggerService } from "@kluntje/services";
+jest.mock("@kluntje/services");
+
+// e.g.
+spyOn(DebuggerService, "error");
+```
+
 ### LazyConnectService
 
 Service to trigger callback, when component is in viewport.
