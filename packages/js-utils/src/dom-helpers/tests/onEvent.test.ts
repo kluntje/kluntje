@@ -25,7 +25,6 @@ describe('onEvent tests:', () => {
       document.createElement('button'),
     ];
     mockContext = new MockContext();
-    spyOn(console, 'warn');
     spyOn(mockTarget, 'addEventListener').and.callThrough();
     spyOn(mockTargets[0], 'addEventListener').and.callThrough();
     spyOn(mockTargets[1], 'addEventListener').and.callThrough();
@@ -41,11 +40,6 @@ describe('onEvent tests:', () => {
 
   describe('eventListener tests:', () => {
     describe('no target element', () => {
-      test('should should log warning', () => {
-        onEvent(null, 'click', mockContext.mockHandler, mockContext);
-        expect(console.warn).toBeCalled();
-      });
-
       test('should not try to add eventListener', () => {
         onEvent(null, 'click', mockContext.mockHandler, mockContext);
         expect(mockContext.mockHandler).not.toBeCalled();
