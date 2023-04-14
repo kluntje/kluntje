@@ -186,7 +186,7 @@ export class Component extends HTMLElement {
   }
 
   public onComponentInitialized() {
-    this.dispatchEvent(new CustomEvent(INITIALIZED_EVENT));
+    this.dispatchEvent(new CustomEvent(INITIALIZED_EVENT, { bubbles: false }));
   }
 
   public async waitForInitialization() {
