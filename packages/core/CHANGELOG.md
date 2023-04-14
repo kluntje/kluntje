@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.2.2...@kluntje/core@1.3.0) (2023-04-14)
+
+
+### Features
+
+* **core:** add support for extending built-in elements to tag decorator ([7ca9ea0](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/7ca9ea0c72ee783085553b75898320f45dccb7ee))
+
+
+
+
+
 ## [1.2.2](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.2.1...@kluntje/core@1.2.2) (2022-05-06)
 
 **Note:** Version bump only for package @kluntje/core

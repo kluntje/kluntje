@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.2](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.7.1...@kluntje/js-utils@0.7.2) (2023-04-14)
+
+
+### Bug Fixes
+
+* **js-utils::fetchjson:** when fetching, reject when the server response was not successfull ([643978a](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/643978a6feea3e20f574963d4f3a94b580ad9cdc))
+
+
+
+
+
 ## [0.7.1](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.7.0...@kluntje/js-utils@0.7.1) (2022-05-06)
 
 
