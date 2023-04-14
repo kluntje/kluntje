@@ -10,8 +10,6 @@ export interface ComponentEvent<T = any> {
   options?: AddEventListenerOptions;
 }
 
-export type ComponentStates = Record<string, any>;
-
 export type ComponentReactions<T = any> = Record<string, Array<Function | keyof T>>;
 
 export type ComponentProps<T> = Record<string, PropDefinition<T>>;
