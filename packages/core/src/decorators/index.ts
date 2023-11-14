@@ -23,8 +23,9 @@ export type DecoratorUiDefinition<T> = {
 
 export function uiElement(selector: string) {
   return function decorator(component: any, propertyName: string) {
-    if (component.decoratedUiEls === undefined) {
-      component.decoratedUiEls = new Map();
+    if (!component.hasOwnProperty('decoratedUiEls')) {
+      // add any potential inherited decoratedUiEls options
+      component.decoratedUiEls = new Map(component.decoratedUiEls?.entries());
     }
 
     component.decoratedUiEls.set(propertyName, {
@@ -37,8 +38,8 @@ export function uiElement(selector: string) {
 
 export function uiElements(selector: string) {
   return function decorator(component: any, propertyName: string) {
-    if (component.decoratedUiEls === undefined) {
-      component.decoratedUiEls = new Map();
+    if (!component.hasOwnProperty('decoratedUiEls')) {
+      component.decoratedUiEls = new Map(component.decoratedUiEls?.entries());
     }
 
     component.decoratedUiEls.set(propertyName, {
@@ -55,7 +56,9 @@ export function uiEvent<T>(
   options?: AddEventListenerOptions,
 ) {
   return function decorator(component: any, handlerName: string) {
-    if (component.decoratedUiEls === undefined) component.decoratedUiEls = new Map();
+    if (!component.hasOwnProperty('decoratedUiEls')) {
+      component.decoratedUiEls = new Map(component.decoratedUiEls?.entries());
+    }
 
     const curUiElement = component.decoratedUiEls.get(elementName);
 
