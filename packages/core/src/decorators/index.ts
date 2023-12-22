@@ -57,7 +57,7 @@ export function uiEvent<T>(
 ) {
   return function decorator(component: any, handlerName: string) {
     if (!component.hasOwnProperty('decoratedUiEls')) {
-      component.decoratedUiEls = new Map(component.decoratedUiEls?.entries());
+      component.decoratedUiEls = component.decoratedUiEls ? structuredClone(component.decoratedUiEls) : new Map();
     }
 
     const curUiElement = component.decoratedUiEls.get(elementName);
