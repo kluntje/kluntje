@@ -26,7 +26,7 @@ export type PropDefinition<T = any> = {
   /**
    * default value for the property, when the attribute is not present
    */
-  defaultValue?: string | boolean | number | Record<string, unknown> | undefined | null;
+  defaultValue?: string | boolean | number | Record<string, unknown> | Array<unknown> | undefined | null;
   /**
    * list of components methods, method name which should be called when the attribute/property is changed
    */
