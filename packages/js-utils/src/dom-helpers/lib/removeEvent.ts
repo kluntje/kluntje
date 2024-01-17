@@ -23,7 +23,6 @@ export const removeEvent = <T extends Event = Event>(
   if (target === undefined
     || target === null
     || (isIterable(target) && !hasElements(target))) {
-    console.warn('no target found');
     return;
   }
 
