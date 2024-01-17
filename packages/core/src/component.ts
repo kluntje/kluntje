@@ -39,7 +39,7 @@ export class Component extends HTMLElement {
   private preserveChildren: boolean;
   private asyncRendering: boolean;
   protected reactions: ComponentReactions<this> = {
-    initialized: ['onComponentInitialized'],
+    initialized: [() => this.onComponentInitialized()],
   };
 
   protected _shouldRenderAsync?: boolean;
@@ -47,8 +47,8 @@ export class Component extends HTMLElement {
   private _state = {};
   private _initialStates = {};
 
-  eventIdMap: WeakMap<HTMLElement | Function, string> = new WeakMap();
-  eventBindingMap: Record<string, EventListenerOrEventListenerObject> = {};
+  public eventIdMap: WeakMap<HTMLElement | Function, string> = new WeakMap();
+  public eventBindingMap: Record<string, EventListenerOrEventListenerObject> = {};
 
   [decoratedProps]?: Record<string, PropDefinition>;
   // stores prop definition passed in the constructor options or as decorators
@@ -102,21 +102,21 @@ export class Component extends HTMLElement {
    * On Web-Components-Lifcycle-Hook add own Lifcycle-Hooks
    * and generate global properties
    */
-  public connectedCallback(): void {
+  protected connectedCallback(): void {
     this.setupComponent();
   }
 
   /**
    * Lifecycle-Hook, triggered before componentProps get destroyed
    */
-  public beforeComponentDisconnects(): void {
+  protected beforeComponentDisconnects(): void {
     // can be overridden
   }
 
   /**
    * Lifecycle-Hook, needed to destroy Component on non active MQs
    */
-  public disconnectComponent(): void {
+  protected disconnectComponent(): void {
     this.beforeComponentDisconnects();
     this.destroyComponentProps();
     this.destroyComponent();
@@ -127,7 +127,7 @@ export class Component extends HTMLElement {
    * Overrideable rendering Template getter
    * @returns {string | null | HTMLTemplateElement} rendering template for component
    */
-  public renderingTemplate(): string | null | HTMLTemplateElement {
+  protected renderingTemplate(): string | null | HTMLTemplateElement {
     return null;
   }
 
@@ -135,7 +135,7 @@ export class Component extends HTMLElement {
    * Lifecycle-Hook for rendering component markup
    * before generating global properties
    */
-  public renderComponent(): void {
+  protected renderComponent(): void {
     const template = this.renderingTemplate();
     if (template !== null) {
       this.render(template);
@@ -148,7 +148,7 @@ export class Component extends HTMLElement {
    * @returns {Promise<void>}
    */
   // eslint-disable-next-line require-await
-  public async renderAsync(): Promise<void> {
+  protected async renderAsync(): Promise<void> {
     console.warn('please override renderAsync-method');
     return;
   }
@@ -157,7 +157,7 @@ export class Component extends HTMLElement {
    * renders Component inner Markup
    * @param {string | HTMLTemplateElement} template
    */
-  public render(template: string | HTMLTemplateElement): void {
+  protected render(template: string | HTMLTemplateElement): void {
     if (!this.preserveChildren) this.getUiRoot().innerHTML = '';
 
     if (template instanceof HTMLTemplateElement) {
@@ -172,7 +172,7 @@ export class Component extends HTMLElement {
   /**
    * Lifecycle-Hook for removing markup on destroy
    */
-  public destroyComponent(): void {
+  protected destroyComponent(): void {
     // has to be overridden by extender
     console.warn('please override destroyComponent-method');
   }
@@ -181,11 +181,11 @@ export class Component extends HTMLElement {
    * Lifecycle-Hook after global properties initialization
    * can be overridden by components
    */
-  public afterComponentRender(): void {
+  protected afterComponentRender(): void {
     // has to be overridden extender
   }
 
-  public onComponentInitialized() {
+  protected onComponentInitialized() {
     this.dispatchEvent(new CustomEvent(INITIALIZED_EVENT, { bubbles: false }));
   }
 
@@ -279,7 +279,7 @@ export class Component extends HTMLElement {
   /**
    * Recreates global ui-Object
    */
-  public updateUI(): void {
+  protected updateUI(): void {
     this.destroyDecoratedProperties();
     this.enableDecoratedProperties();
     this.ui = {};
@@ -289,7 +289,7 @@ export class Component extends HTMLElement {
   /**
    * Recreates Global Events-Array
    */
-  public updateEvents(): void {
+  protected updateEvents(): void {
     this.events.forEach((event) => {
       if (typeof this[event.handler] === 'function') {
         const targets = this.getEventTargets(event.target);
@@ -783,7 +783,7 @@ export class Component extends HTMLElement {
    *
    * @returns { ShadowRoot | Component} - DOM-Root of Component
    */
-  public getUiRoot(): ShadowRoot | Component {
+  protected getUiRoot(): ShadowRoot | Component {
     if (this.shadowRoot) return this.shadowRoot;
     return this;
   }
