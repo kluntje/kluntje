@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.3](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.7.2...@kluntje/js-utils@0.7.3) (2024-01-17)
+
+**Note:** Version bump only for package @kluntje/js-utils
+
+
+
+
+
 ## [0.7.2](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.7.1...@kluntje/js-utils@0.7.2) (2023-04-14)
 
 

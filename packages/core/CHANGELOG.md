@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.3.0...@kluntje/core@2.0.0) (2024-01-17)
+
+
+### Bug Fixes
+
+* **core:** deep clone inherited decoratedUiEls in case e.g. same ui element gets new events ([4faad74](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/4faad745d424437ed804184c0cf6892a28c2941e)), closes [#93](https://github.com/kluntje/kluntje/tree/develop/packages/core/issues/93)
+* **core:** fix decoratedUiEls being modified during inheritance ([a84e9e3](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/a84e9e3d51b0e9ed3286a1a0bb35315fa67109b3)), closes [#93](https://github.com/kluntje/kluntje/tree/develop/packages/core/issues/93)
+* **core:** props defaultValue could always ba an array reflect that to the TS type ([6364f9e](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/6364f9e33790a0e3b837835ce72e5e6616c8eff7))
+* **core:** updated minimal nodeJs version to allow usage of structuredClone ([84317b9](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/84317b9a6e38112290d8f7368dac6e407bc62331))
+
+
+### Code Refactoring
+
+* **core:** use stricter access modifiers in core-component ([368e8a7](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/368e8a7afc9d03184b7598b93c72234a6b669f6a))
+
+
+### BREAKING CHANGES
+
+* **core:** scricter access modifiers can result in errors when using those methods from
+outside the component
+* **core:** Minimal nodeJS version has changed to v18
+
+
+
+
+
 # [1.3.0](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.2.2...@kluntje/core@1.3.0) (2023-04-14)
 
 
