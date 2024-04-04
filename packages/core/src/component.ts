@@ -202,6 +202,7 @@ export class Component extends HTMLElement {
    * Description
    */
   private async setupComponent(): Promise<void> {
+    this.initializeProps();
     if (this.asyncRenderingEnabled) {
       await this.renderAsync();
     } else {
@@ -220,7 +221,6 @@ export class Component extends HTMLElement {
     this.enableDecoratedProperties();
     this.generateUI();
     this.generateEvents();
-    this.initializeProps();
   }
 
   /**
