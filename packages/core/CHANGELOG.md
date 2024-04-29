@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@2.0.0...@kluntje/core@2.1.0) (2024-04-29)
+
+
+### Bug Fixes
+
+* **core:** add missing parentheses for the logic to work correctly ([44c323d](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/44c323d83da9ada6603e616d147e03003f477067))
+
+
+### Features
+
+* **core:** set up the prop/attribute accessors before the rendering, so the values can be used ([42fde56](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/42fde56a7387896d45f1aa10ad676345eb55e313))
+
+
+
+
+
 # [2.0.0](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@1.3.0...@kluntje/core@2.0.0) (2024-01-17)
 
 
