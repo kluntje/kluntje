@@ -209,6 +209,7 @@ export class Component extends HTMLElement {
       this.renderComponent();
     }
     this.setupComponentProps();
+    this.runPropsReactionOnInit();
     this.afterComponentRender();
     this.checkForMissingAttributes();
     this.setState({ initialized: true });
@@ -477,6 +478,8 @@ export class Component extends HTMLElement {
     }
   }
 
+  private _propReactionsOnInit: Array<() => void> = [];
+
   /**
    * for props having reactions, add observer to call these reactions when the attribute is modified.
    *
@@ -530,10 +533,14 @@ export class Component extends HTMLElement {
     });
     observer.observe(this, config);
 
-    // call onInit reactions
-    propsWithReactions
+    // for props with `reactOnInit`, create callbacks to run the reactions when component is initialized (during `setupComponent` phase).
+    this._propReactionsOnInit = propsWithReactions
       .filter(([, prop]) => prop.reactOnInit)
-      .forEach(([, prop]) => invokePropReactions(prop.attributeName!));
+      .map(([, prop]) => () => invokePropReactions(prop.attributeName!));
+  }
+
+  private runPropsReactionOnInit() {
+    this._propReactionsOnInit.forEach((reaction) => reaction());
   }
 
   /**
