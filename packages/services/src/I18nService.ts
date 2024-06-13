@@ -17,7 +17,7 @@ interface ExtendedPromise<T> extends Promise<T> {
  * With i18n values beeing able to have variable placeholder in them. indexd for arrays e.g. `{0}` or named for objects e.g. `{hour}`
  *
  * @example
- * import I18nService from "@kluntje/services/I18nService";
+ * import { I18nService } from "@kluntje/services";
  * // get singleton instance
  * const i18nService = I18nService.getInstance();
  * // provide the url to fetch the dictionary
