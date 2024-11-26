@@ -21,11 +21,41 @@ export type DecoratorUiDefinition<T> = {
   events: Set<DecoratorEventDefinition<T>>;
 };
 
+export type DecoratedUiEls = Map<
+  string,
+  {
+    // css selector, "this" or "window"
+    selector: string;
+    // `querySelector` vs. `querySelectorAll`
+    justOne: boolean;
+    events: Set<{
+      eventName: string;
+      // component's method name
+      handler: string;
+      options?: EventListenerOptions;
+    }>;
+  }
+>;
+
+// when inheriting a components decoratedUiEls,
+// this function allows coping the content without any object being referenced by parent child component any mutations leaking to the other.
+function cloneDecoratedUiEls(decoratedUiEls?: DecoratedUiEls): DecoratedUiEls {
+  // `structuredClone` is not used on the whole object incase it has references to DOM elements, `window` etc which can't/shouldn't be cloned
+  return decoratedUiEls
+    ? new Map(
+        Array.from(decoratedUiEls.entries()).map(([key, value]) => [
+          key,
+          { ...value, events: structuredClone(value.events) },
+        ]),
+      )
+    : new Map();
+}
+
 export function uiElement(selector: string) {
   return function decorator(component: any, propertyName: string) {
     if (!component.hasOwnProperty('decoratedUiEls')) {
       // add any potential inherited decoratedUiEls options
-      component.decoratedUiEls = new Map(component.decoratedUiEls?.entries());
+      component.decoratedUiEls = cloneDecoratedUiEls(component.decoratedUiEls);
     }
 
     component.decoratedUiEls.set(propertyName, {
@@ -39,7 +69,7 @@ export function uiElement(selector: string) {
 export function uiElements(selector: string) {
   return function decorator(component: any, propertyName: string) {
     if (!component.hasOwnProperty('decoratedUiEls')) {
-      component.decoratedUiEls = new Map(component.decoratedUiEls?.entries());
+      component.decoratedUiEls = cloneDecoratedUiEls(component.decoratedUiEls);
     }
 
     component.decoratedUiEls.set(propertyName, {
