@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@2.1.0...@kluntje/core@2.1.1) (2024-11-26)
+
+
+### Bug Fixes
+
+* **core:** prevent subclass from modifing parents ui/event map ([937f9c5](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/937f9c588b177a902042f1d2b4534c1a3e371fec))
+* **core:** run the reactions for props with `reactOnInit` after the componet was setup ([e4e21b8](https://github.com/kluntje/kluntje/tree/develop/packages/core/commit/e4e21b88d4a774d39a894b5b80c8a91439c80782))
+
+
+
+
+
 # [2.1.0](https://github.com/kluntje/kluntje/tree/develop/packages/core/compare/@kluntje/core@2.0.0...@kluntje/core@2.1.0) (2024-04-29)
 
 
