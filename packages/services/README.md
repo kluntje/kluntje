@@ -397,3 +397,45 @@ observerService.notify("my-event", "Hello World");
 #### Advanced Usage
 
 It is certainly possible to extend the `ObserverServiceImpl` class and override the methods to customize the behavior or implement a fully custom caching service that implements the `IObserverService` interface.
+
+---
+
+### ContextStateService
+
+Service to create and consume context states. A ContextState is a state that belongs to a DOM-Element. All children of this element can access the state.
+
+
+#### Create a ContextState
+
+```javascript
+import { ContextStateService } from "@kluntje/services";
+
+const contextState = ContextStateService.createContextState("my-context-state", this); // this is the ContextState holding DOM-Element
+```
+
+#### Set a value
+
+```javascript
+const contextState = await ContextStateService.getContextState("my-context-state", this); // this is a child of ContextState holding DOM-Element
+
+contextState.setState("myStateItem", "myStateValue");
+```
+
+#### Get a value
+
+```typescript
+
+const contextState = await ContextStateService.getContextState("my-context-state", this); // this is a child of ContextState holding DOM-Element
+
+const stateValue = contextState.getState<string>("myStateItem");
+```
+
+#### Observer a state change
+
+```javascript
+const contextState = await ContextStateService.getContextState("my-context-state", this); // this is a child of ContextState holding DOM-Element
+
+contextState.observeState("myStateItem", () => console.log("myStateItem has changed"));
+```
+
+---

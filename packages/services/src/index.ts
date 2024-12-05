@@ -11,3 +11,4 @@ export * from './RequestCachingService';
 export * from './APIService';
 export * from './AbortableRequestService';
 export * from './ObserverService';
+export * from './ContextStateService';
