@@ -28,6 +28,8 @@ class MyAmazingComponent extends Component {
 
 ```
 
+---
+
 ### MediaQueryService
 
 Service, that fires "kl-mq-change"-events on window, when mq-change occurs.
@@ -52,6 +54,8 @@ MediaQueryService.getInstance(myMQs);
 
 ```
 
+---
+
 ### URLSearchParamsService
 
 Service, that gets and sets URLSearchParams.
@@ -74,6 +78,8 @@ const filters: string[] | null = URLSearchParamsService.getAll("filter");
 // ...
 
 ```
+
+---
 
 ### DebuggerService
 
@@ -103,6 +109,8 @@ jest.mock("@kluntje/services");
 spyOn(DebuggerService, "error");
 ```
 
+---
+
 ### LazyConnectService
 
 Service to trigger callback, when component is in viewport.
@@ -113,6 +121,8 @@ import { LazyConnectService } from "@kluntje/services";
 LazyConnectService.subscribe(this, () => this.doSomething());
 
 ```
+
+---
 
 ### I18nService
 
@@ -204,6 +214,15 @@ StorageService.observeItem("my-storage-key", () => console.log("my-storage-key h
 StorageService.removeItem("my-storage-key");
 ```
 
+#### Options
+- `storageType (optional)`: `"local" | "session"` (default: "local") - defines the storage to use
+
+#### Advanced Usage
+
+It is certainly possible to extend the `StorageServiceImpl` class and override the methods to customize the behavior or implement a fully custom caching service that implements the `IStorageService` interface.
+
+--- 
+
 ### CachingService
 
 Service to cache data using the StorageService or in-memory.
@@ -225,9 +244,33 @@ CachingService.clearCachedValue("my-cache-key", {
 });
 ```
 
+#### Options
+- `validFor`: `number` - defines the time in milliseconds the value is valid
+storageType
+- `storageType (optional)`: `"local" | "session"` (default: "local") - defines the storage to use
+
+
+#### Advanced Usage
+
+It is possible to customize the caching service by initializing the service with a custom StorageService implementation and/or a custom storageKeyPrefix.
+
+```javascript
+import { CachingServiceImpl } from "@kluntje/services";
+import { CustomStorageService } from "./CustomStorageService";
+
+export default new CachingServiceImpl({
+  storageService: CustomStorageService,
+  storageKeyPrefix: "my-custom-prefix",
+});
+```
+
+Further, it is certainly possible to extend the `CachingServiceImpl` class and override the methods to customize the behavior or implement a fully custom caching service that implements the `ICachingService` interface.
+
+---
+
 ### RequestCachingService
 
-Service to cache requests cache-api.
+Service to cache requests using the [caches-api](https://developer.mozilla.org/en-US/docs/Web/API/Cache).
 
 ```javascript
 import { RequestCachingService } from "@kluntje/services";
@@ -246,6 +289,35 @@ const cachedResponse = await RequestCachingService.getCachedResponse(new Request
 });
 ```
 
+#### Options
+- `request`: `Request` - the request to cache
+- `response`: `Response` - the response to cache
+- `storage`: `"local" | "session"` - defines the storage to use
+- `maxAge`: `number` - defines the time in milliseconds the value is valid
+
+#### Advanced Usage
+
+It is possible to customize the request caching service by initializing the service with:
+- a custom StorageService implementation (optional)
+- a custom storageKeyPrefix (optional)
+- a custom requestCacheName (optional)
+
+```javascript
+import { RequestCachingServiceImpl } from "@kluntje/services";
+import { CustomStorageService } from "./CustomStorageService";
+
+export default new RequestCachingServiceImpl({
+  storageService: CustomStorageService,
+  storageKeyPrefix: "my-custom-prefix",
+  requestCacheName: "my-custom-request-cache",
+});
+```
+
+Further, it is certainly possible to extend the `RequestCachingServiceImpl` class and override the methods to customize the behavior or implement a fully custom caching service that implements the `IRequestCachingService` interface.
+
+---
+
+
 ### APIService
 
 Service to handle API requests.
@@ -256,6 +328,38 @@ import { APIService } from "@kluntje/services";
 const responseJSON = await APIService.fetchJSON("https://api.example.com/data");
 const responseHTML = await APIService.fetchHTML("https://example.com");
 ```
+
+#### Options
+
+- `fetchOptions`: `RequestInit` - options for the fetch request
+- `cacheOptions`: 
+  - all options from `CachingService`
+  - `forceRefetch`: `boolean` (default: `false`) - defines if the request should be refetched even if it is cached
+  - `requestBasedCaching`: `boolean` (default: `false`) - defines if the caching should be request-based or not
+  - `cacheKeys`: `string[]` - list of keys to add to the cache key (default: `[]`) - useful for post-requests since the cache key is generated from the request url
+- `throwError`: `boolean` (default: `false`) - defines if the service should throw an Errors
+
+
+#### Advanced Usage
+
+It is possible to customize the api service by initializing the service with:
+- a custom CachingService implementation (optional)
+- a custom RequestCachingService implementation (optional)
+
+```javascript
+import { APIServiceImpl } from "@kluntje/services";
+import { CustomCachingService } from "./CustomCachingService";
+import { CustomRequestCachingService } from "./CustomRequestCachingService";
+
+export default new APIServiceImpl({
+  cachingService: CustomCachingService,
+  requestCachingService: CustomRequestCachingService,
+});
+```
+
+Further, it is certainly possible to extend the `APIServiceImpl` class and override the methods to customize the behavior or implement a fully custom caching service that implements the `IAPIService` interface.
+
+---
 
 ### AbortableRequestService
 
@@ -271,5 +375,10 @@ const abortableRequest2 = abortableRequestService.fetchJSON("https://api.example
 
 // the service aborts request 1 and resolves both promises with the result of request 2
 ```
+
+#### Options
+- `url`: `string` - the url to fetch
+- `options`: APIService options
+
 
 
