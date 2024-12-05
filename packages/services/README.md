@@ -256,3 +256,20 @@ import { APIService } from "@kluntje/services";
 const responseJSON = await APIService.fetchJSON("https://api.example.com/data");
 const responseHTML = await APIService.fetchHTML("https://example.com");
 ```
+
+### AbortableRequestService
+
+Wrapper for APIService to handle abortable requests.
+
+```javascript
+import { AbortableRequestService } from "@kluntje/services";
+
+const abortableRequestService = new AbortableRequestService();
+
+const abortableRequest1 = abortableRequestService.fetchJSON("https://api.example.com/data?value=1");
+const abortableRequest2 = abortableRequestService.fetchJSON("https://api.example.com/data?value=2");
+
+// the service aborts request 1 and resolves both promises with the result of request 2
+```
+
+

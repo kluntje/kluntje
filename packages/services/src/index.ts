@@ -9,3 +9,4 @@ export * from './StorageService';
 export * from './CachingService';
 export * from './RequestCachingService';
 export * from './APIService';
+export * from './AbortableRequestService';
