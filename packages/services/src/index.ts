@@ -8,3 +8,4 @@ export { default as LazyConnectService } from './LazyConnectService';
 export * from './StorageService';
 export * from './CachingService';
 export * from './RequestCachingService';
+export * from './APIService';

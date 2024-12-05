@@ -245,3 +245,14 @@ const cachedResponse = await RequestCachingService.getCachedResponse(new Request
   storage: "local",
 });
 ```
+
+### APIService
+
+Service to handle API requests.
+
+```javascript
+import { APIService } from "@kluntje/services";
+
+const responseJSON = await APIService.fetchJSON("https://api.example.com/data");
+const responseHTML = await APIService.fetchHTML("https://example.com");
+```
