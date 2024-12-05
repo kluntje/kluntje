@@ -191,3 +191,57 @@ The boolean `loaded` can be used to check if the keys have been fetched form the
 ```javascript
 return i18nService.loaded ? textMarkup : iconMarkup;
 ```
+
+### StorageService
+
+Service to store and retrieve data from localStorage or sessionStorage.
+
+```javascript
+import { StorageService } from "@kluntje/services";
+
+StorageService.addItem("my-storage-key", "my-storage-value");
+StorageService.observeItem("my-storage-key", () => console.log("my-storage-key has changed"));
+StorageService.removeItem("my-storage-key");
+```
+
+### CachingService
+
+Service to cache data using the StorageService or in-memory.
+
+```javascript
+import { CachingService } from "@kluntje/services";
+
+CachingService.cacheValue("my-cache-key", "my-cache-value", {
+  validFor: 1000 * 60 * 60, // 1 hour
+  storageType: "local",
+});
+
+const cachedValue = CachingService.getCachedValue("my-cache-key", {
+  storageType: "local",
+});
+
+CachingService.clearCachedValue("my-cache-key", {
+  storageType: "local",
+});
+```
+
+### RequestCachingService
+
+Service to cache requests cache-api.
+
+```javascript
+import { RequestCachingService } from "@kluntje/services";
+
+const response = await fetch(url);
+
+await RequestCachingService.cacheRequest({
+  request: new Request(url),
+  response,
+  storage: "local",
+  maxAge: 1000 * 60 * 60, // 1 hour
+});
+
+const cachedResponse = await RequestCachingService.getCachedResponse(new Request(url), {
+  storage: "local",
+});
+```

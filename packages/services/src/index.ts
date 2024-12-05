@@ -5,3 +5,6 @@ export * from './eventNames';
 export { default as URLSearchParamsService } from './URLSearchParamsService';
 export { default as DebuggerService } from './DebuggerService';
 export { default as LazyConnectService } from './LazyConnectService';
+export * from './StorageService';
+export * from './CachingService';
+export * from './RequestCachingService';
