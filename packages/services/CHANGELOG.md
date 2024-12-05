@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.6...@kluntje/services@0.7.0) (2024-12-05)
+
+
+### Features
+
+* **services:** added AbortableRequestService ([a817ee0](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/a817ee0d37c92447ce344013fd24a7b43ca48c60))
+* **services:** added APIService ([a56feca](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/a56feca45b7f28e77b82aaa98a33962b3707c008))
+* **services:** added ContextStateService ([564f440](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/564f440d714fe18da94cfe30846a2a92738e7787))
+* **services:** added new caching services ([0644532](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/06445328b03391ce67ad020e032a79101c0cc12f))
+* **services:** added ObserverService ([6cb275f](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/6cb275f77a99212ed1a13abd4039f04616e8bf88))
+
+
+
+
+
 ## [0.6.6](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.5...@kluntje/services@0.6.6) (2024-01-17)
 
 **Note:** Version bump only for package @kluntje/services

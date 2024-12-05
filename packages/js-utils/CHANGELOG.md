@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.7.3...@kluntje/js-utils@0.8.0) (2024-12-05)
+
+
+### Features
+
+* **js-utils:** added new url-helpers ([0d283f0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/0d283f05a2060a2ae4417c24f6dfbee4a6d0b9d1))
+
+
+
+
+
 ## [0.7.3](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.7.2...@kluntje/js-utils@0.7.3) (2024-01-17)
 
 **Note:** Version bump only for package @kluntje/js-utils
