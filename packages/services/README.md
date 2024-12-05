@@ -380,5 +380,20 @@ const abortableRequest2 = abortableRequestService.fetchJSON("https://api.example
 - `url`: `string` - the url to fetch
 - `options`: APIService options
 
+---
 
 
+### ObserverService
+
+Message bus to observe and notify events.
+
+```javascript
+import { ObserverService } from "@kluntje/services";
+
+observerService.observe("my-event", (data) => console.log(data));  
+observerService.notify("my-event", "Hello World");
+```
+
+#### Advanced Usage
+
+It is certainly possible to extend the `ObserverServiceImpl` class and override the methods to customize the behavior or implement a fully custom caching service that implements the `IObserverService` interface.

@@ -10,3 +10,4 @@ export * from './CachingService';
 export * from './RequestCachingService';
 export * from './APIService';
 export * from './AbortableRequestService';
+export * from './ObserverService';
