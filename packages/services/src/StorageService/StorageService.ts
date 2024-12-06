@@ -1,5 +1,5 @@
 import { IStorageService } from './StorageService.interface';
-import { StorageServiceOptions } from './StorageService.types';
+import { StorageServiceOptions, StorageType } from './StorageService.types';
 
 export class StorageServiceImpl implements IStorageService {
   private observedItemsMap: Map<string, Set<() => void>> = new Map();
@@ -31,6 +31,10 @@ export class StorageServiceImpl implements IStorageService {
     const keyCallbacks = this.getKeyCallbacks(storageKey);
     keyCallbacks.delete(callback);
     this.observedItemsMap.set(storageKey, keyCallbacks);
+  }
+
+  public clearStorage(storageType: StorageType) {
+    this.getStorage({ storageType }).clear();
   }
 
   private handleStorageChange(e: StorageEvent) {

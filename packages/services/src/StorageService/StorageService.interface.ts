@@ -1,4 +1,4 @@
-import { StorageServiceOptions } from './StorageService.types';
+import { StorageServiceOptions, StorageType } from './StorageService.types';
 
 export interface IStorageService {
   addItem(storageKey: string, storageValue: string, options?: StorageServiceOptions): void;
@@ -6,4 +6,5 @@ export interface IStorageService {
   removeItem(storageKey: string, options?: StorageServiceOptions): void;
   observeItem(storageKey: string, callback: () => void): void;
   unobserveItem(storageKey: string, callback: () => void): void;
+  clearStorage(storageType: StorageType): void;
 }
