@@ -83,7 +83,14 @@ export class CachingServiceImpl implements ICachingService {
   }
 
   public clearCachedValue(key: string, cacheOptions?: CacheOptions) {
-    this.storageService.removeItem(this.getStorageKey(key), this.getStorageServiceOptions(cacheOptions));
+    const storageKey = this.getStorageKey(key);
+
+    if (cacheOptions?.validFor === 0) {
+      this.runtimeCache.delete(storageKey);
+      return;
+    }
+
+    this.storageService.removeItem(storageKey, this.getStorageServiceOptions(cacheOptions));
   }
 
   private getStorageServiceOptions(cacheOptions?: CacheOptions): StorageServiceOptions {
