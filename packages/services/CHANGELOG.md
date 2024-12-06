@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.7.0...@kluntje/services@0.8.0) (2024-12-06)
+
+
+### Bug Fixes
+
+* **services:** also clear runtime cache on clearCached Value method ([34fa8e2](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/34fa8e2d6e89e56db1ec2952c613c834259cd833))
+
+
+### Features
+
+* **services:** added clearStorage method to StorageService ([c50fec2](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/c50fec214cc7990330f1adf0ad9934a342d9f009))
+
+
+
+
+
 # [0.7.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.6.6...@kluntje/services@0.7.0) (2024-12-05)
 
 
