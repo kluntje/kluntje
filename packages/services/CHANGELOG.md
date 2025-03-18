@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.8.0...@kluntje/services@0.9.0) (2025-03-18)
+
+
+### Code Refactoring
+
+* **services:** optimized ContextState typing ([603f61c](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/603f61cb1a1d76d767e7070db2cda194849cd446))
+
+
+### BREAKING CHANGES
+
+* **services:** It is no longer possible to force the return type of ContextState.getState via
+generic.
+
+
+
+
+
 # [0.8.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.7.0...@kluntje/services@0.8.0) (2024-12-06)
 
 
