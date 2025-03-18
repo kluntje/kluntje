@@ -1,7 +1,7 @@
 import { ObserverServiceImpl } from '../ObserverService';
 
-export class ContextState {
-  private stateMap: Map<string, any> = new Map();
+export class ContextState<StateDefinition extends Record<string, any> = Record<string, any>> {
+  private stateMap: Map<keyof StateDefinition, any> = new Map();
   private observerService = new ObserverServiceImpl();
   private contextName: string;
   private contextElement: HTMLElement;
@@ -25,21 +25,21 @@ export class ContextState {
     return this.contextElement.contains(consumingElement);
   }
 
-  public setState<T>(key: string, value: T): void {
+  public setState<K extends keyof StateDefinition>(key: K, value: StateDefinition[K]): void {
     if (this.stateMap.get(key) === value) return;
     this.stateMap.set(key, value);
-    this.observerService.notifyObservers(key);
+    this.observerService.notifyObservers(key as string);
   }
 
-  public getState<T>(key: string): T | undefined {
-    return this.stateMap.get(key) as T;
+  public getState<K extends keyof StateDefinition>(key: K): StateDefinition[K] | undefined {
+    return this.stateMap.get(key);
   }
 
-  public observeState(key: string, callback: () => void): void {
-    this.observerService.observe(key, callback);
+  public observeState(key: keyof StateDefinition, callback: () => void): void {
+    this.observerService.observe(key as string, callback);
   }
 
-  public unobserveState(key: string, callback: () => void): void {
-    this.observerService.unobserve(key, callback);
+  public unobserveState(key: keyof StateDefinition, callback: () => void): void {
+    this.observerService.unobserve(key as string, callback);
   }
 }

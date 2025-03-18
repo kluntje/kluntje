@@ -13,26 +13,32 @@ export class ContextStateServiceImpl implements IContextStateService {
     return matchingContexts[0];
   }
 
-  public getContextState(contextName: string, consumingElement: HTMLElement): Promise<ContextState> {
+  public getContextState<StateDefinition extends Record<string, any>>(
+    contextName: string,
+    consumingElement: HTMLElement,
+  ): Promise<ContextState<StateDefinition>> {
     const matchingContextState = this.getMatchingContextState(contextName, consumingElement);
-    if (matchingContextState) return Promise.resolve(matchingContextState);
-    return new Promise<ContextState>((resolve) => {
+    if (matchingContextState) return Promise.resolve(matchingContextState) as Promise<ContextState<StateDefinition>>;
+    return new Promise<ContextState<StateDefinition>>((resolve) => {
       this.contextInitObserver.observe(contextName, () => {
         const contextState = this.getMatchingContextState(contextName, consumingElement);
         if (contextState) {
-          resolve(contextState);
+          resolve(contextState as ContextState<StateDefinition>);
         }
       });
     });
   }
 
-  public createContextState(contextName: string, contextElement: HTMLElement): ContextState {
+  public createContextState<StateDefinition extends Record<string, any>>(
+    contextName: string,
+    contextElement: HTMLElement,
+  ): ContextState<StateDefinition> {
     const contextState = new ContextState(contextName, contextElement);
     const contextList = this.contextStateMap.get(contextName) || [];
     contextList.push(contextState);
     this.contextStateMap.set(contextName, contextList);
     this.contextInitObserver.notifyObservers(contextName);
-    return contextState;
+    return contextState as ContextState<StateDefinition>;
   }
 }
 

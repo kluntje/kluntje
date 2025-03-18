@@ -1,6 +1,13 @@
 import { ContextState } from './ContextState';
 
 export interface IContextStateService {
-  getContextState(contextName: string, consumingElement: HTMLElement): Promise<ContextState>;
-  createContextState(contextName: string, contextElement: HTMLElement): ContextState;
+  getContextState<StateDefinition extends Record<string, any>>(
+    contextName: string,
+    consumingElement: HTMLElement,
+  ): Promise<ContextState<StateDefinition>>;
+
+  createContextState<StateDefinition extends Record<string, any>>(
+    contextName: string,
+    contextElement: HTMLElement,
+  ): ContextState<StateDefinition>;
 }

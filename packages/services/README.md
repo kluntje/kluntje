@@ -427,7 +427,7 @@ contextState.setState("myStateItem", "myStateValue");
 
 const contextState = await ContextStateService.getContextState("my-context-state", this); // this is a child of ContextState holding DOM-Element
 
-const stateValue = contextState.getState<string>("myStateItem");
+const stateValue = contextState.getState("myStateItem");
 ```
 
 #### Observer a state change
@@ -436,6 +436,28 @@ const stateValue = contextState.getState<string>("myStateItem");
 const contextState = await ContextStateService.getContextState("my-context-state", this); // this is a child of ContextState holding DOM-Element
 
 contextState.observeState("myStateItem", () => console.log("myStateItem has changed"));
+```
+
+#### Advanced Usage
+
+For better type safety, it is possible to define a type for the state.
+
+```typescript
+import { ContextStateService } from "@kluntje/services";
+
+interface MyStateDefinition {
+  myStateItem: string;
+  myOtherStateItem: number;
+}
+
+const contextState = ContextStateService.createContextState<MyStateDefinition>("my-context-state", this); 
+
+contextState.setState("myStateItem", "myStateValue");
+contextState.setState("myOtherStateItem", "myStateValue"); // Error: Argument of type 'string' is not assignable to parameter of type 'number'.
+contextState.setState("myOtherStateItem", 42);
+
+const stringValue = contextState.getState("myStateItem"); // stateValue is of type string
+const numberValue = contextState.getState("myOtherStateItem"); // stateValue is of type number
 ```
 
 ---
