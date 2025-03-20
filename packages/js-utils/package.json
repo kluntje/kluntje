@@ -11,29 +11,73 @@
   ],
   "license": "Apache-2.0",
   "main": "lib/index.js",
-  "module": "lib/index.module.js",
+  "module": "lib/index.mjs",
   "types": "lib/index.d.ts",
+  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
   "files": [
     "lib"
   ],
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
+    },
+    "./lib/api-helpers": {
+      "types": "./lib/api-helpers/index.d.ts",
+      "import": "./lib/api-helpers/index.mjs",
+      "require": "./lib/api-helpers/index.js"
+    },
+    "./lib/array-helpers": {
+      "types": "./lib/array-helpers/index.d.ts",
+      "import": "./lib/array-helpers/index.mjs",
+      "require": "./lib/array-helpers/index.js"
+    },
+    "./lib/date-helpers": {
+      "types": "./lib/date-helpers/index.d.ts",
+      "import": "./lib/date-helpers/index.mjs",
+      "require": "./lib/date-helpers/index.js"
+    },
+    "./lib/dom-helpers": {
+      "types": "./lib/dom-helpers/index.d.ts",
+      "import": "./lib/dom-helpers/index.mjs",
+      "require": "./lib/dom-helpers/index.js"
+    },
+    "./lib/function-helpers": {
+      "types": "./lib/function-helpers/index.d.ts",
+      "import": "./lib/function-helpers/index.mjs",
+      "require": "./lib/function-helpers/index.js"
+    },
+    "./lib/function-helpers/decorators": {
+      "types": "./lib/function-helpers/decorators.d.ts",
+      "import": "./lib/function-helpers/decorators/index.mjs",
+      "require": "./lib/function-helpers/decorators/index.js"
+    },
+    "./lib/object-helpers": {
+      "types": "./lib/object-helpers/index.d.ts",
+      "import": "./lib/object-helpers/index.mjs",
+      "require": "./lib/object-helpers/index.js"
+    },
+    "./lib/string-helpers": {
+      "types": "./lib/string-helpers/index.d.ts",
+      "import": "./lib/string-helpers/index.mjs",
+      "require": "./lib/string-helpers/index.js"
+    },
+    "./lib/url-helpers": {
+      "types": "./lib/url-helpers/index.d.ts",
+      "import": "./lib/url-helpers/index.mjs",
+      "require": "./lib/url-helpers/index.js"
+    }
+  },
   "repository": "https://github.com/kluntje/kluntje/tree/develop/packages/js-utils",
   "scripts": {
-    "build": "npm-run-all clean-dist generate-declarations build:*",
+    "build": "npm-run-all clean-dist generate-declarations rollup",
     "clean-dist": "rimraf lib",
     "generate-declarations": "tsc -d --outDir lib --emitDeclarationOnly",
-    "build:index": "rollup -c build.js --environment TARGET:index",
-    "build:apiHelpers": "rollup -c build.js --environment TARGET:apiHelpers",
-    "build:arrayHelpers": "rollup -c build.js --environment TARGET:arrayHelpers",
-    "build:dateHelpers": "rollup -c build.js --environment TARGET:dateHelpers",
-    "build:domHelpers": "rollup -c build.js --environment TARGET:domHelpers",
-    "build:functionHelpers": "rollup -c build.js --environment TARGET:functionHelpers",
-    "build:functionHelpers/decorators": "rollup -c build.js --environment TARGET:functionHelpers/decorators",
-    "build:objectHelpers": "rollup -c build.js --environment TARGET:objectHelpers",
-    "build:stringHelpers": "rollup -c build.js --environment TARGET:stringHelpers",
-    "build:urlHelpers": "rollup -c build.js --environment TARGET:urlHelpers",
+    "rollup": "rollup -c",
     "test": "jest"
   }
 }
