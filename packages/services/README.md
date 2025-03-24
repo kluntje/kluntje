@@ -421,6 +421,16 @@ const contextState = await ContextStateService.getContextState("my-context-state
 contextState.setState("myStateItem", "myStateValue");
 ```
 
+### Set multiple values
+
+```javascript
+const contextState = await ContextStateService.getContextState("my-context-state", this); // this is a child of ContextState holding DOM-Element
+contextState.setStates({
+  myStateItem: "myStateValue",
+  myOtherStateItem: 42,
+});
+```
+
 #### Get a value
 
 ```typescript

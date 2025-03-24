@@ -31,6 +31,18 @@ export class ContextState<StateDefinition extends Record<string, any> = Record<s
     this.observerService.notifyObservers(key as string);
   }
 
+  public setStates(newState: Partial<StateDefinition>): void {
+    const changedKeys = Object.keys(newState).filter((key) => this.stateMap.get(key) !== newState[key]);
+
+    changedKeys.forEach((key) => {
+      this.stateMap.set(key, newState[key]);
+    });
+
+    changedKeys.forEach((key) => {
+      this.observerService.notifyObservers(key);
+    });
+  }
+
   public getState<K extends keyof StateDefinition>(key: K): StateDefinition[K] | undefined {
     return this.stateMap.get(key);
   }
