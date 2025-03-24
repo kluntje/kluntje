@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/services",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Collection of useful services, when creating kluntje-components",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "contributors": [

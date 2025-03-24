@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.9.0...@kluntje/services@0.10.0) (2025-03-24)
+
+
+### Features
+
+* **services:** added method to set multiple ContextState values at the same time ([4b4b34c](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/4b4b34c5bf5916918267a8bdeee43e97a54db449))
+
+
+
+
+
 # [0.9.0](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.8.0...@kluntje/services@0.9.0) (2025-03-18)
 
 
