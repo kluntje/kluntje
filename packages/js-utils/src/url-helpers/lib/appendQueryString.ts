@@ -2,7 +2,7 @@
 /**
  * Appends query string to a given url
  * @param {string} url 
- * @param {string} queryParam
+ * @param {string} queryString
  * @returns {string}
  * @example
  * const url = 'https://www.google.com';
@@ -12,10 +12,12 @@
  * // => 'https://www.google.com?q=hello'
  */
 
-export const appendQueryString = (url: string, queryParam: string) => {
+export const appendQueryString = (url: string, queryString: string) => {
+  if (queryString === "") return url;
+
   if (url.indexOf("?") === -1) {
-    return `${url}?${queryParam}`;
+    return `${url}?${queryString}`;
   }
 
-  return `${url}&${queryParam}`;
+  return `${url}&${queryString}`;
 };
