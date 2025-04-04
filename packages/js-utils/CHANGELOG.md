@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.8.0...@kluntje/js-utils@0.8.1) (2025-04-04)
+
+
+### Bug Fixes
+
+* **js-utils:** do not append empty query strings ([96c749a](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/commit/96c749a62b5c54e061b740f002221724889df94f))
+
+
+
+
+
 # [0.8.0](https://github.com/kluntje/kluntje/tree/develop/packages/js-utils/compare/@kluntje/js-utils@0.7.3...@kluntje/js-utils@0.8.0) (2024-12-05)
 
 
