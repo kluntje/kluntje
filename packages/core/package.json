@@ -1,6 +1,6 @@
 {
   "name": "@kluntje/core",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Library to make web-component development a breeze",
   "author": "Frederik Riewerts <frederik.riewerts@gmail.com>",
   "contributors": [
@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "@kluntje/js-utils": "^0.8.1",
-    "@kluntje/services": "^0.10.1"
+    "@kluntje/services": "^0.10.2"
   }
 }

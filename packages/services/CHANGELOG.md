@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.2](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.10.1...@kluntje/services@0.10.2) (2025-04-11)
+
+
+### Bug Fixes
+
+* **services:** fixed APIService fetchRespone issue ([5c5771c](https://github.com/kluntje/kluntje/tree/develop/packages/services/commit/5c5771ce502ce9a08fd2d5064ffc792ae93a3a5e))
+
+
+
+
+
 ## [0.10.1](https://github.com/kluntje/kluntje/tree/develop/packages/services/compare/@kluntje/services@0.10.0...@kluntje/services@0.10.1) (2025-04-04)
 
 **Note:** Version bump only for package @kluntje/services
