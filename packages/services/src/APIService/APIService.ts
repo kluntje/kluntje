@@ -102,7 +102,7 @@ export class APIServiceImpl implements IAPIService {
 
       await this.requestCachingService.cacheRequest({
         request: new Request(url),
-        response,
+        response: response.clone(),
         storage: cacheOptions.storageType ?? "session",
         maxAge: cacheOptions.validFor,
       });
